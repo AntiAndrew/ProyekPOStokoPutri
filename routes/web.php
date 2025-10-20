@@ -34,6 +34,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 | contains the "web" middleware group. Now create something great!
 |
 */
+use App\Http\Controllers\PegawaiController;
+
 Route::get('/pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');            // Lihat daftar pegawai
 Route::get('/pegawai/tambah', [PegawaiController::class, 'create'])->name('pegawai.create');   // Form tambah pegawai
 Route::post('/pegawai/simpan', [PegawaiController::class, 'store'])->name('pegawai.store');    // Simpan pegawai baru

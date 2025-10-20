@@ -1,13 +1,22 @@
-<?php 
-require_once 'models/PegawaiModel.php';
+<?php
 
-class PegawaiController {
-    private $model;
-    public function __construct(){
-        $this->model = new PegawaiModel();
+namespace App\Http\Controllers;
+
+use App\Models\Pegawai;  // assuming you have Pegawai model
+use Illuminate\Http\Request;
+
+class PegawaiController extends Controller
+{
+    public function index()
+    {
+        // example: retrieve data and return view
+        $pegawai = Pegawai::all();
+        return view('pegawai.index', compact('pegawai'));
     }
-    // Input Pegawai
-    public function inputPegawai() {
-        include 'views/pegawai/inputPegawai.php';
+
+    public function create()
+    {
+        return view('pegawai.create');
     }
 }
+    
