@@ -27,6 +27,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');            // Lihat daftar pegawai
+Route::get('/pegawai/tambah', [PegawaiController::class, 'create'])->name('pegawai.create');   // Form tambah pegawai
+Route::post('/pegawai/simpan', [PegawaiController::class, 'store'])->name('pegawai.store');    // Simpan pegawai baru
+Route::get('/pegawai/edit/{id}', [PegawaiController::class, 'edit'])->name('pegawai.edit');    // Form edit pegawai
+Route::post('/pegawai/update/{id}', [PegawaiController::class, 'update'])->name('pegawai.update'); // Simpan perubahan
+Route::get('/pegawai/hapus/{id}', [PegawaiController::class, 'destroy'])->name('pegawai.destroy'); // Hapus pegawai
+Route::get('/pegawai/cari', [PegawaiController::class, 'search'])->name('pegawai.search');     // Cari pegawai
 
 Route::get('/', function () {
     return view('welcome');
