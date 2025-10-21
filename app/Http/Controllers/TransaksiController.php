@@ -21,5 +21,26 @@ class TransaksiController {
         $this->model->jumlah = $data['jumlah'];
         return $this->model->create();
     }
+<<<<<<< HEAD
+=======
+
+    public function ambilDetail($id) {
+        $this->model->id = $id;
+        return $this->model->readOne();
+    }
+
+    public function updateTransaksi($data) {
+        $this->model->id = $data['id'];
+        $this->model->nama_barang = $data['nama_barang'];
+        $this->model->harga = $data['harga'];
+        $this->model->jumlah = $data['jumlah'];
+        return $this->model->update();
+    }
+
+    public function hapusTransaksi($id) {
+        $this->model->id = $id;
+        return $this->model->delete();
+    }
+>>>>>>> 7c386ac (commit pertama project toko putri)
 }
 ?>

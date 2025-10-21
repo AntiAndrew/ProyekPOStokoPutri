@@ -1,5 +1,9 @@
 <?php
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 7c386ac (commit pertama project toko putri)
 return [
 
     'default' => env('DB_CONNECTION', 'mysql'),
@@ -27,3 +31,24 @@ return [
 
     'migrations' => 'migrations',
 ];
+<<<<<<< HEAD
+=======
+=======
+    public function getConnection() {
+        $this->conn = null;
+        try {
+            $this->conn = new PDO(
+                "mysql:host=" . $this->host . ";dbname=" . $this->dbname,
+                $this->username,
+                $this->password
+            );
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            echo "Koneksi gagal: " . $e->getMessage();
+        }
+        return $this->conn;
+    }
+}
+?>
+>>>>>>> d84c37b (update transaksi)
+>>>>>>> 7c386ac (commit pertama project toko putri)
