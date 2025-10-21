@@ -1,30 +1,31 @@
 <?php
-require_once 'controllers/BarangController.php';
+require_once "controller/TransaksiController.php";
+$controller = new TransaksiController();
 
-$controller = new BarangController();
+$action = $_GET['action'] ?? 'list';
 
-$action = $_GET['action'] ?? 'lihatDaftarBarang';
-
-switch ($action) {
-    case 'inputBarang':
-        $controller->inputBarang();
-        break;
-    case 'simpanBarang':
-        $controller->simpanBarang();
-        break;
-    case 'editBarang':
-        $controller->editBarang($_GET['id']);
-        break;
-    case 'updateBarang':
-        $controller->updateBarang($_POST['id']);
-        break;
-    case 'hapusBarang':
-        $controller->hapusBarang($_GET['id']);
-        break;
-    case 'cariBarang':
-        $controller->cariBarang();
-        break;
-    default:
-        $controller->lihatDaftarBarang();
-        break;
+if ($action == 'form') {
+    include "view/transaksi_form.php";
+} elseif ($action == 'simpan') {
+    $controller->simpanTransaksi($_POST);
+    header("Location: index.php");
+} elseif ($action == 'edit') {
+    $data = $controller->ambilDetail($_GET['id']);
+    include "view/transaksi_edit.php";
+} elseif ($action == 'update') {
+    $controller->updateTransaksi($_POST);
+    header("Location: index.php");
+} elseif ($action == 'hapus') {
+    $controller->hapusTransaksi($_GET['id']);
+    header("Location: index.php");
+} elseif ($action == 'detail') {
+    $data = $controller->ambilDetail($_GET['id']);
+    include "view/transaksi_detail.php";
+} elseif ($action == 'laporan') {
+    $data = $controller->tampilkanDaftar();
+    include "view/transaksi_laporan.php";
+} else {
+    $data = $controller->tampilkanDaftar();
+    include "view/transaksi_list.php";
 }
+?>
