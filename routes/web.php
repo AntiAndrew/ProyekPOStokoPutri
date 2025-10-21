@@ -34,7 +34,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 | contains the "web" middleware group. Now create something great!
 |
 */
-<<<<<<< HEAD
+
 use App\Http\Controllers\PegawaiController;
 
 Route::get('/pegawai', [PegawaiController::class, 'index'])->name('pegawai.index');            // Lihat daftar pegawai
@@ -44,8 +44,6 @@ Route::get('/pegawai/edit/{id}', [PegawaiController::class, 'edit'])->name('pega
 Route::post('/pegawai/update/{id}', [PegawaiController::class, 'update'])->name('pegawai.update'); // Simpan perubahan
 Route::get('/pegawai/hapus/{id}', [PegawaiController::class, 'destroy'])->name('pegawai.destroy'); // Hapus pegawai
 Route::get('/pegawai/cari', [PegawaiController::class, 'search'])->name('pegawai.search');     // Cari pegawai
-=======
->>>>>>> 7c386ac (commit pertama project toko putri)
 
 Route::get('/', function () {
     return view('welcome');

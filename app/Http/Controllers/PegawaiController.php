@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 
 namespace App\Http\Controllers;
@@ -20,19 +19,5 @@ class PegawaiController extends Controller
         return view('pegawai.create');
     }
 }
-    
-=======
-<?php 
-require_once 'models/PegawaiModel.php';
 
-class PegawaiController {
-    private $model;
-    public function __construct(){
-        $this->model = new PegawaiModel();
-    }
-    // Input Pegawai
-    public function inputPegawai() {
-        include 'views/pegawai/inputPegawai.php';
-    }
-}
->>>>>>> 7c386ac (commit pertama project toko putri)
+

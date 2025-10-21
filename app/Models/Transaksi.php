@@ -29,7 +29,8 @@ class Transaksi {
         $query = "INSERT INTO " . $this->table . " (nama_barang, harga, jumlah, total) VALUES (:nama_barang, :harga, :jumlah, :total)";
 
         public function readOne() {
-        $query = "SELECT * FROM " . $this->table . " WHERE id = :id";
+        $query = "SELECT * FROM " . $this->t0
+        able . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->id);
         $stmt->execute();
