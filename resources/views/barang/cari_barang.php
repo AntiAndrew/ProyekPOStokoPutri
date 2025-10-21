@@ -1,19 +1,30 @@
+<?php include 'config/database.php'; ?>
 <!DOCTYPE html>
-<html>
-<head><title>Cari Barang</title></head>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Cari Barang</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
 <body>
-<h2>Hasil Pencarian Barang</h2>
-<a href="index.php?action=lihatDaftarBarang">Kembali</a>
-<table border="1" cellpadding="5" cellspacing="0">
-<tr><th>ID</th><th>Nama</th><th>Harga</th><th>Stok</th></tr>
-<?php while ($row = $data->fetch_assoc()): ?>
-<tr>
-    <td><?= $row['id'] ?></td>
-    <td><?= $row['nama'] ?></td>
-    <td><?= $row['harga'] ?></td>
-    <td><?= $row['stok'] ?></td>
-</tr>
-<?php endwhile; ?>
-</table>
+<h2>Cari Barang</h2>
+<form method="get">
+    <input type="text" name="q" placeholder="Masukkan Nama / Kode Barang">
+    <button type="submit">Cari</button>
+</form>
+<br>
+<?php
+if (isset($_GET['q'])) {
+    $q = $_GET['q'];
+    $data = mysqli_query($conn, "SELECT * FROM barang WHERE nama_barang LIKE '%$q%' OR id_barang LIKE '%$q%'");
+    echo "<h3>Hasil Pencarian:</h3>";
+    echo "<ul>";
+    while($d = mysqli_fetch_array($data)){
+        echo "<li>$d[nama_barang] (ID: $d[id_barang])</li>";
+    }
+    echo "</ul>";
+}
+?>
+<a href="index.php">Kembali</a>
 </body>
 </html>

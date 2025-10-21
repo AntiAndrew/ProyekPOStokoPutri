@@ -1,15 +1,34 @@
+<?php include 'config/database.php'; ?>
 <!DOCTYPE html>
-<html>
-<head><title>Edit Barang</title></head>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Edit Barang</title>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
 <body>
 <h2>Edit Barang</h2>
-<form method="post" action="index.php?action=updateBarang">
-    <input type="hidden" name="id" value="<?= $barang['id'] ?>">
-    Nama: <input type="text" name="nama" value="<?= $barang['nama'] ?>"><br>
-    Harga: <input type="number" name="harga" value="<?= $barang['harga'] ?>"><br>
-    Stok: <input type="number" name="stok" value="<?= $barang['stok'] ?>"><br>
-    <button type="submit">Update</button>
-</form>
-<a href="index.php?action=lihatDaftarBarang">Kembali</a>
+<table>
+<tr>
+    <th>No</th><th>ID</th><th>Nama Barang</th><th>Kategori</th><th>Harga</th><th>Jumlah</th><th>Aksi</th>
+</tr>
+<?php
+$data = mysqli_query($conn, "SELECT * FROM barang");
+$no=1;
+while($d = mysqli_fetch_array($data)){
+    echo "<tr>
+        <td>$no</td>
+        <td>$d[id_barang]</td>
+        <td>$d[nama_barang]</td>
+        <td>$d[kategori]</td>
+        <td>Rp.$d[harga]</td>
+        <td>$d[jumlah]</td>
+        <td><a href='edit_barang_form.php?id=$d[id_barang]'>✏️</a></td>
+    </tr>";
+    $no++;
+}
+?>
+</table>
+<a href="index.php">Kembali</a>
 </body>
 </html>

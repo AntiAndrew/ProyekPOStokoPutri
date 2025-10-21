@@ -2,11 +2,8 @@
 class BarangModel {
     private $conn;
 
-    public function __construct() {
-        $this->conn = new mysqli('localhost', 'root', '', 'toko');
-        if ($this->conn->connect_error) {
-            die("Koneksi gagal: " . $this->conn->connect_error);
-        }
+    public function __construct($conn) {
+        $this->conn = $conn;
     }
 
     public function getAll() {
@@ -14,7 +11,8 @@ class BarangModel {
     }
 
     public function insert($nama, $harga, $stok) {
-        return $this->conn->query("INSERT INTO barang (nama, harga, stok) VALUES ('$nama', '$harga', '$stok')");
+        $sql = "INSERT INTO barang (nama, harga, stok) VALUES ('$nama', '$harga', '$stok')";
+        return $this->conn->query($sql);
     }
 
     public function find($id) {
@@ -22,7 +20,8 @@ class BarangModel {
     }
 
     public function update($id, $nama, $harga, $stok) {
-        return $this->conn->query("UPDATE barang SET nama='$nama', harga='$harga', stok='$stok' WHERE id=$id");
+        $sql = "UPDATE barang SET nama='$nama', harga='$harga', stok='$stok' WHERE id=$id";
+        return $this->conn->query($sql);
     }
 
     public function delete($id) {
@@ -33,3 +32,4 @@ class BarangModel {
         return $this->conn->query("SELECT * FROM barang WHERE nama LIKE '%$keyword%'");
     }
 }
+?>
