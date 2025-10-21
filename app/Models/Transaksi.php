@@ -14,21 +14,21 @@ class Transaksi {
     }
 
     public function readAll() {
-<<<<<<< HEAD
+
         $query = "SELECT * FROM " . $this->table;
-=======
+
         $query = "SELECT * FROM " . $this->table . " ORDER BY id DESC";
->>>>>>> 7c386ac (commit pertama project toko putri)
+
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
-<<<<<<< HEAD
+
     public function create() {
         $query = "INSERT INTO " . $this->table . " (nama_barang, harga, jumlah, total) VALUES (:nama_barang, :harga, :jumlah, :total)";
-=======
-    public function readOne() {
+
+        public function readOne() {
         $query = "SELECT * FROM " . $this->table . " WHERE id = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->id);
@@ -39,7 +39,7 @@ class Transaksi {
     public function create() {
         $query = "INSERT INTO " . $this->table . " (nama_barang, harga, jumlah, total)
                   VALUES (:nama_barang, :harga, :jumlah, :total)";
->>>>>>> 7c386ac (commit pertama project toko putri)
+
         $stmt = $this->conn->prepare($query);
         $this->total = $this->harga * $this->jumlah;
 
@@ -47,13 +47,13 @@ class Transaksi {
         $stmt->bindParam(":harga", $this->harga);
         $stmt->bindParam(":jumlah", $this->jumlah);
         $stmt->bindParam(":total", $this->total);
-<<<<<<< HEAD
+
 
         if ($stmt->execute()) {
             return true;
         }
         return false;
-=======
+
         return $stmt->execute();
     }
 
@@ -78,7 +78,8 @@ class Transaksi {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":id", $this->id);
         return $stmt->execute();
->>>>>>> 7c386ac (commit pertama project toko putri)
+       
     }
+}
 }
 ?>

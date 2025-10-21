@@ -21,8 +21,6 @@ class TransaksiController {
         $this->model->jumlah = $data['jumlah'];
         return $this->model->create();
     }
-<<<<<<< HEAD
-=======
 
     public function ambilDetail($id) {
         $this->model->id = $id;
@@ -41,6 +39,6 @@ class TransaksiController {
         $this->model->id = $id;
         return $this->model->delete();
     }
->>>>>>> 7c386ac (commit pertama project toko putri)
+
 }
 ?>

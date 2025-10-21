@@ -1,39 +1,11 @@
 <?php
+class Database {
+    private $host = "localhost";
+    private $dbname = "db_penjualan";
+    private $username = "root";
+    private $password = "";
+    public $conn;
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 7c386ac (commit pertama project toko putri)
-return [
-
-    'default' => env('DB_CONNECTION', 'mysql'),
-
-    'connections' => [
-
-        'mysql' => [
-            'driver' => 'mysql',
-            'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'pos_toko_putri'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
-            'unix_socket' => env('DB_SOCKET', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'strict' => true,
-            'engine' => null,
-        ],
-
-    ],
-
-    'migrations' => 'migrations',
-];
-<<<<<<< HEAD
-=======
-=======
     public function getConnection() {
         $this->conn = null;
         try {
@@ -50,5 +22,3 @@ return [
     }
 }
 ?>
->>>>>>> d84c37b (update transaksi)
->>>>>>> 7c386ac (commit pertama project toko putri)
