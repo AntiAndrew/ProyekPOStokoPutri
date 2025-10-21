@@ -19,7 +19,7 @@ class AuthController extends Controller
     // 🧾 Proses login
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('id', 'password');
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
@@ -49,12 +49,14 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
+            'noTelepon' => 'required|noTelepon|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'noTelepon' => $request->noTelepon,
             'password' => Hash::make($request->password),
             'role' => 'pegawai', // default pegawai, admin bisa ubah dari dashboard
         ]);
