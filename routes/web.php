@@ -19,6 +19,10 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware('role:admin');
+Route::middleware(['role:admin'])->group(function () {
+    // route khusus admin
+});
+
 
 
 // Logout
