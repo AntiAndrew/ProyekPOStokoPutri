@@ -10,7 +10,7 @@ class PegawaiController extends Controller
     public function index()
     {
         // example: retrieve data and return view
-        $pegawai = Pegawai::all();
+        $pegawai = PegawaiModel::all();
         return view('pegawai.index', compact('pegawai'));
     }
 
