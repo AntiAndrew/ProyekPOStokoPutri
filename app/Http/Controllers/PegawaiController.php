@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pegawai;  // assuming you have Pegawai model
+use App\Models\PegawaiModel;  // assuming you have Pegawai model
 use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
