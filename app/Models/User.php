@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'noTelepon', // <-- BARU: Tambahkan ini
+        'role',      // <-- BARU: Tambahkan ini (untuk role default pegawai)
     ];
 
     /**
