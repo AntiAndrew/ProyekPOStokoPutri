@@ -23,7 +23,6 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-
 // Route Login & Register (HARUS DITARUH DI SINI, DI LUAR MIDDLEWARE 'auth')
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
@@ -59,8 +58,17 @@ Route::middleware(['auth'])->group(function () {
         return view('auth.dashboard'); 
     })->name('dashboard.index');
 
+
     // Route Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
     // ... Route Admin dan Pegawai lainnya
+    
+    /* --- FITUR KELOLA BARANG --- */
+    // 1. Rute CRUD Resource (Index, Create, Store, Edit, Update, Destroy)
+    // Semua aksi ini hanya bisa diakses setelah login
+    Route::resource('barang', BarangController::class);
+
+    // 2. Rute Pencarian Barang Tambahan
+    Route::get('/barang/cari', [BarangController::class, 'cari'])->name('barang.cari');
 });

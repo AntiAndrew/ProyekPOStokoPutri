@@ -1,35 +1,32 @@
 <?php
-class BarangModel {
-    private $conn;
 
-    public function __construct($conn) {
-        $this->conn = $conn;
-    }
+namespace App\Models;
 
-    public function getAll() {
-        return $this->conn->query("SELECT * FROM barang");
-    }
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-    public function insert($nama, $harga, $stok) {
-        $sql = "INSERT INTO barang (nama, harga, stok) VALUES ('$nama', '$harga', '$stok')";
-        return $this->conn->query($sql);
-    }
+class BarangModel extends Model
+{
+    use HasFactory;
 
-    public function find($id) {
-        return $this->conn->query("SELECT * FROM barang WHERE id=$id")->fetch_assoc();
-    }
+    // Nama tabel di database Anda
+    protected $table = 'barang'; 
+    
+    // Kunci utama (Primary Key) tabel
+    protected $primaryKey = 'id_barang'; 
+    
+    // Karena ID Barang berupa kode/string, kita nonaktifkan auto-increment
+    public $incrementing = false;
+    
+    // Tipe data kunci utama
+    protected $keyType = 'string';
 
-    public function update($id, $nama, $harga, $stok) {
-        $sql = "UPDATE barang SET nama='$nama', harga='$harga', stok='$stok' WHERE id=$id";
-        return $this->conn->query($sql);
-    }
-
-    public function delete($id) {
-        return $this->conn->query("DELETE FROM barang WHERE id=$id");
-    }
-
-    public function search($keyword) {
-        return $this->conn->query("SELECT * FROM barang WHERE nama LIKE '%$keyword%'");
-    }
+    // Kolom-kolom yang boleh diisi secara massal (mass assignable)
+    protected $fillable = [
+        'id_barang',
+        'nama_barang',
+        'kategori',
+        'harga',
+        'jumlah' // Asumsi: ini adalah kolom stok/jumlah
+    ];
 }
-?>
