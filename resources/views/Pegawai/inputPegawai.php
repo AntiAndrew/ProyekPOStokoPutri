@@ -8,25 +8,24 @@
 </head>
 <body>
 
-    <h2>Input Barang Baru</h2>
-    <form method="post" action="index.php?action=simpanBarang">
-        <label>Nama Pegawai</label>
-        <input type="text" name="namaPegawai" required>
+    <h2>Input Data Pegawai Baru</h2>
+  <form method="post" action="index.php?action=simpanPegawai">
+    <label>Nama Pegawai</label>
+    <input type="text" name="namaPegawai" required>
 
-        <label>ID Pegawai</label>
-        <input type="number" name="idPegawai" required>
+    <label>ID Pegawai</label>
+    <input type="number" name="idPegawai" required>
 
-        <label>Jenis Kelamin</label>
-        <input type="text" name="jenisKelamin" required>
+    <label>Jenis Kelamin</label>
+    <input type="text" name="jenisKelamin" required>
 
-        <label>Umur</label>
-        <input type="number" name="umurPegawai" required>
+    <label>Umur</label>
+    <input type="number" name="umurPegawai" required>
 
-        <div class="buttons">
-            <a href="index.php?action=lihatDaftarPegawai">Kembali</a>
-            <button type="submit">Simpan</button>
-        </div>
-    </form>
-
+    <div class="buttons">
+      <a href="index.php?action=lihatDaftarPegawai">Kembali</a>
+      <button type="submit">Simpan</button>
+    </div>
+  </form>
 </body>
 </html>

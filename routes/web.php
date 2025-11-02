@@ -1,33 +1,74 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
+// ... Import Controllers ... (use App\Http\Controllers\Auth\AuthController; dll)
 use App\Http\Controllers\Auth\AuthController;
-
-// Login & Register
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('role:admin');
-
-
-// Logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+use App\Http\Controllers\BarangController; 
+use App\Http\Controllers\PegawaiController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth; 
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Public Routes (Akses Tanpa Login)
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
 
+// PERHATIAN: Perbaiki Route Default (/)
 Route::get('/', function () {
-    return view('welcome');
+    // Jika user sudah login, arahkan ke dashboard
+    if (Auth::check()) { 
+        return redirect()->route('dashboard.index');
+    }
+    // Jika belum login, arahkan ke login
+    return redirect()->route('login');
+});
+
+// Route Login & Register (HARUS DITARUH DI SINI, DI LUAR MIDDLEWARE 'auth')
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+
+// UBAH BARIS INI: Tambahkan nama 'login.post'
+Route::post('/login', [AuthController::class, 'login'])->name('login.post'); 
+
+// Route Password Reset (TAMBAHKAN INI)
+Route::group(['namespace' => 'App\Http\Controllers\Auth'], function () {
+    Route::get('password/reset', 'ForgotPasswordController@showLinkRequestForm')->name('password.request');
+    Route::post('password/email', 'ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+    Route::get('password/reset/{token}', 'ResetPasswordController@showResetForm')->name('password.reset');
+    Route::post('password/reset', 'ResetPasswordController@reset')->name('password.update');
+});
+
+// Route Register (GET - Menampilkan Form)
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+
+// UBAH BARIS INI: Tambahkan nama 'register.post'
+Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+
+Route::resource('pegawai', PegawaiController::class);
+/*
+|--------------------------------------------------------------------------
+| PROTECTED ROUTES (Hanya diakses setelah Login)
+|--------------------------------------------------------------------------
+*/
+
+// Semua route di dalam group ini WAJIB login dulu
+Route::middleware(['auth'])->group(function () {
+    
+    // Route Dashboard Utama 
+    Route::get('/dashboard', function () {
+        return view('auth.dashboard'); 
+    })->name('dashboard.index');
+
+
+    // Route Logout
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    
+    // ... Route Admin dan Pegawai lainnya
+    
+    /* --- FITUR KELOLA BARANG --- */
+    // 1. Rute CRUD Resource (Index, Create, Store, Edit, Update, Destroy)
+    // Semua aksi ini hanya bisa diakses setelah login
+    Route::resource('barang', BarangController::class);
+
+    // 2. Rute Pencarian Barang Tambahan
+    Route::get('/barang/cari', [BarangController::class, 'cari'])->name('barang.cari');
 });
