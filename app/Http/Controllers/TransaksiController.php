@@ -1,44 +1,15 @@
 <?php
-require_once "config/database.php";
-require_once "model/Transaksi.php";
 
-class TransaksiController {
-    private $model;
+namespace App\Http\Controllers;
 
-    public function __construct() {
-        $database = new Database();
-        $db = $database->getConnection();
-        $this->model = new Transaksi($db);
+use Illuminate\Http\Request;
+use App\Models\Transaksi;
+
+class TransaksiController extends Controller
+{
+    public function index()
+    {
+        $transaksi = Transaksi::all();
+        return view('transaksi', compact('transaksi'));
     }
-
-    public function tampilkanDaftar() {
-        return $this->model->readAll();
-    }
-
-    public function simpanTransaksi($data) {
-        $this->model->nama_barang = $data['nama_barang'];
-        $this->model->harga = $data['harga'];
-        $this->model->jumlah = $data['jumlah'];
-        return $this->model->create();
-    }
-
-    public function ambilDetail($id) {
-        $this->model->id = $id;
-        return $this->model->readOne();
-    }
-
-    public function updateTransaksi($data) {
-        $this->model->id = $data['id'];
-        $this->model->nama_barang = $data['nama_barang'];
-        $this->model->harga = $data['harga'];
-        $this->model->jumlah = $data['jumlah'];
-        return $this->model->update();
-    }
-
-    public function hapusTransaksi($id) {
-        $this->model->id = $id;
-        return $this->model->delete();
-    }
-
 }
-?>

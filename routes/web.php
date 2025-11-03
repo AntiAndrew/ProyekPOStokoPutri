@@ -62,13 +62,18 @@ Route::middleware(['auth'])->group(function () {
     // Route Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     
-    // ... Route Admin dan Pegawai lainnya
+       // ... Route Admin dan Pegawai lainnya
     
     /* --- FITUR KELOLA BARANG --- */
-    // 1. Rute CRUD Resource (Index, Create, Store, Edit, Update, Destroy)
-    // Semua aksi ini hanya bisa diakses setelah login
     Route::resource('barang', BarangController::class);
-
-    // 2. Rute Pencarian Barang Tambahan
     Route::get('/barang/cari', [BarangController::class, 'cari'])->name('barang.cari');
-});
+
+    /* --- FITUR TRANSAKSI PENJUALAN --- */
+    use App\Http\Controllers\TransaksiController;
+    Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+    Route::get('/transaksi/tambah', [TransaksiController::class, 'create'])->name('transaksi.create');
+    Route::post('/transaksi/simpan', [TransaksiController::class, 'store'])->name('transaksi.store');
+    Route::get('/transaksi/edit/{id}', [TransaksiController::class, 'edit'])->name('transaksi.edit');
+    Route::post('/transaksi/update/{id}', [TransaksiController::class, 'update'])->name('transaksi.update');
+    Route::get('/transaksi/hapus/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
+    Route::get('/transaksi/detail/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
