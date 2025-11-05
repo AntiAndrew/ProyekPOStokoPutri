@@ -9,7 +9,7 @@ class TransaksiController extends Controller
 {
     public function index()
     {
-        $transaksi = Transaksi::all();
+        $transaksi = Transaksi::semuaTransaksi();
         return view('transaksi', compact('transaksi'));
     }
 }
