@@ -2,113 +2,167 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Barang;
 use Illuminate\Http\Request;
+use App\Models\Barang;
+use Illuminate\Support\Facades\Validator; // Tambahkan untuk validasi
 
 class BarangController extends Controller
 {
     /**
-     * READ: Menampilkan daftar semua barang (sesuai 'lihat_barang.php' Anda).
-     * Route: GET /barang
+     * Menampilkan menu utama Kelola Barang.
+     */
+    public function menu()
+    {
+        return view('barang.menu_kelola_barang');
+    }
+
+    /**
+     * Menampilkan halaman Lihat Daftar Barang (Index).
      */
     public function index()
     {
-        $data_barang = Barang::orderBy('nama_barang', 'asc')->get(); 
-        
-        // Menggunakan view yang menyajikan daftar barang dan tombol aksi (edit/hapus)
+        // Ambil semua data barang untuk ditampilkan (atau dengan pagination)
+        $data_barang = Barang::all();
+
         return view('barang.index', compact('data_barang'));
     }
 
     /**
-     * CREATE: Menampilkan formulir input barang (sesuai 'input_barang.php' Anda).
-     * Route: GET /barang/create
+     * Menampilkan form Input Barang (Create).
      */
     public function create()
     {
-        return view('barang.create');
+        // Untuk demo, kita dapat memberikan ID barang placeholder.
+        // Dalam aplikasi nyata, ID ini biasanya di-generate oleh database atau sistem.
+        $nextId = 'A.01'; 
+        return view('barang.create', compact('nextId'));
     }
 
     /**
-     * STORE: Memproses data input dan menyimpan ke database.
-     * Route: POST /barang
+     * Menyimpan data Barang baru ke database (Store).
      */
     public function store(Request $request)
     {
-        // 1. Validasi Input (WAJIB: Laravel otomatis mengamankan dari SQL Injection)
-        $request->validate([
-            'id_barang'   => 'required|unique:barang|max:50',
-            'nama_barang' => 'required|max:255',
-            'kategori'    => 'required|in:Makanan,Minuman,Alat rumah tangga', // Validasi kategori
-            'harga'       => 'required|integer|min:0',
-            'jumlah'      => 'required|integer|min:0',
-        ]);
-        
-        // 2. Simpan ke database menggunakan Eloquent
-        Barang::create($request->all());
-
-        // 3. Redirect dengan pesan sukses
-        return redirect()->route('barang.index')
-                         ->with('success', '✅ Barang **' . $request->nama_barang . '** berhasil ditambahkan!');
-    }
-
-    /**
-     * EDIT: Menampilkan formulir edit yang sudah terisi data.
-     * Route: GET /barang/{barang}/edit
-     */
-    public function edit(Barang $barang) 
-    {
-        // Parameter $barang otomatis diisi oleh Laravel (Route Model Binding)
-        return view('barang.edit', compact('barang'));
-    }
-
-    /**
-     * UPDATE: Memproses update data yang dikirim dari form edit.
-     * Route: PUT/PATCH /barang/{barang}
-     */
-    public function update(Request $request, Barang $barang)
-    {
-        // 1. Validasi Input
-        $request->validate([
-            'nama_barang' => 'required|max:255',
-            'kategori'    => 'required|in:Makanan,Minuman,Alat rumah tangga',
-            'harga'       => 'required|integer|min:0',
-            'jumlah'      => 'required|integer|min:0',
+        // 1. Validasi Data
+        $validator = Validator::make($request->all(), [
+            'nama_barang' => 'required|string|max:255',
+            'harga' => 'required|integer|min:0',
+            'stok' => 'required|integer|min:0',
+            // Tambahkan aturan validasi lain sesuai kebutuhan model Barang Anda
         ]);
 
-        // 2. Update data
-        $barang->update($request->all());
+        if ($validator->fails()) {
+            // Kembali ke form dengan input sebelumnya dan pesan error
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-        // 3. Redirect
-        return redirect()->route('barang.index')
-                         ->with('success', '♻️ Barang **' . $request->nama_barang . '** berhasil diperbarui!');
+        try {
+            // 2. Simpan Data Baru
+            Barang::create([
+                'nama' => $request->nama_barang,
+                'harga' => $request->harga,
+                'stok' => $request->stok,
+                // Tambahkan field lain
+            ]);
+
+            // 3. Redirect dengan pesan sukses
+            return redirect()->route('barang.index')->with('success', 'Data barang berhasil ditambahkan!');
+
+        } catch (\Exception $e) {
+             // Tangani error database jika terjadi
+             return redirect()->back()->with('error', 'Gagal menyimpan data barang. Silakan coba lagi.');
+        }
     }
 
-    /**
-     * DESTROY: Menghapus data barang.
-     * Route: DELETE /barang/{barang}
-     */
-    public function destroy(Barang $barang)
-    {
-        $nama = $barang->nama_barang;
-        $barang->delete();
 
-        return redirect()->route('barang.index')
-                         ->with('success', '🗑️ Barang **' . $nama . '** berhasil dihapus!');
+    /**
+     * Menampilkan halaman Edit/Hapus Barang (Manage).
+     */
+    public function manage(Request $request)
+    {
+        // Ambil semua data barang untuk ditampilkan
+        $data_barang = Barang::all();
+
+        // Menentukan mode tampilan (Edit atau Hapus)
+        $mode = $request->query('mode', 'edit'); // Default ke 'edit'
+
+        return view('barang.manage', compact('data_barang', 'mode'));
     }
     
     /**
-     * CARI: Metode tambahan untuk pencarian (sesuai 'cari_barang.php' Anda).
-     * Route: GET /barang/cari
+     * Memperbarui data Barang yang sudah ada (Update).
+     * @param Request $request
+     * @param string $id ID Barang yang akan diupdate.
      */
-    public function cari(Request $request)
+    public function update(Request $request, $id)
     {
-        $keyword = $request->input('q');
-        
-        $data_barang = Barang::where('nama_barang', 'like', "%{$keyword}%")
-                             ->orWhere('id_barang', 'like', "%{$keyword}%")
-                             ->get();
-        
-        // Asumsi View: resources/views/barang/cari.blade.php
-        return view('barang.cari', compact('data_barang', 'keyword'));
+        $barang = Barang::find($id);
+
+        if (!$barang) {
+            return redirect()->back()->with('error', 'Barang tidak ditemukan.');
+        }
+
+        // 1. Validasi Data
+        $validator = Validator::make($request->all(), [
+            'nama_barang' => 'required|string|max:255',
+            'harga' => 'required|integer|min:0',
+            'stok' => 'required|integer|min:0',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        try {
+            // 2. Perbarui Data
+            $barang->update([
+                'nama' => $request->nama_barang,
+                'harga' => $request->harga,
+                'stok' => $request->stok,
+                // Tambahkan field lain
+            ]);
+
+            // 3. Redirect dengan pesan sukses
+            return redirect()->route('barang.manage', ['mode' => 'edit'])->with('success', 'Data barang berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+             return redirect()->back()->with('error', 'Gagal memperbarui data barang. Silakan coba lagi.');
+        }
+    }
+
+    /**
+     * Menghapus data Barang tertentu (Destroy).
+     * @param string $id ID Barang yang akan dihapus.
+     */
+    public function destroy($id)
+    {
+        $barang = Barang::find($id);
+
+        if (!$barang) {
+            return redirect()->back()->with('error', 'Barang tidak ditemukan.');
+        }
+
+        try {
+            // Hapus data
+            $barang->delete();
+
+            return redirect()->route('barang.manage', ['mode' => 'delete'])->with('success', 'Data barang berhasil dihapus!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus data barang. Silakan coba lagi.');
+        }
+    }
+
+
+    /**
+     * Menampilkan halaman Cari Barang.
+     */
+    public function cari()
+    {
+        // Placeholder data untuk kategori dan hasil pencarian
+        $kategori = ['Terbaru', 'Terlaris', 'Sembako', 'Perlengkapan Kos', 'Aksesoris', 'Kecantikan'];
+        // Hasil pencarian awal kosong
+        $hasil_pencarian = [];
+
+        return view('barang.cari', compact('kategori', 'hasil_pencarian'));
     }
 }
