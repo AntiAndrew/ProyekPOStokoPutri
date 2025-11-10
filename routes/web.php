@@ -67,11 +67,13 @@ Route::middleware(['auth'])->group(function () {
     
     // ... Route Admin dan Pegawai lainnya
     
-    /* --- FITUR KELOLA BARANG --- */
-    // 1. Rute CRUD Resource (Index, Create, Store, Edit, Update, Destroy)
-    // Semua aksi ini hanya bisa diakses setelah login
-    Route::resource('barang', BarangController::class);
-
-    // 2. Rute Pencarian Barang Tambahan
-    Route::get('/barang/cari', [BarangController::class, 'cari'])->name('barang.cari');
-}); 
+ /* --- FITUR KELOLA BARANG --- */
+    // Group route untuk Kelola Barang
+    Route::prefix('barang')->name('barang.')->group(function () {
+        Route::get('/', [BarangController::class, 'menu'])->name('menu');
+        Route::get('/input', [BarangController::class, 'create'])->name('create');
+        Route::get('/manage', [BarangController::class, 'manage'])->name('manage');
+        Route::get('/cari', [BarangController::class, 'cari'])->name('cari');
+        Route::get('/daftar', [BarangController::class, 'index'])->name('index');
+    });
+});
