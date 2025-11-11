@@ -1,32 +1,87 @@
+<?php
+// Koneksi DB
+include 'config/database.php';
+
+// Anti XSS
+function clean_output($data) {
+    return htmlspecialchars($data ?? '', ENT_QUOTES, 'UTF-8');
+}
+
+// Ambil ID Pegawai dari URL
+$id = isset($_GET['id']) ? $_GET['id'] : exit("ID pegawai tidak ditemukan!");
+
+// Query data pegawai yang dipilih
+$sql = "SELECT idPegawai, namaPegawai, jenisKelamin, umurPegawai FROM pegawai WHERE idPegawai = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "s", $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+// Jika tidak ditemukan
+if(mysqli_num_rows($result) == 0) {
+    exit("❌ Data pegawai tidak ditemukan!");
+}
+
+$pegawai = mysqli_fetch_assoc($result);
+
+// Proses Update
+if(isset($_POST['update'])) {
+    $nama = clean_output($_POST['namaPegawai']);
+    $jenis = clean_output($_POST['jenisKelamin']);
+    $umur = filter_var($_POST['umurPegawai'], FILTER_VALIDATE_INT);
+
+    if(!$umur || $umur < 1){
+        $error = "Umur harus angka positif!";
+    } else {
+        $update = "UPDATE pegawai SET namaPegawai=?, jenisKelamin=?, umurPegawai=? WHERE idPegawai=?";
+        $stmt2 = mysqli_prepare($conn, $update);
+        mysqli_stmt_bind_param($stmt2, "ssis", $nama, $jenis, $umur, $id);
+
+        if(mysqli_stmt_execute($stmt2)) {
+            echo "<script>alert('✅ Data pegawai berhasil diupdate'); window.location='lihatPegawai.php';</script>";
+            exit;
+        } else {
+            $error = "❌ Gagal update data!";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <title>Edit Data Pegawai</title>
-    <style>
-        
+<meta charset="UTF-8">
+<title>Edit Pegawai</title>
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-    <h2>Edit Data Pegawai</h2>
-    <form method="post" action="index.php?action=updatePegawai&id=<?= $pegawai['idPegawai'] ?>">
-        <label>Nama Pegawai</label>
-        <input type="text" name="namaPegawai" value="<?= $pegawai['namaPegawai'] ?>" required>
+<h2>Edit Data Pegawai</h2>
 
-        <label>ID Pegawai</label>
-        <input type="number" name="idPegawai" value="<?= $pegawai['idPegawai'] ?>" readonly>
+<?php if(isset($error)) echo "<p style='color:red'><b>$error</b></p>"; ?>
 
-        <label>Jenis Kelamin</label>
-        <input type="text" name="jenisKelamin" value="<?= $pegawai['jenisKelamin'] ?>" required>
+<form method="post">
+    <label>ID Pegawai</label>
+    <input type="text" name="idPegawai" value="<?= clean_output($pegawai['idPegawai']) ?>" readonly>
 
-        <label>Umur</label>
-        <input type="number" name="umurPegawai" value="<?= $pegawai['umurPegawai'] ?>" required>
+    <label>Nama Pegawai</label>
+    <input type="text" name="namaPegawai" required value="<?= clean_output($pegawai['namaPegawai']) ?>">
 
-        <div class="buttons">
-            <a href="index.php?action=lihatDaftarPegawai">Kembali</a>
-            <button type="submit">Update</button>
-        </div>
-    </form>
+    <label>Jenis Kelamin</label>
+    <select name="jenisKelamin" required>
+        <?php $jk = clean_output($pegawai['jenisKelamin']); ?>
+        <option value="Laki-laki" <?= $jk=="Laki-laki"?"selected":""; ?>>Laki-laki</option>
+        <option value="Perempuan" <?= $jk=="Perempuan"?"selected":""; ?>>Perempuan</option>
+    </select>
+
+    <label>Umur Pegawai</label>
+    <input type="number" min="1" name="umurPegawai" value="<?= clean_output($pegawai['umurPegawai']) ?>" required>
+
+    <div class="form-btn">
+        <button type="submit" name="update">Update</button>
+        <a href="lihatPegawai.php">Kembali</a>
+    </div>
+</form>
 
 </body>
 </html>
