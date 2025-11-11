@@ -1,256 +1,102 @@
 <?php
-// Koneksi ke database
-$conn = new mysqli("localhost", "root", "", "db_salon");
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
-}
 
-// Default query
-$query = "SELECT * FROM penjualan";
-$filter = "";
+namespace App\Models;
 
-// Proses filter waktu
-if (isset($_POST['rentang'])) {
-    $rentang = $_POST['rentang'];
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-    if ($rentang == "hari_ini") {
-        $query .= " WHERE DATE(tanggal) = CURDATE()";
-        $filter = "Hari Ini";
-    } elseif ($rentang == "7_hari") {
-        $query .= " WHERE tanggal >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)";
-        $filter = "7 Hari Terakhir";
-    } elseif ($rentang == "bulan") {
-        $bulan = $_POST['bulan'];
-        $tahun = $_POST['tahun'];
-        $query .= " WHERE MONTH(tanggal) = '$bulan' AND YEAR(tanggal) = '$tahun'";
-        $filter = "Bulan $bulan-$tahun";
-    } elseif ($rentang == "tanggal") {
-        $tgl = $_POST['tanggal'];
-        $query .= " WHERE tanggal = '$tgl'";
-        $filter = "Tanggal $tgl";
+class LaporanTransaksi extends Model
+{
+    use HasFactory;
+
+    protected $table = 'laporan_transaksi';
+
+    protected $fillable = [
+        'id_transaksi',
+        'tanggal_transaksi',
+        'total_item',
+        'total_harga',
+        'metode_pembayaran',
+        'status_transaksi',
+        'id_user',
+        'catatan'
+    ];
+
+    protected $casts = [
+        'tanggal_transaksi' => 'datetime',
+        'total_harga' => 'decimal:2',
+        'total_item' => 'integer'
+    ];
+
+    // Relasi dengan model Transaksi
+    public function transaksi()
+    {
+        return $this->belongsTo(Transaksi::class, 'id_transaksi', 'id');
+    }
+
+    // Relasi dengan model User
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id');
+    }
+
+    // Relasi dengan detail transaksi (jika ada tabel pivot)
+    public function detailTransaksi()
+    {
+        return $this->hasMany(TransaksiItem::class, 'id_transaksi', 'id_transaksi');
+    }
+
+    // Scope untuk filter berdasarkan rentang waktu
+    public function scopeFilterByDate($query, $filter)
+    {
+        switch ($filter) {
+            case 'hari_ini':
+                return $query->whereDate('tanggal_transaksi', today());
+            case '7_hari':
+                return $query->where('tanggal_transaksi', '>=', now()->subDays(7));
+            case 'bulan':
+                return $query->whereMonth('tanggal_transaksi', request('bulan'))
+                           ->whereYear('tanggal_transaksi', request('tahun'));
+            case 'tanggal':
+                return $query->whereDate('tanggal_transaksi', request('tanggal'));
+            default:
+                return $query;
+        }
+    }
+
+    // Method untuk menghitung total transaksi dalam rentang waktu tertentu
+    public static function getTotalTransaksi($filter = null)
+    {
+        $query = self::query();
+        if ($filter) {
+            $query->filterByDate($filter);
+        }
+        return $query->sum('total_harga');
+    }
+
+    // Method untuk mendapatkan jumlah transaksi per hari
+    public static function getTransaksiPerHari($filter = null)
+    {
+        $query = self::selectRaw('DATE(tanggal_transaksi) as tanggal, COUNT(*) as jumlah_transaksi, SUM(total_harga) as total_harga')
+                    ->groupBy('tanggal')
+                    ->orderBy('tanggal', 'desc');
+
+        if ($filter) {
+            $query->filterByDate($filter);
+        }
+
+        return $query->get();
+    }
+
+    // Method untuk mendapatkan laporan transaksi lengkap
+    public static function getLaporanLengkap($filter = null)
+    {
+        $query = self::with(['transaksi', 'user', 'detailTransaksi.barang']);
+
+        if ($filter) {
+            $query->filterByDate($filter);
+        }
+
+        return $query->orderBy('tanggal_transaksi', 'desc')->get();
     }
 }
-
-$result = $conn->query($query);
-?>
-
-// LaporanTransaksi.php
-session_start();
-// contoh proteksi login (opsional)
-if(!isset($_SESSION['user'])){
-    $_SESSION['user'] = "User Account"; // sementara biar tampil
-}
-?>
-
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Transaksi</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: "Poppins", sans-serif;
-        }
-
-        body {
-            margin: 0;
-            background-color: #b7ccf4; /* biru muda */
-        }
-
-        .container {
-            background-color: #eaf1d8; /* hijau muda */
-            width: 90%;
-            max-width: 1200px;
-            min-height: 80vh;
-            margin: 40px auto;
-            border-radius: 10px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        /* Header */
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-        }
-
-        .left-icons {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .icon-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 22px;
-        }
-
-        .icon-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .search-box {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            margin: 0 20px;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            font-size: 15px;
-        }
-
-        .account-btn {
-            background-color: #1b62b8;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        /* Layout utama */
-        .content {
-            display: flex;
-            flex: 1;
-            gap: 30px;
-            flex-wrap: wrap;
-        }
-
-        .sidebar {
-            flex: 1 1 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding-right: 10px;
-            border-right: 2px solid black;
-        }
-
-        .sidebar button {
-            background-color: #d2b48c;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .sidebar button:hover {
-            background-color: #c4a77b;
-        }
-
-        .logout {
-            background-color: #f2f2f2 !important;
-            margin-top: auto;
-        }
-
-        /* Area kanan */
-        .main-content {
-            flex: 3;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .card {
-            background-color: #fbbd4b;
-            border-radius: 10px;
-            box-shadow: 3px 3px 6px rgba(0,0,0,0.2);
-            padding: 30px;
-            text-align: center;
-            width: 180px;
-            transition: transform 0.2s;
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card img {
-            width: 70px;
-            height: 70px;
-            margin-bottom: 10px;
-        }
-
-        .card p {
-            font-weight: 600;
-            color: #333;
-        }
-
-        /* Responsif */
-        @media (max-width: 768px) {
-            .content {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .sidebar {
-                border-right: none;
-                border-bottom: 2px solid black;
-                flex-direction: row;
-                justify-content: space-around;
-                width: 100%;
-                padding-bottom: 15px;
-            }
-
-            .main-content {
-                margin-top: 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <!-- Header -->
-        <div class="topbar">
-            <div class="left-icons">
-                <button class="icon-btn" onclick="window.location.href='dashboard.php'">⬅</button>
-                <button class="icon-btn" onclick="window.location.href='home.php'">🏠</button>
-            </div>
-
-            <div class="search-box">
-                <input type="text" placeholder="Cari...">
-            </div>
-
-            <button class="account-btn" onclick="window.location.href='account.php'">
-                👤 <?php echo $_SESSION['user']; ?>
-            </button>
-        </div>
-
-        <!-- Konten utama -->
-        <div class="content">
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <button onclick="window.location.href='laporan_transaksi.php'">Laporan Transaksi</button>
-                <button class="logout" onclick="window.location.href='logout.php'">Logout</button>
-            </div>
-
-            <!-- Main content -->
-            <div class="main-content">
-                <div class="card" onclick="window.location.href='laporan_penjualan.php'">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3135/3135695.png" alt="icon laporan">
-                    <p>Laporan Penjualan</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</body>
-</html>
