@@ -1,4 +1,3 @@
-// Halaman edit barang
 @extends('layouts.app') 
 
 @section('title', 'Edit Barang: ' . $barang->nama_barang)

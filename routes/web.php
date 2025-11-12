@@ -103,8 +103,10 @@ Route::middleware(['auth'])->group(function () {
 // ROUTE UNTUK LAPORAN
 Route::middleware(['auth'])->group(function () {
     Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/', [LaporanController::class, 'index'])->name('index');
         Route::get('/penjualan', [LaporanController::class, 'index'])->name('penjualan');
         Route::get('/transaksi', [LaporanController::class, 'transaksi'])->name('transaksi');
-        Route::get('/', [LaporanController::class, 'index'])->name('index');
+    
     });
+});
 });
