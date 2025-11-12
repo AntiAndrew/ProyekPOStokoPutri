@@ -78,6 +78,14 @@ Route::middleware(['auth'])->group(function () {
        PEGAWAI ROUTES (ADMIN ONLY!)
        ============================ */
     Route::middleware(['role:admin'])->group(function () {
-        Route::resource('pegawai', PegawaiController::class);
-    });
+
+    // Menu pegawai
+    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.menu');
+
+
+    // Resource pegawai (kecuali show)
+    Route::resource('pegawai', PegawaiController::class)->except(['show']);
+});
+// Sudah ada yang lain seperti CRUD, biarkan saja
+
 }); 

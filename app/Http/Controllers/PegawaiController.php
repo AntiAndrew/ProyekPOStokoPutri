@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class PegawaiController extends Controller
 {
+    public function menu()
+    {
+        return view('Pegawai.menuPegawai');
+    }
+
     /**
      * READ: Menampilkan daftar pegawai
      * Route: GET /pegawai
