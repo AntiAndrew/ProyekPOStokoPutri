@@ -1,86 +1,54 @@
 <?php
-class Transaksi {
-    private $conn;
-    private $table = "transaksi";
 
-    public $id;
-    public $nama_barang;
-    public $harga;
-    public $jumlah;
-    public $total;
+namespace App\Models;
 
-    public function __construct($db) {
-        $this->conn = $db;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Transaksi extends Model
+{
+    use HasFactory;
+
+    protected $table = 'transaksi';
+
+    protected $fillable = [
+        'no_transaksi',
+        'tanggal',
+        'pelanggan', // Catatan: Kolom ini kemungkinan string/nama, bukan foreign key
+        'user_id',   // Foreign key ke tabel users (Salesman/Kasir)
+        'subtotal',
+        'diskon',
+        'total',
+        'status',
+    ];
+
+    /**
+     * Relasi ke TransaksiItem (Detail Barang)
+     */
+    public function items()
+    {
+        return $this->hasMany(TransaksiItem::class, 'transaksi_id');
     }
 
-    public function readAll() {
-
-        $query = "SELECT * FROM " . $this->table;
-
-        $query = "SELECT * FROM " . $this->table . " ORDER BY id DESC";
-
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt;
+    /**
+     * Relasi ke User (Salesman/Kasir)
+     * Kolom foreign key di tabel 'transaksi' adalah 'user_id'
+     */
+    public function user()
+    {
+        // Asumsi Model User berada di App\Models\User
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-
-    public function create() {
-        $query = "INSERT INTO " . $this->table . " (nama_barang, harga, jumlah, total) VALUES (:nama_barang, :harga, :jumlah, :total)";
-
-        public function readOne() {
-        $query = "SELECT * FROM " . $this->t0
-        able . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $this->id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function create() {
-        $query = "INSERT INTO " . $this->table . " (nama_barang, harga, jumlah, total)
-                  VALUES (:nama_barang, :harga, :jumlah, :total)";
-
-        $stmt = $this->conn->prepare($query);
-        $this->total = $this->harga * $this->jumlah;
-
-        $stmt->bindParam(":nama_barang", $this->nama_barang);
-        $stmt->bindParam(":harga", $this->harga);
-        $stmt->bindParam(":jumlah", $this->jumlah);
-        $stmt->bindParam(":total", $this->total);
-
-
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
-
-        return $stmt->execute();
-    }
-
-    public function update() {
-        $query = "UPDATE " . $this->table . " 
-                  SET nama_barang = :nama_barang, harga = :harga, jumlah = :jumlah, total = :total 
-                  WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $this->total = $this->harga * $this->jumlah;
-
-        $stmt->bindParam(":nama_barang", $this->nama_barang);
-        $stmt->bindParam(":harga", $this->harga);
-        $stmt->bindParam(":jumlah", $this->jumlah);
-        $stmt->bindParam(":total", $this->total);
-        $stmt->bindParam(":id", $this->id);
-
-        return $stmt->execute();
-    }
-
-    public function delete() {
-        $query = "DELETE FROM " . $this->table . " WHERE id = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $this->id);
-        return $stmt->execute();
-       
-    }
+    /**
+     * OPSI Relasi Pelanggan (Jika menggunakan foreign key)
+     * Jika Anda TIDAK menggunakan foreign key dan 'pelanggan' hanya menyimpan nama (string),
+     * maka fungsi ini JANGAN DIPAKAI.
+     * * public function pelanggan()
+     * {
+     * // Ganti Pelanggan::class jika nama modelnya berbeda,
+     * // dan ganti 'pelanggan_id' jika nama kolomnya berbeda.
+     * return $this->belongsTo(Pelanggan::class, 'pelanggan_id'); 
+     * }
+     */
 }
-}
-?>

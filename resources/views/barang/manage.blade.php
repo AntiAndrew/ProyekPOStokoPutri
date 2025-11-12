@@ -5,7 +5,6 @@
 @section('content')
 <div class="form-page">
     <div class="form-container">
-        <h2 class="page-title">{{ $mode === 'edit' ? 'Edit Barang' : 'Hapus Barang' }}</h2>
         
         {{-- Data Contoh (sesuai desain) --}}
         @php
@@ -55,7 +54,7 @@
                         <a href="{{ route('barang.menu') }}" class="btn-cancel">
                             Kembali
                         </a>
-                        <button type="submit" class="btn-submit ml-auto">
+                        <button type="submit" class="bg-yellow-300 text-pastel-dark font-bold py-3 px-6 rounded-xl shadow-md hover:bg-yellow-400 transition duration-200">
                             Simpan
                         </button>
                     </div>
