@@ -5,7 +5,6 @@
 @section('content')
 <div class="form-page">
     <div class="form-container">
-        <h2 class="page-title">Input Barang</h2>
         
         <form action="#" method="POST">
             @csrf
@@ -13,13 +12,13 @@
             {{-- ID Barang --}}
             <div class="form-group">
                 <label for="id_barang">ID Barang</label>
-                <input type="text" id="id_barang" name="id_barang" value="{{ $nextId ?? 'A.01' }}" readonly>
+                <input type="text" id="id_barang" name="id_barang" required>
             </div>
             
             {{-- Nama Barang --}}
             <div class="form-group">
                 <label for="nama_barang">Nama Barang</label>
-                <input type="text" id="nama_barang" name="nama_barang" value="Mie Goreng" required>
+                <input type="text" id="nama_barang" name="nama_barang" required>
             </div>
             
             {{-- Kategori --}}
@@ -36,13 +35,13 @@
             <div class="form-group">
                 <label for="harga_barang">Harga Barang</label>
                 {{-- Di desain terlihat sebagai teks biasa, tapi ini harusnya input --}}
-                <input type="text" id="harga_barang" name="harga_barang" value="Rp.3.000" required>
+                <input type="text" id="harga_barang" name="harga_barang" required>
             </div>
             
             {{-- Jumlah Barang --}}
             <div class="form-group">
                 <label for="jumlah_barang">Jumlah Barang</label>
-                <input type="text" id="jumlah_barang" name="jumlah_barang" value="1 bungkus" required>
+                <input type="text" id="jumlah_barang" name="jumlah_barang" required>
             </div>
 
             {{-- Tombol Aksi --}}
@@ -53,7 +52,7 @@
                 <button type="button" class="btn-cancel">
                     Batal
                 </button>
-                <button type="submit" class="btn-submit">
+                <button type="submit" class="bg-yellow-300 text-pastel-dark font-bold py-3 px-6 rounded-xl shadow-md hover:bg-yellow-400 transition duration-200">
                     Simpan
                 </button>
             </div>
