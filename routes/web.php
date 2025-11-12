@@ -96,6 +96,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
         Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
         Route::get('/transaksi/menu', [TransaksiController::class, 'menu'])->name('transaksi.menu');
+        // Di routes/web.php
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
+
 
     });
 });
