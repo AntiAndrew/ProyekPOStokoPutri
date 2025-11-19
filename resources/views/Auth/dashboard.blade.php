@@ -42,7 +42,7 @@
                 <a href="/admin/pegawai" class="card bg-indigo-500 text-white p-6 rounded-lg text-center shadow-lg">Kelola Pegawai</a>
                 <a href="/admin/barang" class="card bg-purple-500 text-white p-6 rounded-lg text-center shadow-lg">Kelola Barang</a>
                 <a href="/admin/laporan" class="card bg-pink-500 text-white p-6 rounded-lg text-center shadow-lg">Laporan Total</a>
-                <a href="/admin/settings" class="card bg-red-500 text-white p-6 rounded-lg text-center shadow-lg">Pengaturan Sistem</a>
+                
             </div>
 
         @elseif (Auth::user()->role === 'pegawai')
