@@ -10,6 +10,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\TransaksiController;
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Public Routes (Akses Tanpa Login)
@@ -67,11 +68,16 @@ Route::middleware(['auth'])->group(function () {
     
     // ... Route Admin dan Pegawai lainnya
     
-    /* --- FITUR KELOLA BARANG --- */
-    // 1. Rute CRUD Resource (Index, Create, Store, Edit, Update, Destroy)
-    // Semua aksi ini hanya bisa diakses setelah login
-    Route::resource('barang', BarangController::class);
+ /* --- FITUR KELOLA BARANG --- */
+    // Group route untuk Kelola Barang
+    Route::prefix('barang')->name('barang.')->group(function () {
+        Route::get('/', [BarangController::class, 'menu'])->name('menu');
+        Route::get('/input', [BarangController::class, 'create'])->name('create');
+        Route::get('/manage', [BarangController::class, 'manage'])->name('manage');
+        Route::get('/cari', [BarangController::class, 'cari'])->name('cari');
+        Route::get('/daftar', [BarangController::class, 'index'])->name('index');
 
+<<<<<<< HEAD
     // 2. Rute Pencarian Barang Tambahan
     Route::get('/barang/cari', [BarangController::class, 'cari'])->name('barang.cari');
     /* ============================
@@ -91,3 +97,42 @@ Route::middleware(['auth'])->group(function () {
 // Sudah ada yang lain seperti CRUD, biarkan saja
 
 }); 
+=======
+        
+    });
+    // ROUTE UNTUK TRANSAKSI
+      // 🔹 ROUTE TRANSAKSI PENJUALAN
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('transaksi')->name('transaksi.')->group(function () {
+        Route::get('/', [TransaksiController::class, 'menu'])->name('menu');
+        Route::get('/daftar', [TransaksiController::class, 'index'])->name('index');
+        Route::get('/create', [TransaksiController::class, 'create'])->name('create');
+        Route::post('/store', [TransaksiController::class, 'store'])->name('store');
+        Route::get('/manage', [TransaksiController::class, 'manage'])->name('manage');
+        Route::get('/{id}', [TransaksiController::class, 'show'])->name('show');
+        Route::get('/edit/{id}', [TransaksiController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [TransaksiController::class, 'update'])->name('update');
+          Route::delete('/destroy/{id}', [TransaksiController::class, 'destroy'])->name('destroy');
+        Route::get('/cari', [TransaksiController::class, 'cari'])->name('cari');
+        Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+        Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
+        Route::get('/transaksi/menu', [TransaksiController::class, 'menu'])->name('transaksi.menu');
+        // Di routes/web.php
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
+
+
+    });
+});
+
+// ROUTE UNTUK LAPORAN
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/', [LaporanController::class, 'index'])->name('index');
+        Route::get('/penjualan', [LaporanController::class, 'index'])->name('penjualan');
+        Route::get('/transaksi', [LaporanController::class, 'transaksi'])->name('transaksi');
+    
+    });
+});
+});
+>>>>>>> ce39ef79466edf2991defd5a89d2fdc72c3c276f

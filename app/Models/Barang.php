@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BarangModel extends Model
+class Barang extends Model
 {
     use HasFactory;
 
@@ -21,12 +21,12 @@ class BarangModel extends Model
     // Tipe data kunci utama
     protected $keyType = 'string';
 
-    // Kolom-kolom yang boleh diisi secara massal (mass assignable)
+    // Kolom-kolom yang boleh diisi secara massal (SESUAI DENGAN NAMA DI DATABASE)
     protected $fillable = [
         'id_barang',
         'nama_barang',
         'kategori',
-        'harga',
-        'jumlah' // Asumsi: ini adalah kolom stok/jumlah
+        'harga_barang', // HARGA BARU
+        'jumlah_barang' // JUMLAH BARU
     ];
 }
