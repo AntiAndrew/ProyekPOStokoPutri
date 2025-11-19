@@ -10,12 +10,14 @@ class Transaksi extends Model
     use HasFactory;
 
     protected $table = 'transaksi';
+    protected $primaryKey = 'id';
+    public $timestamps = true;
 
     protected $fillable = [
         'no_transaksi',
         'tanggal',
-        'pelanggan', // Catatan: Kolom ini kemungkinan string/nama, bukan foreign key
-        'user_id',   // Foreign key ke tabel users (Salesman/Kasir)
+        'pelanggan',     // Nama pelanggan (string)
+        'user_id',       // ID kasir / pengguna
         'subtotal',
         'diskon',
         'total',
@@ -23,32 +25,29 @@ class Transaksi extends Model
     ];
 
     /**
-     * Relasi ke TransaksiItem (Detail Barang)
+     * Relasi ke detail barang (TransaksiItem)
+     * Setiap transaksi memiliki banyak item.
      */
     public function items()
     {
-        return $this->hasMany(TransaksiItem::class, 'transaksi_id');
+        return $this->hasMany(TransaksiItem::class, 'transaksi_id', 'id');
     }
 
     /**
-     * Relasi ke User (Salesman/Kasir)
-     * Kolom foreign key di tabel 'transaksi' adalah 'user_id'
+     * Relasi ke pengguna (User)
+     * Setiap transaksi dilakukan oleh satu user (kasir/admin).
      */
     public function user()
     {
-        // Asumsi Model User berada di App\Models\User
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     /**
-     * OPSI Relasi Pelanggan (Jika menggunakan foreign key)
-     * Jika Anda TIDAK menggunakan foreign key dan 'pelanggan' hanya menyimpan nama (string),
-     * maka fungsi ini JANGAN DIPAKAI.
-     * * public function pelanggan()
-     * {
-     * // Ganti Pelanggan::class jika nama modelnya berbeda,
-     * // dan ganti 'pelanggan_id' jika nama kolomnya berbeda.
-     * return $this->belongsTo(Pelanggan::class, 'pelanggan_id'); 
-     * }
+     * Relasi opsional ke pelanggan (jika nanti dibuat model Pelanggan)
+     * Jika belum ada tabel pelanggan, relasi ini bisa diabaikan.
      */
+    // public function pelanggan()
+    // {
+    //     return $this->belongsTo(Pelanggan::class, 'pelanggan_id', 'id');
+    // }
 }

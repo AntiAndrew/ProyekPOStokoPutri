@@ -99,6 +99,8 @@ Route::middleware(['auth'])->group(function () {
         // Di routes/web.php
         Route::get('/home', [HomeController::class, 'index'])->name('home');
         Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
+        
+        
 
 
     });
