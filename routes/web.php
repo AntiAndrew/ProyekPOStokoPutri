@@ -77,7 +77,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/cari', [BarangController::class, 'cari'])->name('cari');
         Route::get('/daftar', [BarangController::class, 'index'])->name('index');
 
-<<<<<<< HEAD
+
     // 2. Rute Pencarian Barang Tambahan
     Route::get('/barang/cari', [BarangController::class, 'cari'])->name('barang.cari');
     /* ============================
@@ -97,7 +97,7 @@ Route::middleware(['auth'])->group(function () {
 // Sudah ada yang lain seperti CRUD, biarkan saja
 
 }); 
-=======
+
         
     });
     // ROUTE UNTUK TRANSAKSI
@@ -134,5 +134,4 @@ Route::middleware(['auth'])->group(function () {
     
     });
 });
-});
->>>>>>> ce39ef79466edf2991defd5a89d2fdc72c3c276f
+
