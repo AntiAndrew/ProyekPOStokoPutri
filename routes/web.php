@@ -11,6 +11,7 @@ use App\Http\Controllers\TransaksiController;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | Public Routes (Akses Tanpa Login)
@@ -77,27 +78,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/cari', [BarangController::class, 'cari'])->name('cari');
         Route::get('/daftar', [BarangController::class, 'index'])->name('index');
 
-<<<<<<< HEAD
-    // 2. Rute Pencarian Barang Tambahan
-    Route::get('/barang/cari', [BarangController::class, 'cari'])->name('barang.cari');
-    /* ============================
-       PEGAWAI ROUTES (ADMIN ONLY!)
-       ============================ */
-    Route::middleware(['role:admin'])->group(function () {
-
-    // Menu pegawai
-    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.menu');
-    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.index');
-
-
-
-    // Resource pegawai (kecuali show)
-    Route::resource('pegawai', PegawaiController::class)->except(['show']);
-});
-// Sudah ada yang lain seperti CRUD, biarkan saja
-
-}); 
-=======
         
     });
     // ROUTE UNTUK TRANSAKSI
@@ -134,5 +114,19 @@ Route::middleware(['auth'])->group(function () {
     
     });
 });
+/* ============================
+       PEGAWAI ROUTES (ADMIN ONLY!)
+       ============================ */
+    Route::middleware(['role:admin'])->group(function () {
+
+    // Menu pegawai
+    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.menu');
+    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.index');
+
+
+
+    // Resource pegawai (kecuali show)
+    Route::resource('pegawai', PegawaiController::class)->except(['show']);
 });
->>>>>>> ce39ef79466edf2991defd5a89d2fdc72c3c276f
+// Sudah ada yang lain seperti CRUD, biarkan saja
+});
