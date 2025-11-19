@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Menu pegawai
     Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.menu');
+    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.index');
+
 
 
     // Resource pegawai (kecuali show)

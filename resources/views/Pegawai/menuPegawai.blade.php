@@ -15,22 +15,23 @@
 
 <div class="menu-container">
 
-    <a href="{{ url('pegawai/create') }}" class="menu-card green">
+    <a href="{{ route('pegawai.create') }}" class="menu-card green">
         <div class="icon">👤➕</div>
         Tambah Pegawai Baru
     </a>
 
-    <a href="{{ url('pegawai') }}" class="menu-card blue">
+    <a href="{{ route('pegawai.index') }}" class="menu-card blue">
         <div class="icon">📋</div>
         Lihat Daftar Pegawai
     </a>
 
-    <a href="{{ url('pegawai/edit') }}" class="menu-card yellow">
+    <!-- Ini butuh ID pegawai, jadi tidak bisa langsung menuju edit -->
+    <a href="{{ route('pegawai.index') }}" class="menu-card yellow">
         <div class="icon">✏️</div>
         Edit Pegawai
     </a>
 
-    <a href="{{ url('pegawai/delete') }}" class="menu-card red">
+    <a href="{{ route('pegawai.index') }}" class="menu-card red">
         <div class="icon">🗑️</div>
         Hapus Pegawai
     </a>
@@ -41,6 +42,7 @@
     </a>
 
 </div>
+
 
 <style>
 .menu-container {
