@@ -68,17 +68,21 @@ Route::middleware(['auth'])->group(function () {
     
     // ... Route Admin dan Pegawai lainnya
     
- /* --- FITUR KELOLA BARANG --- */
-    // Group route untuk Kelola Barang
+    /* --- FITUR KELOLA BARANG --- */
     Route::prefix('barang')->name('barang.')->group(function () {
-        Route::get('/', [BarangController::class, 'menu'])->name('menu');
-        Route::get('/input', [BarangController::class, 'create'])->name('create');
-        Route::get('/manage', [BarangController::class, 'manage'])->name('manage');
-        Route::get('/cari', [BarangController::class, 'cari'])->name('cari');
-        Route::get('/daftar', [BarangController::class, 'index'])->name('index');
+    Route::get('/', [BarangController::class, 'menu'])->name('menu');
+    Route::get('/input', [BarangController::class, 'create'])->name('create');
+    Route::post('/input', [BarangController::class, 'store'])->name('store');
+    Route::get('/manage', [BarangController::class, 'manage'])->name('manage');
+    Route::put('/update/{id}', [BarangController::class, 'update'])->name('update');
+    Route::delete('/delete/{id}', [BarangController::class, 'destroy'])->name('destroy');
+    Route::get('/daftar', [BarangController::class, 'index'])->name('index');
+    Route::get('/cari', [BarangController::class, 'cari'])->name('cari');
+    Route::get('/edit/{id}', [BarangController::class, 'edit'])->name('edit');
+    
+});
 
-        
-    });
+
     // ROUTE UNTUK TRANSAKSI
       // 🔹 ROUTE TRANSAKSI PENJUALAN
 Route::middleware(['auth'])->group(function () {

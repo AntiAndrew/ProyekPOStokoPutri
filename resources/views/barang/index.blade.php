@@ -1,8 +1,7 @@
 @extends('layouts.app') 
 @section('title', 'Lihat Daftar Barang')
 @section('content')
-<div class="container simple-list-page">
-    {{-- ... Header UI ... --}}
+<div class="table-container">
     <table class="data-table">
         <thead>
             <tr>
@@ -23,10 +22,11 @@
                     <td>Rp {{ number_format($barang->harga_barang, 0, ',', '.') }}</td>
                 </tr>
             @empty
-                {{-- ... Empty message ... --}}
+                <tr>
+                    <td colspan="5">Belum ada data barang.</td>
+                </tr>
             @endforelse
         </tbody>
     </table>
-    {{-- ... Footer ... --}}
 </div>
 @endsection

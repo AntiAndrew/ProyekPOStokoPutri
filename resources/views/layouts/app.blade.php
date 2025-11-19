@@ -62,37 +62,49 @@
             border-radius: 0.25rem;
         }
 
+        /* Container untuk memposisikan tabel di tengah */
+        .table-container {
+            display: flex;
+            justify-content: center; /* horizontal center */
+            padding: 20px 0;
+        }
+
         /* Gaya Khusus untuk Tabel Data (List, Manage, Cari) */
         .data-table {
-            width: 100%;
+            width: 80%; /* agar tidak full lebar, terlihat lebih di tengah */
             border-collapse: separate;
             border-spacing: 0 8px; /* Spasi antar baris */
         }
+
         .data-table th {
             background-color: #B0C7B0;
             color: #383E56;
             padding: 12px 16px;
             text-align: left;
         }
+
         .data-table td {
             background-color: white;
             padding: 12px 16px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
+
         .data-table tr:hover td {
             background-color: #f0fff0;
         }
+
         .data-table thead tr th:first-child,
         .data-table tbody tr td:first-child {
             border-top-left-radius: 8px;
             border-bottom-left-radius: 8px;
         }
+
         .data-table thead tr th:last-child,
         .data-table tbody tr td:last-child {
             border-top-right-radius: 8px;
             border-bottom-right-radius: 8px;
         }
-        
+                
         /* Gaya untuk Tombol Aksi (Edit/Hapus) di Tabel */
         .action-cell .btn-icon {
             display: inline-block;
