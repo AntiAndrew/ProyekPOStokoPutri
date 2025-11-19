@@ -54,7 +54,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <a href="/barang" class="card bg-blue-500 text-white p-6 rounded-lg text-center shadow-lg">Kelola Barang</a>
                 <a href="/transaksi" class="card bg-teal-500 text-white p-6 rounded-lg text-center shadow-lg">Transaksi Penjualan</a>
-                <a href="/laporan" class="card bg-orange-500 text-white p-6 rounded-lg text-center shadow-lg">Laporan Transaksi</a>
+                <a href="/laporan" class="card bg-orange-500 text-white p-6 rounded-lg text-center shadow-lg">Laporan Penjualan</a>
                 <a href="/profil" class="card bg-gray-500 text-white p-6 rounded-lg text-center shadow-lg">Profil Saya</a>
             </div>
             
