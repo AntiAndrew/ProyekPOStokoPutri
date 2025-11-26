@@ -9,24 +9,27 @@ class Barang extends Model
 {
     use HasFactory;
 
-    // Nama tabel di database Anda
+    // Nama tabel di database
     protected $table = 'barang'; 
     
-    // Kunci utama (Primary Key) tabel
+    // Kunci utama (Primary Key)
     protected $primaryKey = 'id_barang'; 
     
-    // Karena ID Barang berupa kode/string, kita nonaktifkan auto-increment
+    // Karena ID Barang berupa kode/string, nonaktifkan auto-increment
     public $incrementing = false;
     
     // Tipe data kunci utama
     protected $keyType = 'string';
 
-    // Kolom-kolom yang boleh diisi secara massal (SESUAI DENGAN NAMA DI DATABASE)
+    // ⛔ Nonaktifkan otomatis kolom created_at dan updated_at
+    public $timestamps = false;
+
+    // Kolom yang boleh diisi secara massal
     protected $fillable = [
         'id_barang',
         'nama_barang',
         'kategori',
-        'harga_barang', // HARGA BARU
-        'jumlah_barang' // JUMLAH BARU
+        'harga_barang',
+        'jumlah_barang'
     ];
 }

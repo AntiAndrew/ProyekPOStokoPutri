@@ -6,7 +6,7 @@
 <div class="form-page">
     <div class="form-container">
         
-        <form action="#" method="POST">
+        <form action="{{ route('barang.store') }}" method="POST">
             @csrf
             
             {{-- ID Barang --}}
@@ -34,7 +34,6 @@
             {{-- Harga Barang --}}
             <div class="form-group">
                 <label for="harga_barang">Harga Barang</label>
-                {{-- Di desain terlihat sebagai teks biasa, tapi ini harusnya input --}}
                 <input type="text" id="harga_barang" name="harga_barang" required>
             </div>
             
@@ -46,12 +45,7 @@
 
             {{-- Tombol Aksi --}}
             <div class="form-btn-bottom mt-10">
-                <a href="{{ route('barang.menu') }}" class="btn-cancel">
-                    Kembali
-                </a>
-                <button type="button" class="btn-cancel">
-                    Batal
-                </button>
+                <a href="{{ route('barang.menu') }}" class="btn-cancel">Kembali</a>
                 <button type="submit" class="bg-yellow-300 text-pastel-dark font-bold py-3 px-6 rounded-xl shadow-md hover:bg-yellow-400 transition duration-200">
                     Simpan
                 </button>
