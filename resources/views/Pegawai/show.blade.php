@@ -31,15 +31,15 @@
     <tbody>
     @forelse ($pegawai as $p)
         <tr>
-            <td>{{ $p->idPegawai }}</td>
-            <td>{{ $p->namaPegawai }}</td>
-            <td>{{ $p->jenisKelamin }}</td>
-            <td>{{ $p->umurPegawai }}</td>
+            <td>{{ $p->id_pegawai }}</td>
+            <td>{{ $p->nama_pegawai }}</td>
+            <td>{{ $p->jenis_kelamin }}</td>
+            <td>{{ $p->umur_Pegawai }}</td>
             <td>
-                <a href="{{ url('pegawai/'.$p->idPegawai.'/edit') }}">✏️ Edit</a> |
+                <a href="{{ url('pegawai/'.$p->id_pegawai.'/edit') }}">✏️ Edit</a> |
                 
                 {{-- Hapus dengan form supaya sesuai method DELETE Laravel --}}
-                <form action="{{ url('pegawai/'.$p->idPegawai) }}" method="POST" style="display:inline;">
+                <form action="{{ url('pegawai/'.$p->id_pegawai) }}" method="POST" style="display:inline;">
                     @csrf
                     @method('DELETE')
                     <button onclick="return confirm('Yakin hapus pegawai ini?')" style="cursor:pointer;">

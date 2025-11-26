@@ -9,21 +9,17 @@ class PegawaiModel extends Model
 {
     use HasFactory;
 
-    // Nama tabel
     protected $table = 'pegawai';
 
-    // Primary key tabel
-    protected $primaryKey = 'idPegawai';
+    protected $primaryKey = 'id_pegawai';
 
-    // Primary key berupa string, bukan auto increment
     public $incrementing = false;
     protected $keyType = 'string';
 
-    // Fields yang bisa diisi mass-assignment
     protected $fillable = [
-        'idPegawai',
-        'namaPegawai',
-        'jenisKelamin',
-        'umurPegawai'
+        'id_pegawai',
+        'nama_pegawai',
+        'jenis_kelamin',
+        'umur'
     ];
 }

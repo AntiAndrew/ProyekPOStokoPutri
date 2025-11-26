@@ -34,10 +34,10 @@
             <tbody>
             @foreach($pegawai as $p)
                 <tr>
-                    <td>{{ $p->idPegawai }}</td>
-                    <td>{{ $p->namaPegawai }}</td>
-                    <td>{{ $p->jenisKelamin }}</td>
-                    <td>{{ $p->umurPegawai }}</td>
+                    <td>{{ $p->id_pegawai }}</td>
+                    <td>{{ $p->nama_pegawai }}</td>
+                    <td>{{ $p->jenis_kelamin }}</td>
+                    <td>{{ $p->umur}}</td>
                 </tr>
             @endforeach
             </tbody>

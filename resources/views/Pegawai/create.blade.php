@@ -19,12 +19,12 @@
 
         <div class="mb-3">
             <label>ID Pegawai</label>
-            <input type="text" name="id" class="form-control" required value="{{ old('id') }}">
+            <input type="text" name="id_pegawai" class="form-control" required value="{{ old('id_pegawai') }}">
         </div>
 
         <div class="mb-3">
             <label>Nama Pegawai</label>
-            <input type="text" name="nama" class="form-control" required value="{{ old('nama') }}">
+            <input type="text" name="nama_pegawai" class="form-control" required value="{{ old('nama_pegawai') }}">
         </div>
 
         <div class="mb-3">
