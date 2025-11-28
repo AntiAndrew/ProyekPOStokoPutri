@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kelola Transaksi</title>
+    <title>Hapus Transaksi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -16,7 +16,7 @@
         .tooltip .tooltiptext {
             visibility: hidden;
             width: 140px;
-            background-color: #6b4f2f; /* coklat tua lembut */
+            background-color: #ebd9c5ff; /* coklat tua lembut */
             color: #fff;
             text-align: center;
             border-radius: 6px;
@@ -40,9 +40,9 @@
             theme: {
                 extend: {
                     colors: {
-                        'cream-dark': '#6b4f2f', /* coklat tua */
-                        'cream-light': '#fef3c7', /* krem lembut */
-                        'accent': '#fff7e6',      /* krem sangat muda */
+                        'cream-dark': '#a2b6a6ff', /* coklat tua */
+                        'cream-light': '#bddac3ff', /* krem lembut */
+                        'accent': '#fdfaebff',      /* krem sangat muda */
                     }
                 }
             }
@@ -63,7 +63,7 @@
                         <polyline points="9 22 9 12 15 12 15 22"/>
                     </svg>
                 </a>
-                <h1 class="text-2xl font-semibold">Kelola Transaksi</h1>
+                <h1 class="text-2xl font-semibold">Hapus Transaksi</h1>
             </div>
             <div class="w-8 h-8 rounded-full bg-cream-light flex items-center justify-center text-cream-dark text-sm font-bold">
                 {{ substr(auth()->user()->name ?? 'U', 0, 1) }}

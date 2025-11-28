@@ -5,7 +5,6 @@
 @section('content')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-{{-- CSS Anda yang sudah baik dan terstruktur --}}
 <style>
 body { background-color:#e6f7ff; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 .screen-area { width:100%; max-width:1100px; background-color:#f0fff0; padding:25px 40px; box-shadow:0 4px 20px rgba(0,0,0,0.1); margin:30px auto; border-radius:12px; }
@@ -28,40 +27,28 @@ body { background-color:#e6f7ff; font-family: 'Segoe UI', Tahoma, Geneva, Verdan
 }
 .btn { padding:5px 10px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; transition:background-color 0.3s, transform 0.1s; font-size:0.9rem; }
 .btn:active { transform:scale(0.98); }
-.btn-edit { background-color:#ff9800; color:white; }
-.btn-delete { background-color:#f44336; color:white; }
 .btn-view { background-color:#4caf50; color:white; }
 
-/* Menyesuaikan lebar kolom untuk tampilan desktop yang lebih baik */
-.detail-table th:nth-child(1) { width: 12%; } /* No. Ref */
-.detail-table th:nth-child(2) { width: 15%; } /* Tanggal */
-.detail-table th:nth-child(3) { width: 25%; } /* Pelanggan */
-.detail-table th:nth-child(4) { width: 15%; } /* Salesman */
-.detail-table th:nth-child(5) { width: 15%; } /* Total Bayar */
-.detail-table th:nth-child(6) { width: 18%; } /* Aksi */
+/* Lebar kolom */
+.detail-table th:nth-child(1) { width:12%; }
+.detail-table th:nth-child(2) { width:15%; }
+.detail-table th:nth-child(3) { width:25%; }
+.detail-table th:nth-child(4) { width:15%; }
+.detail-table th:nth-child(5) { width:15%; }
+.detail-table th:nth-child(6) { width:18%; }
 
 @media (max-width:800px) {
     .screen-area { padding:15px 20px; margin:10px; }
     .header-title { font-size:20px; }
     .detail-table th, .detail-table td { padding:8px 5px; font-size:12px; }
-    .action-buttons { justify-content:center; }
 }
 </style>
 
 <div class="screen-area">
 
-    {{-- HEADER AREA: Tombol Home, Judul, dan Akun --}}
-    <div class="header">
-        <div class="header-icons">
-            <a href="{{ url('/') }}" title="Home"><i class="fas fa-arrow-left"></i></a> 
-            {{-- Mengubah icon Home ke Panah Kiri (Back) agar sesuai konteks navigasi --}}
-            <a href="{{ url('/') }}" title="Home"><i class="fas fa-home"></i></a>
-        </div>
-        <div class="header-title">Daftar Transaksi Lengkap</div>
-        <a href="#" class="my-account" title="Akun Saya"><i class="fas fa-user-circle"></i></a>
-    </div>
-    
-    {{-- INFORMASI LIST TRANSAKSI --}}
+   
+
+    {{-- Tabel --}}
     <div class="table-responsive">
         <table class="detail-table">
             <thead>
@@ -74,48 +61,39 @@ body { background-color:#e6f7ff; font-family: 'Segoe UI', Tahoma, Geneva, Verdan
                     <th class="text-center">Aksi</th>
                 </tr>
             </thead>
+
             <tbody>
                 @forelse($transaksi as $trx)
                 <tr>
-                    {{-- No. Ref --}}
                     <td>{{ $trx->no_transaksi ?? $trx->no_ref ?? '-' }}</td>
-                    
-                    {{-- Tanggal --}}
+
                     <td>{{ \Carbon\Carbon::parse($trx->tanggal ?? now())->format('d F Y') }}</td>
-                    
-                    {{-- Pelanggan --}}
+
                     <td>{{ $trx->pelanggan ?? 'Umum' }}</td>
-                    
-                    {{-- Salesman --}}
+
                     <td>{{ $trx->user->name ?? 'N/A' }}</td>
-                    
-                    {{-- Total Bayar --}}
+
                     <td class="text-end">{{ number_format($trx->total ?? 0, 0, ',', '.') }}</td>
-                    
-                    {{-- Kolom Aksi --}}
+
+                    {{-- Kolom Aksi (HANYA VIEW) --}}
                     <td class="text-center">
                         <div class="action-buttons">
-                            {{-- Tombol Lihat (View) --}}
-                            <a href="{{ route('transaksi.show', $trx->id) }}" class="btn btn-view" title="Lihat Detail"><i class="fas fa-eye"></i></a>
-                            
-                            {{-- Tombol Edit --}}
-                            <a href="{{ route('transaksi.edit', $trx->id) }}" class="btn btn-edit" title="Edit Transaksi"><i class="fas fa-edit"></i></a>
-                            
-                            {{-- Form Hapus (Delete) --}}
-                            <form action="{{ route('transaksi.destroy', $trx->id) }}" method="POST" onsubmit="return confirm('Hapus transaksi {{ $trx->no_transaksi ?? $trx->no_ref ?? 'ini' }}?');" style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-delete" title="Hapus Transaksi"><i class="fas fa-trash-alt"></i></button>
-                            </form>
+                            <a href="{{ route('transaksi.show', $trx->id) }}"
+                               class="btn btn-view"
+                               title="Lihat Detail">
+                                <i class="fas fa-eye"></i>
+                            </a>
                         </div>
                     </td>
                 </tr>
+
                 @empty
                 <tr>
                     <td colspan="6" class="text-center">Belum ada transaksi</td>
                 </tr>
                 @endforelse
             </tbody>
+
         </table>
     </div>
 

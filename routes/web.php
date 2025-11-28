@@ -47,7 +47,7 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 // UBAH BARIS INI: Tambahkan nama 'register.post'
 Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
-
+Route::resource('pegawai', PegawaiController::class);
 /*
 |--------------------------------------------------------------------------
 | PROTECTED ROUTES (Hanya diakses setelah Login)
@@ -77,55 +77,36 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/cari', [BarangController::class, 'cari'])->name('cari');
         Route::get('/daftar', [BarangController::class, 'index'])->name('index');
 
-<<<<<<< HEAD
-    // 2. Rute Pencarian Barang Tambahan
-    Route::get('/barang/cari', [BarangController::class, 'cari'])->name('barang.cari');
-    /* ============================
-       PEGAWAI ROUTES (ADMIN ONLY!)
-       ============================ */
-    Route::middleware(['role:admin'])->group(function () {
-
-    // Menu pegawai
-    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.menu');
-    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.index');
-
-
-
-    // Resource pegawai (kecuali show)
-    Route::resource('pegawai', PegawaiController::class)->except(['show']);
-});
-// Sudah ada yang lain seperti CRUD, biarkan saja
-
-}); 
-=======
         
     });
     // ROUTE UNTUK TRANSAKSI
       // 🔹 ROUTE TRANSAKSI PENJUALAN
 Route::middleware(['auth'])->group(function () {
+
     Route::prefix('transaksi')->name('transaksi.')->group(function () {
+
         Route::get('/', [TransaksiController::class, 'menu'])->name('menu');
         Route::get('/daftar', [TransaksiController::class, 'index'])->name('index');
         Route::get('/create', [TransaksiController::class, 'create'])->name('create');
         Route::post('/store', [TransaksiController::class, 'store'])->name('store');
         Route::get('/manage', [TransaksiController::class, 'manage'])->name('manage');
-        Route::get('/{id}', [TransaksiController::class, 'show'])->name('show');
+
         Route::get('/edit/{id}', [TransaksiController::class, 'edit'])->name('edit');
         Route::put('/update/{id}', [TransaksiController::class, 'update'])->name('update');
-          Route::delete('/destroy/{id}', [TransaksiController::class, 'destroy'])->name('destroy');
+
+        // DELETE – INI YANG DIPAKAI
+        Route::delete('/{id}', [TransaksiController::class, 'destroy'])->name('destroy');
+
         Route::get('/cari', [TransaksiController::class, 'cari'])->name('cari');
-        Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
-        Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
-        Route::get('/transaksi/menu', [TransaksiController::class, 'menu'])->name('transaksi.menu');
-        // Di routes/web.php
-        Route::get('/home', [HomeController::class, 'index'])->name('home');
-        Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
-        
-        
 
-
+        // Show detail
+        Route::get('/{id}', [TransaksiController::class, 'show'])->name('show');
     });
+
 });
+
+
+
 
 // ROUTE UNTUK LAPORAN
 Route::middleware(['auth'])->group(function () {
@@ -137,4 +118,3 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 });
->>>>>>> ce39ef79466edf2991defd5a89d2fdc72c3c276f
