@@ -91,9 +91,22 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {
 
     // Menu pegawai
-    Route::get('/pegawai/menu', [PegawaiController::class, 'menu'])->name('pegawai.menu');
-    Route::get('/pegawai/menu', [PegawaiController::class, 'menu'])->name('pegawai.index');
+    Route::prefix('pegawai')->name('pegawai.')->group(function () {
 
+    Route::get('/', [PegawaiController::class, 'index'])->name('index');
+    Route::get('/create', [PegawaiController::class, 'create'])->name('create');
+    Route::post('/store', [PegawaiController::class, 'store'])->name('store');
+
+    Route::get('/manage', [PegawaiController::class, 'manage'])->name('manage');
+
+    Route::get('/{id}/edit', [PegawaiController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [PegawaiController::class, 'update'])->name('update');
+    Route::delete('/{id}', [PegawaiController::class, 'destroy'])->name('destroy');
+
+    // 🔥 ini yang hilang dan menyebabkan error
+    Route::get('/{id}', [PegawaiController::class, 'show'])->name('show');
+
+});
 
 
     // Resource pegawai (kecuali show)

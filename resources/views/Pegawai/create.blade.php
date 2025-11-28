@@ -40,6 +40,15 @@
             <label>Umur</label>
             <input type="number" name="umur" class="form-control" min="0" required value="{{ old('umur') }}">
         </div>
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control" required value="{{ old('email') }}">
+        </div>
+
+        <div class="mb-3">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
 
         <div class="mt-3">
             <button type="submit" class="btn btn-success">Simpan</button>

@@ -16,10 +16,14 @@ class PegawaiModel extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    public $timestamps = false;
+
     protected $fillable = [
-        'id_pegawai',
-        'nama_pegawai',
-        'jenis_kelamin',
-        'umur'
-    ];
+    'id_pegawai',
+    'nama_pegawai',
+    'jenis_kelamin',
+    'umur',
+    'email',
+    'password',
+];
 }
