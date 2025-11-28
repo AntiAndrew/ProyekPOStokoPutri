@@ -91,8 +91,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:admin'])->group(function () {
 
     // Menu pegawai
-    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.menu');
-    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.index');
+    Route::get('/pegawai/menu', [PegawaiController::class, 'menu'])->name('pegawai.menu');
+    Route::get('/pegawai/menu', [PegawaiController::class, 'menu'])->name('pegawai.index');
 
 
 
