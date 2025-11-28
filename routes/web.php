@@ -68,17 +68,45 @@ Route::middleware(['auth'])->group(function () {
     
     // ... Route Admin dan Pegawai lainnya
     
- /* --- FITUR KELOLA BARANG --- */
-    // Group route untuk Kelola Barang
+    /* --- FITUR KELOLA BARANG --- */
     Route::prefix('barang')->name('barang.')->group(function () {
-        Route::get('/', [BarangController::class, 'menu'])->name('menu');
-        Route::get('/input', [BarangController::class, 'create'])->name('create');
-        Route::get('/manage', [BarangController::class, 'manage'])->name('manage');
-        Route::get('/cari', [BarangController::class, 'cari'])->name('cari');
-        Route::get('/daftar', [BarangController::class, 'index'])->name('index');
+    Route::get('/', [BarangController::class, 'menu'])->name('menu');
+    Route::get('/input', [BarangController::class, 'create'])->name('create');
+    Route::post('/input', [BarangController::class, 'store'])->name('store');
+    Route::get('/manage', [BarangController::class, 'manage'])->name('manage');
+    Route::put('/update/{id}', [BarangController::class, 'update'])->name('update');
+    Route::delete('/delete/{id}', [BarangController::class, 'destroy'])->name('destroy');
+    Route::get('/daftar', [BarangController::class, 'index'])->name('index');
+    Route::get('/cari', [BarangController::class, 'cari'])->name('cari');
+    Route::get('/edit/{id}', [BarangController::class, 'edit'])->name('edit');
+    
+});
 
+<<<<<<< HEAD
         
     });
+=======
+    // 2. Rute Pencarian Barang Tambahan
+    Route::get('/barang/cari', [BarangController::class, 'cari'])->name('barang.cari');
+    /* ============================
+       PEGAWAI ROUTES (ADMIN ONLY!)
+       ============================ */
+    Route::middleware(['role:admin'])->group(function () {
+
+    // Menu pegawai
+    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.menu');
+    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.index');
+
+
+
+    // Resource pegawai (kecuali show)
+    Route::resource('pegawai', PegawaiController::class)->except(['show']);
+});
+// Sudah ada yang lain seperti CRUD, biarkan saja
+
+}); 
+
+>>>>>>> 5bb9e5af51260dcd38768d14ac21987d06927f68
     // ROUTE UNTUK TRANSAKSI
       // 🔹 ROUTE TRANSAKSI PENJUALAN
 Route::middleware(['auth'])->group(function () {
@@ -117,4 +145,8 @@ Route::middleware(['auth'])->group(function () {
     
     });
 });
+<<<<<<< HEAD
 });
+=======
+
+>>>>>>> 5bb9e5af51260dcd38768d14ac21987d06927f68

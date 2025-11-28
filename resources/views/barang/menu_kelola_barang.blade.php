@@ -78,13 +78,18 @@
 
     {{-- Logout Button --}}
     <div class="mt-12 w-full flex justify-start">
-        <a href="{{ route('logout') }}" class="bg-white/70 hover:bg-white text-pastel-dark font-bold py-3 px-8 rounded-xl shadow-lg transition duration-200">
-            Logout
+        <a href="#" 
+        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+        class="bg-white/70 hover:bg-white text-pastel-dark font-bold py-3 px-8 rounded-xl shadow-lg transition duration-200">
+        Logout
         </a>
-    </div>
-    
-</div> {{-- End max-w-4xl --}}
 
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            @csrf
+        </form>
+    </div>
+
+</div> {{-- End max-w-4xl --}}
 
 </div>
 @endsection
