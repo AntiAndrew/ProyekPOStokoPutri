@@ -80,7 +80,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/daftar', [BarangController::class, 'index'])->name('index');
     Route::get('/cari', [BarangController::class, 'cari'])->name('cari');
     Route::get('/edit/{id}', [BarangController::class, 'edit'])->name('edit');
-    
+    Route::get('/hapus', [BarangController::class, 'hapus'])->name('hapus');
+
 });
 
     // 2. Rute Pencarian Barang Tambahan

@@ -24,11 +24,7 @@
             {{-- Kategori --}}
             <div class="form-group">
                 <label for="kategori">Kategori</label>
-                <select id="kategori" name="kategori" required>
-                    <option value="makanan" selected>Makanan</option>
-                    <option value="minuman">Minuman</option>
-                    <option value="alat_rumah_tangga">Alat rumah tangga</option>
-                </select>
+                <input type="text" id="kategori" name="kategori" required> 
             </div>
             
             {{-- Harga Barang --}}
@@ -44,9 +40,9 @@
             </div>
 
             {{-- Tombol Aksi --}}
-            <div class="form-btn-bottom mt-10">
+            <div class="form-btn-bottom mt-8">
                 <a href="{{ route('barang.menu') }}" class="btn-cancel">Kembali</a>
-                <button type="submit" class="bg-yellow-300 text-pastel-dark font-bold py-3 px-6 rounded-xl shadow-md hover:bg-yellow-400 transition duration-200">
+                <button type="submit" class="bg-yellow-200 text-pastel-dark font-bold py-3 px-6 rounded-xl shadow-md hover:bg-yellow-400 transition duration-300">
                     Simpan
                 </button>
             </div>

@@ -153,7 +153,7 @@
             transition: background-color 0.3s, transform 0.2s;
         }
         .btn-save { background-color: #10B981; color: white; }
-        .btn-cancel { background-color: #FBBF24; color: #383E56; }
+        .btn-cancel { background-color: #edcb77ff; color: #0d132aff; }
         .btn-reset { background-color: #EF4444; color: white; }
         .btn-save:hover, .btn-cancel:hover, .btn-reset:hover { transform: translateY(-1px); }
     </style>

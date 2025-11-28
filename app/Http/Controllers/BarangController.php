@@ -39,13 +39,6 @@ class BarangController extends Controller
             ->with('success', 'Data barang berhasil disimpan!');
     }
 
-    public function manage(Request $request)
-    {
-        $data_barang = Barang::all();
-        $mode = $request->query('mode', 'edit');
-        return view('barang.manage', compact('data_barang', 'mode'));
-    }
-
     public function update(Request $request, $id)
     {
         $barang = Barang::where('id_barang', $id)->first();
@@ -74,12 +67,36 @@ class BarangController extends Controller
     }
 
     public function cari(Request $request)
-    {
-        $kategori = ['Terbaru', 'Terlaris', 'Sembako', 'Perlengkapan Kos', 'Aksesoris', 'Kecantikan'];
-        $hasil_pencarian = [];
+{
+    $q = $request->q;              // keyword: id/nama
+    $kategori = $request->kategori; // filter kategori
 
-        return view('barang.cari', compact('kategori', 'hasil_pencarian'));
+    $query = Barang::query();
+
+    // Jika keyword dicari
+    if ($q) {
+        $query->where(function($x) use ($q) {
+            $x->where('id_barang', 'LIKE', "%$q%")
+              ->orWhere('nama_barang', 'LIKE', "%$q%");
+        });
     }
+
+    // Jika filter kategori dipilih
+    if ($kategori) {
+        $query->where('kategori', $kategori);
+    }
+
+    // Ambil hasil
+    $hasil_pencarian = $query->get();
+
+    // List kategori untuk dropdown
+    $kategori_list = Barang::select('kategori')->distinct()->pluck('kategori');
+
+    return view('barang.cari', [
+        'hasil_pencarian' => $hasil_pencarian,
+        'kategori'        => $kategori_list
+    ]);
+}
 
     public function edit($id)
     {   
@@ -89,6 +106,17 @@ class BarangController extends Controller
         return redirect()->back()->with('error', 'Barang tidak ditemukan!');
     }
 
-    return view('barang.edit', compact('barang'));
+    return view('barang.edit_form', compact('barang'));
 }
+
+public function manage() {
+    $data_barang = Barang::all();
+    return view('barang.manage', compact('data_barang'));
+}
+
+public function hapus() {
+    $data_barang = Barang::all();
+    return view('barang.hapus', compact('data_barang'));
+}
+
 }
