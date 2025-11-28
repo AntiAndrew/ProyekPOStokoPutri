@@ -4,6 +4,19 @@
 
 @section('content')
 <div class="container mx-auto p-6 max-w-lg bg-white shadow rounded">
+    
+     {{-- NOTIFIKASI --}}
+    @if(session('success'))
+    <div class="alert-success fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-4 py-2 bg-green-800 text-white rounded shadow">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert-error fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-4 py-2 bg-red-500 text-white rounded shadow">
+        {{ session('error') }}
+    </div>
+    @endif
 
     <form action="{{ route('barang.update', $barang->id_barang) }}" method="POST">
         @csrf

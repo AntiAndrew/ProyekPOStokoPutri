@@ -10,6 +10,7 @@
     
     {{-- Header Menu Samping (Kelola Barang) dan Search Bar --}}
     <div class="flex items-start mb-10">
+
         {{-- Menu Title Box --}}
         <div class="bg-pastel-accent/70 text-pastel-dark font-bold text-xl py-3 px-6 rounded-l-xl shadow-md border-l-4 border-pastel-dark/30">
             Kelola Barang
@@ -24,9 +25,14 @@
         </a> --}}
     </div>
 
-    
-    {{-- Container Kotak Menu --}}
-    <div class="flex-grow grid grid-cols-2 lg:grid-cols-3 gap-6">
+    {{-- Container Menu --}}
+    <div class="flex flex-col md:flex-row items-start space-x-0 md:space-x-8">
+
+     {{-- Garis Pemisah Vertikal --}}
+        <div class="hidden md:block w-0.5 bg-pastel-dark/30 h-80 mr-8"></div>
+        
+        {{-- Kotak Menu --}}
+        <div class="flex-grow grid grid-cols-2 lg:grid-cols-3 gap-6">
 
         {{-- KOTAK 1: Input Barang --}}
         <a href="{{ route('barang.create') }}"

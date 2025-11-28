@@ -37,13 +37,14 @@
                     <td class="border px-2 py-1">Rp {{ number_format($item->harga_barang,0,',','.') }}</td>
                     <td class="border px-2 py-1">{{ $item->jumlah_barang }}</td>
 
-                    <td class="border px-2 py-1">
-                        <a href="{{ route('barang.edit', $item->id_barang) }}"
-                        class="bg-blue-400 hover:bg-blue-500 text-white px-3 py-1 rounded text-sm">
-                            Edit
-                        </a>
-                    </td>
-
+                    <td class="border px-2 py-1 text-center">
+                    <a href="{{ route('barang.edit', $item->id_barang) }}" class="text-yellow-600 hover:text-yellow-700">
+                        <!-- Heroicon edit -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.414 2.586a2 2 0 010 2.828l-9.192 9.192a1 1 0 01-.464.263l-4 1a1 1 0 01-1.213-1.213l1-4a1 1 0 01.263-.464l9.192-9.192a2 2 0 012.828 0z" />
+                        </svg>
+                    </a>
+                </td>
                 </tr>
                 @endforeach
             </tbody>
