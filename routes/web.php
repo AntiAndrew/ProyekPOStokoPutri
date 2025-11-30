@@ -85,6 +85,12 @@ Route::middleware(['auth'])->group(function () {
 
     // 2. Rute Pencarian Barang Tambahan
     Route::get('/barang/cari', [BarangController::class, 'cari'])->name('barang.cari');
+
+    // ROUTE UNTUK LAPORAN PENJUALAN (ADMIN DAN PEGAWAI)
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/penjualan', [LaporanController::class, 'index'])->name('penjualan');
+    });
+
     /* ============================
        PEGAWAI ROUTES (ADMIN ONLY!)
        ============================ */
@@ -98,6 +104,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Resource pegawai (kecuali show)
     Route::resource('pegawai', PegawaiController::class)->except(['show']);
+
+    // ROUTE UNTUK LAPORAN TRANSAKSI (ADMIN ONLY)
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/', [LaporanController::class, 'index'])->name('index');
+        Route::get('/transaksi', [LaporanController::class, 'transaksi'])->name('transaksi');
+    });
 });
 // Sudah ada yang lain seperti CRUD, biarkan saja
 
@@ -121,20 +133,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
         Route::get('/transaksi/menu', [TransaksiController::class, 'menu'])->name('transaksi.menu');
         // Di routes/web.php
-        Route::get('/home', [HomeController::class, 'index'])->name('home');
         Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
 
 
-    });
-});
-
-// ROUTE UNTUK LAPORAN
-Route::middleware(['auth'])->group(function () {
-    Route::prefix('laporan')->name('laporan.')->group(function () {
-        Route::get('/', [LaporanController::class, 'index'])->name('index');
-        Route::get('/penjualan', [LaporanController::class, 'index'])->name('penjualan');
-        Route::get('/transaksi', [LaporanController::class, 'transaksi'])->name('transaksi');
-    
     });
 });
 
