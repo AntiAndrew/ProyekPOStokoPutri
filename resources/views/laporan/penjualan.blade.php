@@ -8,23 +8,13 @@
         <!-- Filter rentang waktu -->
         <form method="GET" action="{{ route('laporan.penjualan') }}" class="mb-6">
             <h4 class="text-lg font-semibold text-pastel-dark mb-4">Rentang Waktu</h4>
-            <div class="flex flex-wrap gap-4 mb-4">
-                <label class="flex items-center">
-                    <input type="radio" name="rentang" value="hari_ini" {{ $filter == 'hari_ini' ? 'checked' : '' }} class="mr-2 text-pastel-green">
-                    <span>Hari Ini</span>
-                </label>
-                <label class="flex items-center">
-                    <input type="radio" name="rentang" value="7_hari" {{ $filter == '7_hari' ? 'checked' : '' }} class="mr-2 text-pastel-green">
-                    <span>7 Hari Terakhir</span>
-                </label>
-                <label class="flex items-center">
-                    <input type="radio" name="rentang" value="bulan" {{ $filter == 'bulan' ? 'checked' : '' }} class="mr-2 text-pastel-green">
-                    <span>Pilih Bulan</span>
-                </label>
-                <label class="flex items-center">
-                    <input type="radio" name="rentang" value="tanggal" {{ $filter == 'tanggal' ? 'checked' : '' }} class="mr-2 text-pastel-green">
-                    <span>Pilih Tanggal</span>
-                </label>
+            <div class="mb-4">
+                <select name="rentang" class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pastel-green">
+                    <option value="hari_ini" {{ $filter == 'hari_ini' ? 'selected' : '' }}>Hari Ini</option>
+                    <option value="7_hari" {{ $filter == '7_hari' ? 'selected' : '' }}>7 Hari Terakhir</option>
+                    <option value="bulan" {{ $filter == 'bulan' ? 'selected' : '' }}>Pilih Bulan</option>
+                    <option value="tanggal" {{ $filter == 'tanggal' ? 'selected' : '' }}>Pilih Tanggal</option>
+                </select>
             </div>
             <button type="submit" class="bg-pastel-green hover:bg-pastel-green/80 text-white font-bold py-2 px-4 rounded transition duration-150">
                 Filter
