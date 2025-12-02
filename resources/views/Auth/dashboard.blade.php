@@ -31,7 +31,7 @@
         </h2>
 
         {{-- Logika Pembeda Konten Berdasarkan Role --}}
-        @if (Auth::user()->role === 'admin')
+         (Auth::user()->role === 'admin')
             <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-lg shadow-md">
                 <h3 class="text-xl font-bold mb-2">Akses Administrator</h3>
                 <p>Anda memiliki akses penuh untuk mengelola User dan semua Laporan.</p>
@@ -43,7 +43,7 @@
                 <a href="/admin/laporan" class="card bg-pink-500 text-white p-6 rounded-lg text-center shadow-lg">Laporan Total</a>
                 
             </div>
-        @elseif (Auth::user()->role === 'pegawai')
+         (Auth::user()->role === 'pegawai')
             <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-lg shadow-md">
                 <h3 class="text-xl font-bold mb-2">Akses Pegawai</h3>
                 <p>Silakan lakukan transaksi dan kelola barang yang diizinkan.</p>
@@ -67,9 +67,9 @@
                     Profil Saya
                 </a>
             </div>
-        @else
+        
             <div class="bg-red-100 p-4 rounded-lg">Role pengguna tidak terdeteksi.</div>
-        @endif
+        
     </main>
 </body>
 </html>
