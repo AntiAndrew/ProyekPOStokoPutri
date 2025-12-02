@@ -10,19 +10,11 @@
     
     {{-- Header Menu Samping (Kelola Barang) dan Search Bar --}}
     <div class="flex items-start mb-10">
+
         {{-- Menu Title Box --}}
         <div class="bg-pastel-accent/70 text-pastel-dark font-bold text-xl py-3 px-6 rounded-l-xl shadow-md border-l-4 border-pastel-dark/30">
             Kelola Barang
         </div>
-        
-        {{-- Search Bar --}}
-        <form action="{{ route('barang.cari') }}" method="GET" class="flex-grow ml-4">
-        <div class="relative">
-            <input type="text" name="q" placeholder="Cari barang..."
-                class="w-full py-3 pl-12 pr-4 text-lg border-2 rounded-full">
-            <span class="absolute left-3 top-1/2 -translate-y-1/2">🔍</span>
-        </div>
-    </form>
 
         {{-- Hapus icon My Account --}}
         {{-- <a href="#" class="ml-4 bg-blue-700 text-white font-bold p-3 rounded-full shadow-lg transition duration-150 flex items-center justify-center">
@@ -33,63 +25,88 @@
         </a> --}}
     </div>
 
-    
-    {{-- Container Kotak Menu --}}
+    {{-- Container Menu --}}
     <div class="flex flex-col md:flex-row items-start space-x-0 md:space-x-8">
-        
-        {{-- Garis Pemisah (Vertical Line) --}}
+
+     {{-- Garis Pemisah Vertikal --}}
         <div class="hidden md:block w-0.5 bg-pastel-dark/30 h-80 mr-8"></div>
-
-        {{-- Kotak-Kotak Menu Utama --}}
+        
+        {{-- Kotak Menu --}}
         <div class="flex-grow grid grid-cols-2 lg:grid-cols-3 gap-6">
-           
-            {{-- KOTAK 1: Input Barang --}}
-            <a href="{{ route('barang.create') }}" class="menu-card bg-pastel-accent/90 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 text-center border-b-4 border-pastel-dark/50">
-                <img src="{{ asset('images/input barang.png') }}" class="mx-auto mb-3 w-20 h-20" alt="Input Icon" class="mx-auto mb-3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/FFD384/383E56?text=💻'">
-                <span class="font-semibold text-lg text-pastel-dark">Input Barang</span>
-            </a>
 
-            {{-- KOTAK 2: Edit Barang --}}
-            <a href="{{ route('barang.manage') }}" class="menu-card bg-pastel-accent/90 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 text-center border-b-4 border-pastel-dark/50">
-                <img src="{{ asset('images/edit barang.png') }}" class="mx-auto mb-3 w-20 h-20" alt="Edit Icon" class="mx-auto mb-3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/FFD384/383E56?text=🖥️'">
-                <span class="font-semibold text-lg text-pastel-dark">Edit Barang</span>
-            </a>
+        {{-- KOTAK 1: Input Barang --}}
+        <a href="{{ route('barang.create') }}"
+            class="menu-card bg-pastel-accent/90 p-6 rounded-xl shadow-xl hover:shadow-2xl
+                transition duration-300 transform hover:-translate-y-1 text-center border-b-4 border-pastel-dark/50">
+            
+            {{-- Ikon SVG --}}
+            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-3 w-16 h-16 text-pastel-dark" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 7l9-4 9 4-9 4-9-4zm0 7l9 4 9-4M3 7v7m18-7v7" />
+            </svg>
 
-            {{-- KOTAK 3: Hapus Barang --}}
-            <a href="{{ route('barang.manage') }}" class="menu-card bg-pastel-accent/90 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 text-center border-b-4 border-pastel-dark/50">
-                <img src="{{ asset('images/hapus barang.png') }}" class="mx-auto mb-3 w-20 h-20" alt="Hapus Icon" class="mx-auto mb-3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/FFD384/EF4444?text=❌'">
-                <span class="font-semibold text-lg text-pastel-dark">Hapus Barang</span>
-            </a>
+            <span class="font-semibold text-lg text-pastel-dark">Input Barang</span>
+        </a>
 
-            {{-- KOTAK 4: Cari Barang --}}
-            <a href="{{ route('barang.cari') }}" class="menu-card bg-pastel-accent/90 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 text-center border-b-4 border-pastel-dark/50">
-                <img src="{{ asset('images/cari barang.png') }}" class="mx-auto mb-3 w-20 h-20" alt="Cari Icon" class="mx-auto mb-3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/FFD384/383E56?text=🔎'">
-                <span class="font-semibold text-lg text-pastel-dark">Cari Barang</span>
-            </a>
+        {{-- KOTAK 2: Edit Barang --}}
+        <a href="{{ route('barang.manage') }}"
+            class="menu-card bg-pastel-accent/90 p-6 rounded-xl shadow-xl hover:shadow-2xl
+                transition duration-300 transform hover:-translate-y-1 text-center border-b-4 border-pastel-dark/50">
 
-            {{-- KOTAK 5: Lihat Daftar Barang --}}
-            <a href="{{ route('barang.index') }}" class="menu-card bg-pastel-accent/90 p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 text-center border-b-4 border-pastel-dark/50">
-                <img src="{{ asset('images/lihat daftar barang.png') }}" class="mx-auto mb-3 w-20 h-20" alt="Lihat Icon" class="mx-auto mb-3" onerror="this.onerror=null;this.src='https://placehold.co/100x100/FFD384/383E56?text=📋'">
-                <span class="font-semibold text-lg text-pastel-dark">Lihat Daftar Barang</span>
-            </a>
+            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-3 w-16 h-16 text-pastel-dark" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5M18.5 2.5a2.121 2.121 0 113 3l-8 8-4 1 1-4 8-8z" />
+            </svg>
+
+            <span class="font-semibold text-lg text-pastel-dark">Edit Barang</span>
+        </a>
+
+        {{-- KOTAK 3: Hapus Barang --}}
+        <a href="{{ route('barang.hapus') }}"
+            class="menu-card bg-pastel-accent/90 p-6 rounded-xl shadow-xl hover:shadow-2xl
+                transition duration-300 transform hover:-translate-y-1 text-center border-b-4 border-pastel-dark/50">
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-3 w-16 h-16 text-pastel-dark"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7h6m1-3H8l-1 1H5v2h14V5h-2l-1-1z" />
+            </svg>
+
+            <span class="font-semibold text-lg text-pastel-dark">Hapus Barang</span>
+        </a>
+
+        {{-- KOTAK 4: Cari Barang --}}
+        <a href="{{ route('barang.cari') }}"
+            class="menu-card bg-pastel-accent/90 p-6 rounded-xl shadow-xl hover:shadow-2xl
+                transition duration-300 transform hover:-translate-y-1 text-center border-b-4 border-pastel-dark/50">
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-3 w-16 h-16 text-pastel-dark"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 21l-4.35-4.35M5 11a6 6 0 1112 0 6 6 0 01-12 0z" />
+            </svg>
+
+            <span class="font-semibold text-lg text-pastel-dark">Cari Barang</span>
+        </a>
+
+        {{-- KOTAK 5: Lihat Daftar Barang --}}
+        <a href="{{ route('barang.index') }}"
+            class="menu-card bg-pastel-accent/90 p-6 rounded-xl shadow-xl hover:shadow-2xl
+                transition duration-300 transform hover:-translate-y-1 text-center border-b-4 border-pastel-dark/50">
+
+            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-3 w-16 h-16 text-pastel-dark"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M4 6h16M4 12h16M4 18h7" />
+            </svg>
+
+            <span class="font-semibold text-lg text-pastel-dark">Lihat Daftar Barang</span>
+        </a>
 
         </div> {{-- End Kotak Menu Utama --}}
     </div> {{-- End flex row --}}
-
-    {{-- Logout Button --}}
-    <div class="mt-12 w-full flex justify-start">
-        <a href="#" 
-        onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-        class="bg-white/70 hover:bg-white text-pastel-dark font-bold py-3 px-8 rounded-xl shadow-lg transition duration-200">
-        Logout
-        </a>
-
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-    </div>
-
-</div> {{-- End max-w-4xl --}}
 
 </div>
 @endsection

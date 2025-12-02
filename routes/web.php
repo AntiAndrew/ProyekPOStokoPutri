@@ -79,11 +79,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/daftar', [BarangController::class, 'index'])->name('index');
     Route::get('/cari', [BarangController::class, 'cari'])->name('cari');
     Route::get('/edit/{id}', [BarangController::class, 'edit'])->name('edit');
-    
+    Route::get('/hapus', [BarangController::class, 'hapus'])->name('hapus');
+
 });
 
     // 2. Rute Pencarian Barang Tambahan
     Route::get('/barang/cari', [BarangController::class, 'cari'])->name('barang.cari');
+
+    // ROUTE UNTUK LAPORAN PENJUALAN (ADMIN DAN PEGAWAI)
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/penjualan', [LaporanController::class, 'index'])->name('penjualan');
+    });
+
     /* ============================
        PEGAWAI ROUTES (ADMIN ONLY!)
        ============================ */
@@ -97,6 +104,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Resource pegawai (kecuali show)
     Route::resource('pegawai', PegawaiController::class)->except(['show']);
+
+    // ROUTE UNTUK LAPORAN TRANSAKSI (ADMIN ONLY)
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/', [LaporanController::class, 'index'])->name('index');
+        Route::get('/transaksi', [LaporanController::class, 'transaksi'])->name('transaksi');
+    });
 });
 // Sudah ada yang lain seperti CRUD, biarkan saja
 
@@ -122,7 +135,15 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/update/{id}', [TransaksiController::class, 'update'])->name('update');
         Route::delete('/destroy/{id}', [TransaksiController::class, 'destroy'])->name('destroy');
         Route::get('/cari', [TransaksiController::class, 'cari'])->name('cari');
+
         // Hapus definisi rute yang duplikat atau tidak diperlukan di sini (seperti /transaksi/{id}, dll.)
+        Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+        Route::get('/transaksi/create', [TransaksiController::class, 'create'])->name('transaksi.create');
+        Route::get('/transaksi/menu', [TransaksiController::class, 'menu'])->name('transaksi.menu');
+        // Di routes/web.php
+        Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
+
+
     });
     
     // Rute resource harus di luar grup prefix 'transaksi' jika Anda ingin URL-nya menjadi /transaksi

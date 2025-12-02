@@ -1,55 +1,90 @@
-@extends('layouts.app') 
+@extends('layouts.app')
 
 @section('title', 'Cari Barang')
 
 @section('content')
-<div class="form-page">
-    <div class="form-container">
-        
-        {{-- Area Input Pencarian --}}
-        <div class="search-area bg-blue-300/50 rounded-lg p-6 mb-8 shadow-md">
-            <h2 class="text-2xl font-semibold text-pastel-dark mb-4 border-b pb-2">
-                <svg class="w-6 h-6 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                Cari Barang</h2>
-            <div class="relative">
-                <input type="text" placeholder="Masukkan Kode/Nama Barang: A.01" 
-                       class="w-full py-3 px-4 text-lg border-2 border-blue-400 rounded-lg shadow-inner focus:outline-none focus:border-blue-600 transition duration-200 bg-white/80" 
-                       value="A.01"
-                       id="search_query">
+<div class="container mx-auto py-8">
+
+    {{-- CARD FORM --}}
+    <div class="bg-blue-50 rounded-2xl p-6 shadow-md border border-blue-100 mb-8">
+
+        <form action="{{ route('barang.cari') }}" method="GET"
+            class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            {{-- INPUT KEYWORD --}}
+            <div>
+                <label class="text-sm font-medium text-gray-700">Kode / Nama Barang</label>
+                <input type="text"
+                       name="q"
+                       value="{{ request('q') }}"
+                       placeholder="Input ID Atau Nama Barang"
+                       class="mt-1 w-full px-4 py-2.5 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-300">
             </div>
-            <button type="button" class="hidden">Cari</button> {{-- Tombol submit tersembunyi, karena desain mengandalkan enter/auto-search --}}
-        </div>
 
-        {{-- Kategori Filter --}}
-        <div class="flex flex-wrap gap-2 mb-8">
-            @foreach ($kategori as $kat)
-                <span class="category-chip {{ $kat === 'Perlengkapan Kos' ? 'category-active' : '' }}">
-                    {{ $kat }}
-                </span>
-            @endforeach
-        </div>
+            {{-- FILTER KATEGORI --}}
+            <div>
+                <label class="text-sm font-medium text-gray-700">Kategori</label>
+                <select name="Kategori"
+                        class="mt-1 w-full px-4 py-2.5 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-300">
+                    <option value="">Semua Kategori</option>
+                    @foreach ($kategori as $kat)
+                        <option value="{{ $kat }}" {{ request('kategori') == $kat ? 'selected' : '' }}>
+                            {{ ucfirst($kat) }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-        {{-- Hasil Pencarian --}}
-        <h3 class="text-2xl font-semibold text-pastel-dark mb-4 border-b pb-2">
-            <svg class="w-6 h-6 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-            Hasil Pencarian
-        </h3>
-        
-        @if (count($hasil_pencarian) > 0)
-            <div class="search-results space-y-4">
-                @foreach ($hasil_pencarian as $result)
-                <div class="result-box bg-white/80 p-4 rounded-lg shadow-md border-l-4 border-pastel-green hover:shadow-lg transition duration-200">
-                    <span class="font-bold text-lg text-pastel-dark">{{ $result->id }}:</span> 
-                    <span class="text-lg text-gray-700">{{ $result->nama }}</span>
+            {{-- BUTTON --}}
+            <div class="flex gap-3 items-end">
+                <button type="submit"
+                        class="bg-blue-400 hover:bg-blue-300 text-white w-full px-6 py-2.5 rounded-xl shadow">
+                    Cari
+                </button>
+
+                <div class="form-btn-bottom mt-10">
+                    <a href="{{ route('barang.menu') }}" class="btn-cancel">Kembali</a>
                 </div>
-                @endforeach
-            </div>
-        @else
-            <div class="p-4 text-center text-pastel-dark/70 bg-pastel-accent/30 rounded-lg">
-                <p>Tidak ditemukan hasil untuk pencarian Anda.</p>
-            </div>
-        @endif
-
+        </form>
     </div>
+
+           {{-- Tampilkan tabel hanya jika ada input pencarian --}}
+           @if(request('q') || request('kategori'))
+           <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100 mt-6">
+            
+           <table class="w-full text-sm border-collapse">
+            <thead class="bg-blue-400 text-white text-center">
+            <tr>
+                <th class="px-4 py-3">Kode / ID</th>
+                <th class="px-4 py-3">Nama Barang</th>
+                <th class="px-4 py-3">Kategori</th>
+                <th class="px-4 py-3">Jumlah</th>
+                <th class="px-4 py-3">Harga</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @forelse ($hasil_pencarian as $item)
+            <tr class="text-center border-t hover:bg-blue-50 transition">
+                <td class="px-4 py-3">{{ $item->id_barang }}</td>
+                <td class="px-4 py-3 font-semibold">{{ $item->nama_barang }}</td>
+                <td class="px-4 py-3">{{ ucfirst($item->kategori) }}</td>
+                <td class="px-4 py-3">{{ $item->jumlah_barang }}</td>
+                <td class="px-4 py-3">
+                    Rp {{ number_format($item->harga_barang, 0, ',', '.') }}
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td colspan="5" class="py-8 text-gray-500 text-center italic">
+                    Barang tidak ditemukan.
+                </td>
+            </tr>
+            @endforelse
+        </tbody>
+
+    </table>
+
 </div>
+@endif
 @endsection

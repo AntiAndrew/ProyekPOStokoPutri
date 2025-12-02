@@ -3,51 +3,59 @@
 @section('title', 'Edit Barang')
 
 @section('content')
-<div class="container mx-auto p-6">
+<div class="table-container">
+    @if(session('success'))
+    <div class="alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+    @if(session('error'))
+    <div class="alert-error">
+        {{ session('error') }}
+    </div>
+    @endif
+                <table class="data-table">
 
-    @foreach ($data_barang as $item)
-    <form action="{{ route('barang.update', $item->id_barang) }}" method="POST" class="row-form mb-3">
-        @csrf
-        @method('PUT')
+                <thead>
+                <tr>
+                    <th class="border px-4 py-2">ID</th>
+                    <th class="border px-4 py-2">Nama</th>
+                    <th class="border px-4 py-2">Kategori</th>
+                    <th class="border px-4 py-2">Harga</th>
+                    <th class="border px-4 py-2">Jumlah</th>
+                    <th class="border px-4 py-2">Aksi</th>
+                </tr>
+            </thead>
 
-        <div class="grid grid-cols-7 gap-4 items-center">
+            <tbody>
+                @foreach($data_barang as $item)
+                <tr class="text-center hover:bg-gray-100">
 
-            <label for="nama_barang">Nama Barang</label>
-            <input type="text" id="nama_barang" name="nama_barang" value="{{ $item->nama_barang }}" class="input-inline">
+                    <td class="border px-2 py-1">{{ $item->id_barang }}</td>
+                    <td class="border px-2 py-1">{{ $item->nama_barang }}</td>
+                    <td class="border px-2 py-1">{{ $item->kategori }}</td>
+                    <td class="border px-2 py-1">Rp {{ number_format($item->harga_barang,0,',','.') }}</td>
+                    <td class="border px-2 py-1">{{ $item->jumlah_barang }}</td>
 
-            <label for="kategori">Kategori</label>
-            <input type="text" id="kategori" name="kategori" value="{{ $item->kategori }}" class="input-inline">
+                    <td class="border px-2 py-1 text-center">
+                    <a href="{{ route('barang.edit', $item->id_barang) }}" class="text-yellow-600 hover:text-yellow-700">
+                        <!-- Heroicon edit -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.414 2.586a2 2 0 010 2.828l-9.192 9.192a1 1 0 01-.464.263l-4 1a1 1 0 01-1.213-1.213l1-4a1 1 0 01.263-.464l9.192-9.192a2 2 0 012.828 0z" />
+                        </svg>
+                    </a>
+                </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
-            <label for="harga_barang">Harga Barang</label>
-            <input type="number" id="harga_barang" name="harga_barang" value="{{ $item->harga_barang }}" class="input-inline">
-
-            <label for="jumlah_barang">Jumlah Barang</label>
-            <input type="number" id="jumlah_barang" name="jumlah_barang" value="{{ $item->jumlah_barang }}" class="input-inline">
-
-            <div class="col-span-1 text-center">
-                <button type="button"
-                    class="btn-edit text-blue-500 hover:text-blue-700"
-                    onclick="editRow(this)">✏️</button>
-
-                <button type="submit"
-                    class="btn-save text-green-600 font-bold hidden">✔️</button>
+   {{-- Tombol Aksi --}}
+            <div class="form-btn-bottom mt-10">
+                <a href="{{ route('barang.menu') }}" class="btn-cancel">Kembali</a>
             </div>
-
-        </div>
-    </form>
-    @endforeach
+        </form>
+    </div>
 </div>
-
-<script>
-function editRow(btn) {
-    let row = btn.closest(".row-form");
-    let inputs = row.querySelectorAll("input");
-
-    inputs.forEach(i => i.disabled = false);
-
-    row.querySelector(".btn-edit").classList.add("hidden");
-    row.querySelector(".btn-save").classList.remove("hidden");
-}
-</script>
-
 @endsection

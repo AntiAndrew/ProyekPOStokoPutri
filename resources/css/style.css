@@ -247,3 +247,22 @@ footer {
 .mt-4 {
     margin-top: 30px;
 }
+
+/* Tombol Hapus */
+.btn-delete {
+    background-color: #e53935;
+}
+.btn-delete:hover {
+    background-color: #b71c1c;
+}
+
+/* Heading table */
+h2 {
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+
+/* Biar tombol kecil rapi */
+td form {
+    margin: 0;
+}

@@ -29,4 +29,11 @@
         </tbody>
     </table>
 </div>
+ {{-- Tombol Aksi --}}
+            <div class="form-btn-bottom mt-10">
+                <a href="{{ route('barang.menu') }}" class="btn-cancel">Kembali</a>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection
