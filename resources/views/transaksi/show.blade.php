@@ -36,43 +36,11 @@ body {
     margin: 40px auto;
     border-radius: 12px;
 }
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #b3e0b3;
-    padding-bottom: 15px;
-    margin-bottom: 25px;
-}
-.header-title {
-    font-size: 26px;
-    font-weight: 700;
-    color: #2e8b57;
-    text-align: center;
-    flex-grow: 1;
-}
-.header-icons a {
-    font-size: 20px;
-    color: #555;
-    margin-right: 10px;
-    text-decoration: none;
-    border: 1px solid #ccc;
-    padding: 8px 10px;
-    border-radius: 6px;
-    transition: all 0.2s;
-}
-.header-icons a:hover {
-    background-color: #d4edda;
-    color: #2e8b57;
-}
-.my-account i {
-    color: #2e8b57;
-    font-size: 2rem;
-}
 
 /* Detail Transaksi */
 .detail-header-info {
-    margin-top: 15px;
+    /* Margin atas disesuaikan karena header utama dihapus */
+    margin-top: 5px; 
     margin-bottom: 30px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -187,16 +155,6 @@ body {
     @if (session('error'))
         <div class="alert alert-danger mb-3">{{ session('error') }}</div>
     @endif
-
-    {{-- Header --}}
-    <div class="header">
-        <div class="header-icons">
-            <a href="{{ route('transaksi.index') }}" title="Kembali"><i class="fas fa-arrow-left"></i></a>
-            <a href="{{ url('/') }}" title="Home"><i class="fas fa-home"></i></a>
-        </div>
-        <div class="header-title">Detail Transaksi</div>
-        <a href="#" class="my-account"><i class="fas fa-user-circle"></i></a>
-    </div>
 
     {{-- Info Transaksi --}}
     <div class="detail-header-info">

@@ -31,7 +31,7 @@
     .input-table {
         width: 100%;
         border-collapse: separate; 
-        border-spacing: 0 8px; 
+        border-spacing: 0 8px; /* Jarak antar baris item */
     }
     
     /* Header (Thead) */
@@ -82,7 +82,7 @@
         border: none !important; 
     }
 
-    /* --- Styling Box Input (Grey/Read-only) --- */
+    /* --- Styling Box Input (Grey/Read-only & Select) --- */
     .item-input-box {
         height: 100%; 
         border-radius: 0px; 
@@ -92,12 +92,14 @@
         width: 100%;
         box-sizing: border-box;
         padding: 8px 12px; 
-        background-color: #d8d8d8; /* Warna Abu-abu Solid */
         color: #333;
         font-weight: 500;
         border: none;
     }
-    
+    /* Input Box Abu-abu (Readonly/ID/Harga) */
+    .grey-box {
+        background-color: #d8d8d8; 
+    }
     /* Kotak Khusus untuk Nomor Urut */
     .no-box {
         background-color: #d8d8d8; 
@@ -111,15 +113,18 @@
         border-right: 1px solid #c0c0c0; 
     }
 
-    /* Input Jumlah (Warna Putih) */
-    .qty-input {
-        background-color: #fff; /* Diubah menjadi putih untuk yang dapat diinput */
+    /* Input Jumlah (Warna Putih) dan Select (Warna Putih) */
+    .qty-input, .item-select {
+        background-color: #fff; 
         border: none; 
-        text-align: center;
         padding: 0 12px; 
-        -moz-appearance: textfield; 
         color: #333;
         font-weight: 500;
+    }
+    /* Hanya Quantity yang ditengah */
+    .qty-input {
+        text-align: center;
+        -moz-appearance: textfield; 
     }
     .qty-input::-webkit-outer-spin-button,
     .qty-input::-webkit-inner-spin-button {
@@ -135,7 +140,6 @@
         align-items: center;
         height: 100%;
         transition: background-color 0.1s ease; 
-        border-radius: 0 5px 5px 0; /* Corner bawah kanan saja */
     }
     .remove-item-btn {
         background: none;
@@ -156,18 +160,28 @@
         transition: none;
     }
 
-
     /* Border dan Radius Final */
+    /* Baris Pertama Item */
+    .input-table tbody tr:first-of-type td:nth-child(1) .no-box { 
+        border-top-left-radius: 5px; 
+    }
+    .input-table tbody tr:first-of-type td:last-child .remove-item-box { 
+        border-top-right-radius: 5px; 
+    }
+    /* Semua Baris */
     .table-row-style td:nth-child(1) .no-box { 
-        border-bottom-left-radius: 5px; 
+        border-bottom-left-radius: 5px; /* Radius Bawah Kiri */
     }
+    .table-row-style td:last-child .remove-item-box { 
+        border-bottom-right-radius: 5px; /* Radius Bawah Kanan */
+    }
+
+    /* Border Antar Kolom */
     .table-row-style td:nth-child(2) .item-input-box { border-left: 1px solid #c0c0c0; border-right: 1px solid #c0c0c0; }
-    .table-row-style td:nth-child(3) .item-input-box { border-right: 1px solid #c0c0c0; } /* Nama Barang, sekarang Grey Box */
+    .table-row-style td:nth-child(3) .item-input-box, .table-row-style td:nth-child(3) .item-select { border-right: 1px solid #c0c0c0; }
     .table-row-style td:nth-child(4) .item-input-box { border-right: 1px solid #c0c0c0; }
-    .table-row-style td:nth-child(5) .qty-input { border-right: 1px solid #c0c0c0; border-left: 1px solid #c0c0c0; background-color: white; }
-    .table-row-style td:nth-child(6) .remove-item-box { 
-        border-bottom-right-radius: 5px; 
-    }
+    .table-row-style td:nth-child(5) .qty-input { border-left: 1px solid #c0c0c0; }
+
 
     /* Styling input tanggal dan pelanggan di header */
     .header-input {
@@ -197,26 +211,12 @@
         box-shadow: 0 2px 4px rgba(0,0,0,0.2) inset !important;
         transition: none;
     }
-
-    /* Desain Top Bar yang Diminta */
-    .top-nav-bar {
-        background-color: #908c8cff; /* Warna putih agar kontras dengan latar belakang utama */
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .nav-icon {
-        background-color: rgba(230, 180, 95, 1); /* Warna cream yang diminta */
-        color: #fbc1c1ff;
-        transition: background-color 0.1s;
-    }
-    .nav-icon:hover {
-        background-color: #ebb871ff; /* Lebih gelap saat di-hover */
-    }
 </style>
 
 <div class="p-4 md:p-8 flex items-center justify-center min-h-screen relative">
     <div class="main-area w-full max-w-4xl p-6 md:p-10">
         
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">✏️ Edit Transaksi</h1>
 
         <form id="edit-form" action="{{ route('transaksi.update', $transaksi->id) }}" method="POST">
             @csrf
@@ -232,12 +232,12 @@
                 <div>
                     <span class="font-semibold block uppercase text-xs text-gray-500 mb-1">TANGGAL</span>
                     <input type="date" name="tanggal" value="{{ old('tanggal', \Carbon\Carbon::parse($transaksi->tanggal)->format('Y-m-d')) }}" required
-                        class="header-input w-full">
+                        class="header-input @error('tanggal') border-red-500 @enderror">
                 </div>
                 <div>
                     <span class="font-semibold block uppercase text-xs text-gray-500 mb-1">PELANGGAN</span>
                     <input type="text" name="pelanggan" value="{{ old('pelanggan', $transaksi->pelanggan ?? 'Umum') }}"
-                        class="header-input w-full">
+                        class="header-input @error('pelanggan') border-red-500 @enderror">
                 </div>
                 <div>
                     <span class="font-semibold block uppercase text-xs text-gray-500 mb-1">TOTAL AKHIR (Rp)</span>
@@ -248,19 +248,19 @@
                 </div>
                 {{-- Input tersembunyi yang diperlukan --}}
                 <input type="hidden" name="salesman" value="{{ $transaksi->salesman ?? 'Anonim' }}">
-                <input type="hidden" name="bayar" value="{{ $transaksi->bayar ?? $transaksi->total }}">
+                <input type="hidden" name="bayar" value="{{ $transaksi->bayar ?? $transaksi->total }}" id="bayar-hidden-input">
             </div>
 
             {{-- Detail Item Table --}}
-            <h2 class="text-xl font-semibold text-gray-700 mb-4">Detail Item</h2>
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Detail Item Transaksi</h2>
             <div class="overflow-x-auto mb-4">
                 <table class="input-table">
                     <thead>
                         <tr>
                             <th class="w-[5%]">No</th>
-                            <th class="w-[15%]">ID</th>
-                            <th class="w-[30%]">Nama Barang</th>
-                            <th class="w-[15%]">Harga Satuan</th>
+                            <th class="w-[15%]">ID Barang</th>
+                            <th class="w-[35%]">Nama Barang</th>
+                            <th class="w-[20%]">Harga Satuan</th>
                             <th class="w-[15%]">Jumlah</th>
                             <th class="w-[10%]">Aksi</th>
                         </tr>
@@ -275,18 +275,18 @@
                                 </div>
                             </td> 
                             
-                            {{-- Kolom ID (Grey Box) --}}
+                            {{-- Kolom ID Barang (Grey Box) --}}
                             <td>
-                                <div class="item-input-box">
+                                <div class="item-input-box grey-box">
                                     <span class="text-sm font-medium">{{ $item->id_barang }}</span>
                                 </div>
                                 <input type="hidden" name="items[{{ $index }}][id_barang]" value="{{ $item->id_barang }}">
-                                <input type="hidden" name="items[{{ $index }}][barang_id]" value="{{ $item->barang_id }}"> {{-- Simpan ID Barang --}}
+                                <input type="hidden" name="items[{{ $index }}][barang_id]" value="{{ $item->barang_id }}"> 
                             </td>
                             
                             {{-- Kolom Nama Barang (Grey Box, TIDAK BISA DIUBAH) --}}
                             <td>
-                                <div class="item-input-box">
+                                <div class="item-input-box grey-box">
                                     <span class="text-sm font-medium">{{ $item->nama_barang }}</span>
                                 </div>
                                 <input type="hidden" name="items[{{ $index }}][nama_barang]" value="{{ $item->nama_barang }}">
@@ -294,26 +294,26 @@
                             
                             {{-- Kolom Harga Satuan (Grey Box) --}}
                             <td>
-                                <div class="item-input-box justify-end">
+                                <div class="item-input-box grey-box justify-end">
                                     <span class="harga-display text-sm">{{ number_format($item->harga_satuan, 0, ',', '.') }}</span>
                                 </div>
                                 <input type="hidden" name="items[{{ $index }}][harga_satuan]" 
-                                            value="{{ old("items.$index.harga_satuan", $item->harga_satuan) }}" 
-                                            class="harga-input">
+                                             value="{{ old("items.$index.harga_satuan", $item->harga_satuan) }}" 
+                                             class="harga-input">
                                 <input type="hidden" name="items[{{ $index }}][diskon_persen]" value="0">
                             </td>
                             
                             {{-- Kolom Jumlah (White Input, BISA DIUBAH) --}}
                             <td>
                                 <input type="number" name="items[{{ $index }}][jumlah]" 
-                                            value="{{ old("items.$index.jumlah", $item->jumlah) }}" 
-                                            min="1" class="qty-input item-input-box text-sm">
+                                             value="{{ old("items.$index.jumlah", $item->jumlah) }}" 
+                                             min="1" class="qty-input item-input-box text-sm" required>
                             </td>
                             
                             {{-- Kolom Aksi --}}
                             <td>
                                 <div class="remove-item-box">
-                                    <button type="button" onclick="removeItem(this)" class="remove-item-btn">
+                                    <button type="button" onclick="removeItem(this)" class="remove-item-btn" title="Hapus Item">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                     </button>
                                 </div>
@@ -350,54 +350,62 @@
 {{-- SCRIPT JAVASCRIPT LENGKAP --}}
 <script>
 let itemIndex = {{ $transaksi->items->count() }};
+// Asumsi $barang adalah list lengkap semua barang yang bisa dipilih
 const barangData = @json($barang); 
 
 document.addEventListener('DOMContentLoaded', function(){
-    // Memastikan perhitungan total berjalan saat halaman dimuat
+    // Inisialisasi: Pasang listener untuk item yang sudah ada
     document.querySelectorAll('#item-list tr').forEach(row => {
-        setupRowListeners(row, true); // true untuk inisialisasi awal
+        // Item yang sudah ada hanya punya qty-input
+        const qtyInput = row.querySelector('.qty-input');
+        if (qtyInput) {
+            qtyInput.addEventListener('input', handleItemChange);
+        }
         calculateSubtotal(row); 
     });
     calculateGrandTotal(); 
     
-    // Listener untuk input tanggal dan pelanggan
+    // Listener untuk input tanggal dan pelanggan (opsional, jika ada logic khusus)
     document.querySelector('input[name="tanggal"]').addEventListener('change', updateFormState);
     document.querySelector('input[name="pelanggan"]').addEventListener('input', updateFormState);
-
-    // Tambahkan listener untuk input jumlah di item yang sudah ada
-    document.querySelectorAll('.qty-input').forEach(input => {
-        input.addEventListener('input', handleItemChange);
-    });
 });
 
-function setupRowListeners(row, isInitial = false) {
+function setupRowListeners(row) {
     const qtyInput = row.querySelector('.qty-input');
-    // Hanya pasang listener select jika ini adalah baris baru (bukan baris awal)
-    if (!isInitial) {
-        const select = row.querySelector('.item-select');
-        if (select) select.addEventListener('change', handleItemChange);
-    }
+    const select = row.querySelector('.item-select');
+    
+    // Select hanya ada untuk baris baru
+    if (select) select.addEventListener('change', handleItemChange);
+
+    // Quantity ada untuk semua baris
     if (qtyInput) qtyInput.addEventListener('input', handleItemChange);
 }
 
 function handleItemChange(e){
     const row = e.target.closest('tr');
+    
+    // Jika perubahan datang dari SELECT item baru
     if(e.target.classList.contains('item-select')) {
         updateItemDetails(row, e.target);
     }
+    
+    // Jika perubahan datang dari Quantity
     calculateSubtotal(row);
     calculateGrandTotal(); 
 }
 
 function updateItemDetails(row, select){
     const selectedOption = select.options[select.selectedIndex];
+    
+    // Ambil input dan display yang perlu diubah
     const hargaInput = row.querySelector('.harga-input');
-    const hargaDisplay = row.querySelector('td:nth-child(4) .item-input-box span'); 
+    const hargaDisplay = row.querySelector('td:nth-child(4) .harga-display'); 
     const idBarangHidden = row.querySelector('input[name*="[id_barang]"]');
     const namaBarangHidden = row.querySelector('input[name*="[nama_barang]"]');
     const barangIdHidden = row.querySelector('input[name*="[barang_id]"]');
     const idCellSpan = row.querySelector('td:nth-child(2) .item-input-box span'); 
-
+    
+    // Update Input/Display berdasarkan pilihan SELECT
     if (selectedOption.value) {
         const barangId = selectedOption.value;
         const harga = selectedOption.getAttribute('data-harga');
@@ -410,7 +418,33 @@ function updateItemDetails(row, select){
         idBarangHidden.value = idBarang;
         namaBarangHidden.value = namaBarang;
         idCellSpan.textContent = idBarang;
+
+        // Ganti elemen SELECT dengan elemen tampilan nama barang (Grey Box)
+        const nameCell = row.querySelector('td:nth-child(3)');
+        if (nameCell) {
+            nameCell.innerHTML = `
+                <div class="item-input-box grey-box">
+                    <span class="text-sm font-medium">${namaBarang}</span>
+                </div>
+                <input type="hidden" name="${namaBarangHidden.getAttribute('name')}" value="${namaBarang}">
+            `;
+        }
+        
+        // Ganti elemen ID Baranga (Span di dalam Grey Box)
+        const idCell = row.querySelector('td:nth-child(2)');
+        if (idCell) {
+            idCell.innerHTML = `
+                <div class="item-input-box grey-box">
+                    <span class="text-sm font-medium">${idBarang}</span>
+                </div>
+                <input type="hidden" name="${idBarangHidden.getAttribute('name')}" value="${idBarang}">
+                <input type="hidden" name="${barangIdHidden.getAttribute('name')}" value="${barangId}">
+            `;
+        }
+
+
     } else {
+        // Reset jika memilih "Pilih Barang"
         barangIdHidden.value = '';
         hargaInput.value = 0;
         hargaDisplay.textContent = '0';
@@ -428,7 +462,8 @@ function addItem(){
     row.dataset.index = newIndex;
     row.classList.add('table-row-style');
 
-    let options = '<option value="">Pilih Barang</option>';
+    // Buat Opsi untuk Select
+    let options = '<option value="" data-harga="0">Pilih Barang</option>';
     barangData.forEach(b => {
         options += `<option value="${b.id}" data-id_barang="${b.id_barang}" data-nama_barang="${b.nama_barang}" data-harga="${b.harga_jual}">${b.nama_barang}</option>`;
     });
@@ -440,42 +475,36 @@ function addItem(){
             </div>
         </td>
         <td>
-            <div class="item-input-box">
+            <div class="item-input-box grey-box">
                 <span class="text-sm font-medium">N/A</span>
             </div>
             <input type="hidden" name="items[${newIndex}][id_barang]" value="">
             <input type="hidden" name="items[${newIndex}][barang_id]" value="">
         </td>
         <td>
-            <select name="items[${newIndex}][barang_id_temp]" required class="item-select item-input-box text-sm">${options}</select>
+            <select name="items[${newIndex}][barang_id_select]" required class="item-select item-input-box text-sm">${options}</select>
             <input type="hidden" name="items[${newIndex}][nama_barang]" value="">
         </td>
         <td>
-            <div class="item-input-box justify-end">
+            <div class="item-input-box grey-box justify-end">
                 <span class="harga-display text-sm">0</span>
             </div>
             <input type="hidden" name="items[${newIndex}][harga_satuan]" value="0" class="harga-input">
             <input type="hidden" name="items[${newIndex}][diskon_persen]" value="0">
         </td>
         <td>
-            <input type="number" name="items[${newIndex}][jumlah]" value="1" min="1" class="qty-input item-input-box text-sm">
+            <input type="number" name="items[${newIndex}][jumlah]" value="1" min="1" class="qty-input item-input-box text-sm" required>
         </td>
         <td>
             <div class="remove-item-box">
-                <button type="button" onclick="removeItem(this)" class="remove-item-btn">
+                <button type="button" onclick="removeItem(this)" class="remove-item-btn" title="Hapus Item">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                 </button>
             </div>
         </td>
         <input type="hidden" name="items[${newIndex}][subtotal]" value="0" class="subtotal-hidden">
     `;
-    // Ganti nama input select sementara agar tidak bentrok dengan item yang sudah ada. 
-    // Nama akan diperbarui di updateRowNames.
-    const tempSelect = row.querySelector('select[name*="[barang_id_temp]"]');
-    if (tempSelect) {
-        tempSelect.setAttribute('name', `items[${newIndex}][barang_id]`);
-    }
-
+    
     list.appendChild(row);
 
     // Pasang listener pada baris yang baru
@@ -488,8 +517,7 @@ function addItem(){
     updateRowNames();
     updateRowNumbers();
 
-    // Pastikan perhitungan total diperbarui (subtotal untuk item baru harus 0)
-    calculateSubtotal(row);
+    calculateGrandTotal();
 }
 
 function removeItem(btn){
@@ -509,54 +537,58 @@ function updateRowNumbers(){
 }
 
 function updateRowNames() {
+    // Memperbarui nama input agar indeks array items[] berurutan
     document.querySelectorAll('#item-list tr').forEach((row, index) => {
         row.dataset.index = index;
         const inputs = row.querySelectorAll('input, select');
         inputs.forEach(input => {
             const name = input.getAttribute('name');
             if (name) {
-                // Gunakan regex untuk mengganti indeks dalam array items[index]
+                // Ganti indeks array items[oldIndex] menjadi items[newIndex]
                 input.setAttribute('name', name.replace(/\[\d+\]/, `[${index}]`));
             }
         });
     });
+    
+    // Setelah penghapusan/penambahan, perbarui itemIndex
+    itemIndex = document.querySelectorAll('#item-list tr').length;
 }
 
 function calculateSubtotal(row){
-    // Pastikan input jumlah selalu ada
     const qtyInput = row.querySelector('.qty-input');
     if (!qtyInput) return;
 
+    // Ambil nilai dari input hidden (selalu bersih dari format Rupiah)
     const harga = parseFloat(row.querySelector('.harga-input').value) || 0;
     const qty = parseFloat(qtyInput.value) || 0;
-    const diskonPersen = 0; 
+    const diskonPersen = 0; // Diskon diabaikan, dianggap 0
     
     const subtotal = harga * qty * (1 - diskonPersen / 100);
     
     const subtotalHidden = row.querySelector('.subtotal-hidden');
     if(subtotalHidden) {
-        subtotalHidden.value = subtotal.toFixed(2);
+        subtotalHidden.value = subtotal.toFixed(0); // Simpan dalam bentuk integer untuk backend
     }
-    
-    calculateGrandTotal();
 }
 
 function calculateGrandTotal(){
     let total = 0;
     document.querySelectorAll('.subtotal-hidden').forEach(h => total += parseFloat(h.value)||0);
     
+    // Update display dan input hidden total
     document.getElementById('grand-total-display').textContent = formatRupiah(total.toFixed(0));
-    document.getElementById('total-hidden-input').value = total.toFixed(2);
+    document.getElementById('total-hidden-input').value = total.toFixed(0);
+    // Asumsi bayar selalu sama dengan total jika tidak ada input bayar/kembalian terpisah
+    document.getElementById('bayar-hidden-input').value = total.toFixed(0); 
 }
 
 function updateFormState() {
-    // Implementasi jika diperlukan, saat ini hanya placeholder
+    // Placeholder untuk logika yang mungkin dibutuhkan saat header berubah
 }
 
 function formatRupiah(number) {
-    // Menggunakan locale 'id-ID' untuk format Rupiah (tanpa simbol Rp)
+    // Format angka ke format Rupiah tanpa simbol Rp
     return new Intl.NumberFormat('id-ID').format(number);
 }
-
 </script>
 @endsection
