@@ -31,19 +31,31 @@
         </h2>
 
         {{-- Logika Pembeda Konten Berdasarkan Role --}}
-         (Auth::user()->role === 'admin')
+        @if (Auth::user()->role === 'admin')
             <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-lg shadow-md">
                 <h3 class="text-xl font-bold mb-2">Akses Administrator</h3>
                 <p>Anda memiliki akses penuh untuk mengelola User dan semua Laporan.</p>
             </div>
             {{-- Menu Admin --}}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <a href="/pegawai/menuPegawai" class="card bg-indigo-500 text-white p-6 rounded-lg text-center shadow-lg">Kelola Pegawai</a>
-                <a href="/admin/barang" class="card bg-purple-500 text-white p-6 rounded-lg text-center shadow-lg">Kelola Barang</a>
-                <a href="/admin/laporan" class="card bg-pink-500 text-white p-6 rounded-lg text-center shadow-lg">Laporan Total</a>
-                
+                <a href="/pegawai/menuPegawai"class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">
+                     <img src="https://img.icons8.com/ios-filled/50/ffffff/staff.png" class="mx-auto mb-3" alt="Kelola Pegawai">
+                     Kelola Pegawai
+                    </a>
+                <a href="/barang" class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/box.png" class="mx-auto mb-3" alt="Kelola Barang">
+                    Kelola Barang
+                </a>
+                <a href="/transaksi" class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/cash-in-hand.png" class="mx-auto mb-3" alt="Transaksi Penjualan">
+                    Transaksi Penjualan
+                </a>
+                <a href="/laporan" class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">
+                    <img src="https://img.icons8.com/ios-filled/50/ffffff/clipboard.png" class="mx-auto mb-3" alt="Laporan Transaksi">
+                    Laporan Transaksi
+                </a>
             </div>
-         (Auth::user()->role === 'pegawai')
+        @elseif (Auth::user()->role === 'pegawai')
             <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-lg shadow-md">
                 <h3 class="text-xl font-bold mb-2">Akses Pegawai</h3>
                 <p>Silakan lakukan transaksi dan kelola barang yang diizinkan.</p>
@@ -67,9 +79,9 @@
                     Profil Saya
                 </a>
             </div>
-        
+        @else
             <div class="bg-red-100 p-4 rounded-lg">Role pengguna tidak terdeteksi.</div>
-        
+        @endif
     </main>
 </body>
 </html>
