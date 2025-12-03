@@ -7,9 +7,7 @@ use App\Http\Controllers\PegawaiProfilController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth; 
 use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\TransaksiController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth; 
+use App\Http\Controllers\TransaksiController;  
 use Illuminate\Support\Facades\Hash; // Ensure Hash is available if needed, though usually used in controller/model
 
 /*
