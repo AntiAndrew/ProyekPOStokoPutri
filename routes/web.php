@@ -4,6 +4,7 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BarangController; 
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PegawaiProfilController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth; 
 use App\Http\Controllers\LaporanController;
@@ -62,9 +63,13 @@ Route::middleware(['auth'])->group(function () {
         return view('auth.dashboard'); 
     })->name('dashboard.index');
 
-
     // Route Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+    
+    // Pastikan ini ada dan namanya 'pegawai.profil'
+    Route::get('/profil', [PegawaiProfilController::class, 'index'])->name('pegawai.profil');
+
     
     // ... Route Admin dan Pegawai lainnya
     
@@ -113,15 +118,11 @@ Route::middleware(['auth'])->group(function () {
 });
 // Sudah ada yang lain seperti CRUD, biarkan saja
 
-}); 
+
 
     // ROUTE UNTUK TRANSAKSI
       // 🔹 ROUTE TRANSAKSI PENJUALAN
 Route::middleware(['auth'])->group(function () {
-
-    // DEFINISI RUTE HOME (dipindahkan ke sini)
-    // Nama rute ini akan murni 'home', URL-nya /home
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
     // 🔹 ROUTE TRANSAKSI PENJUALAN
     Route::prefix('transaksi')->name('transaksi.')->group(function () {
@@ -163,3 +164,5 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/transaksi', [LaporanController::class, 'transaksi'])->name('transaksi');
 });
 });
+
+
