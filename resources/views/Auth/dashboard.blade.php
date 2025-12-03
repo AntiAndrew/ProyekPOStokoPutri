@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,10 +26,13 @@
         </div>
     </header>
 
-    <main class="container mx-auto p-8">
-        <h2 class="text-3xl font-bold mb-8 text-gray-800">
-            Dashboard Utama
-        </h2>
+{{-- HAPUS: <html>, <head>, <body>, dan <header> LAMA --}}
+
+@extends('layouts.dashboard') {{-- Panggil Layout Sidebar Baru --}}
+
+
+@section('title', 'Dashboard Utama') {{-- Mengisi title browser --}}
+@section('page-title', 'Ringkasan Dashboard') {{-- Mengisi judul di header --}}
 
         {{-- Logika Pembeda Konten Berdasarkan Role --}}
         @if (Auth::user()->role === 'admin')
@@ -85,3 +89,67 @@
     </main>
 </body>
 </html>
+
+@section('content')
+
+    <h2 class="text-3xl font-bold mb-8 text-gray-800">
+        {{-- HAPUS: Dashboard Utama (karena sudah ada di @section('page-title')) --}}
+    </h2>
+
+    {{-- Ganti tombol kuning lama Anda dengan Kartu Statistik --}}
+    
+    {{-- Logika Pembeda Konten Berdasarkan Role --}}
+    @if (Auth::user()->role === 'admin')
+        {{-- Kartu Statistik Admin --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {{-- Kartu 1: Total Pegawai (Ganti Tombol Kelola Pegawai) --}}
+            <div class="card bg-indigo-600 text-white p-5 rounded-lg shadow-xl flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium">TOTAL PEGAWAI</p>
+                    <p class="text-3xl font-bold mt-1">5</p> {{-- Ganti dengan nilai dinamis --}}
+                </div>
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/staff.png" alt="Pegawai">
+            </div>
+            
+            {{-- Kartu 2: Total Barang (Ganti Tombol Kelola Barang) --}}
+            <div class="card bg-teal-600 text-white p-5 rounded-lg shadow-xl flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium">TOTAL BARANG</p>
+                    <p class="text-3xl font-bold mt-1">120</p> {{-- Ganti dengan nilai dinamis --}}
+                </div>
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/box.png" alt="Barang">
+            </div>
+            
+            {{-- Tambahkan Kartu Lain Sesuai Kebutuhan --}}
+        </div>
+        
+        {{-- Menu Admin (Tombol lama diubah menjadi kartu data) --}}
+        <h3 class="text-xl font-bold mb-4 text-gray-700">Menu Utama</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {{-- Tombol Kelola Pegawai (Jika masih dibutuhkan) --}}
+            <a href="/pegawai/menuPegawai" class="card bg-gray-50 text-indigo-700 p-6 rounded-lg text-center shadow-md hover:bg-gray-100">Kelola Pegawai</a>
+            
+            {{-- ... Tambahkan link menu lain di sini ... --}}
+        </div>
+        
+        
+    @elseif (Auth::user()->role === 'pegawai')
+        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6 rounded-lg shadow-md">
+            <h3 class="text-xl font-bold mb-2">Akses Pegawai</h3>
+            <p>Silakan lakukan transaksi dan kelola barang yang diizinkan.</p>
+        </div>
+        
+        {{-- Menu Pegawai (Hanya Tombol) --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <a href="/barang" class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">Kelola Barang</a>
+            <a href="/transaksi" class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">Transaksi Penjualan</a>
+            <a href="/laporan" class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">Laporan Transaksi</a>
+            <a href="/profil" class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">Profil Saya</a>
+        </div>
+        
+    @else
+        <div class="bg-red-100 p-4 rounded-lg">Role pengguna tidak terdeteksi.</div>
+    @endif
+    
+@endsection
+
