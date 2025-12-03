@@ -21,9 +21,11 @@ class PegawaiModel extends Model
 
     // Fields yang bisa diisi mass-assignment
     protected $fillable = [
-        'idPegawai',
-        'namaPegawai',
-        'jenisKelamin',
-        'umurPegawai'
-    ];
+    'idPegawai',
+    'namaPegawai',
+    'email',
+    'password',
+    'jenisKelamin',
+    'umur'
+];
 }

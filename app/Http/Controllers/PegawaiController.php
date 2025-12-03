@@ -2,95 +2,93 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pegawai;
 use App\Models\PegawaiModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class PegawaiController extends Controller
 {
     public function menu()
     {
-        return view('Pegawai.menuPegawai');
+        return view('pegawai.menu');
     }
 
-    /**
-     * READ: Menampilkan daftar pegawai
-     * Route: GET /pegawai
-     */
     public function index()
     {
         $pegawai = PegawaiModel::orderBy('namaPegawai', 'asc')->get();
-        return view('pegawai.pegawaiIndex', compact('pegawai'));
+        return view('pegawai.manage', compact('pegawai'));
     }
 
-    /**
-     * CREATE: Form tambah pegawai
-     * Route: GET /pegawai/create
-     */
     public function create()
     {
-        return view('pegawai.inputPegawai');
+        return view('pegawai.create');
     }
 
-    /**
-     * STORE: Simpan pegawai baru
-     * Route: POST /pegawai
-     */
     public function store(Request $request)
     {
         $request->validate([
             'idPegawai'     => 'required|unique:pegawai,idPegawai',
             'namaPegawai'   => 'required|max:255',
             'jenisKelamin'  => 'required|in:Laki-Laki,Perempuan',
-            'umurPegawai'   => 'required|integer|min:18',
+            'umur'          => 'required|integer|min:18',
+            'email'         => 'required|email|unique:pegawai,email',
+            'password'      => 'required|min:6',
         ]);
 
-        PegawaiModel::create($request->all());
+        PegawaiModel::create([
+            'idPegawai'     => $request->idPegawai,
+            'namaPegawai'   => $request->namaPegawai,
+            'jenisKelamin'  => $request->jenisKelamin,
+            'umur'          => $request->umur,
+            'email'         => $request->email,
+            'password'      => Hash::make($request->password), // wajib HASH
+        ]);
 
         return redirect()->route('pegawai.index')
-                         ->with('success', '✅ Pegawai berhasil ditambahkan!');
+            ->with('success', 'Pegawai berhasil ditambahkan!');
     }
 
-    /**
-     * EDIT: Form edit pegawai
-     * Route: GET /pegawai/{id}/edit
-     */
     public function edit(PegawaiModel $pegawai)
     {
-        return view('pegawai.editPegawai', compact('pegawai'));
+        return view('pegawai.edit', compact('pegawai'));
     }
 
-    /**
-     * UPDATE: Update data pegawai
-     * Route: PUT /pegawai/{id}
-     */
     public function update(Request $request, PegawaiModel $pegawai)
     {
         $request->validate([
             'namaPegawai'   => 'required|max:255',
             'jenisKelamin'  => 'required|in:Laki-Laki,Perempuan',
-            'umurPegawai'   => 'required|integer|min:18',
+            'umur'          => 'required|integer|min:18',
+            'email'         => 'required|email|unique:pegawai,email,'.$pegawai->idPegawai.',idPegawai',
         ]);
 
-        $pegawai->update($request->all());
+        // Kalau password kosong, jangan ubah
+        $data = [
+            'namaPegawai' => $request->namaPegawai,
+            'jenisKelamin' => $request->jenisKelamin,
+            'umur' => $request->umur,
+            'email' => $request->email,
+        ];
+
+        if ($request->filled('password')) {
+            $data['password'] = Hash::make($request->password);
+        }
+
+        $pegawai->update($data);
 
         return redirect()->route('pegawai.index')
-                         ->with('success', '♻️ Data pegawai berhasil diperbarui!');
+            ->with('success', 'Data pegawai berhasil diperbarui!');
     }
 
-    
-    /**
-     * SEARCH: Cari pegawai
-     * Route: GET /pegawai/search
-     */
     public function search(Request $request)
     {
-        $keyword = $request->input('keyword');
+        $keyword = $request->keyword;
 
-        $pegawai = PegawaiModel::where('namaPegawai','like',"%{$keyword}%")
-                           ->orWhere('idPegawai','like',"%{$keyword}%")
-                           ->get();
+        $pegawai = PegawaiModel::where('namaPegawai', 'like', "%{$keyword}%")
+            ->orWhere('idPegawai', 'like', "%{$keyword}%")
+            ->orWhere('email', 'like', "%{$keyword}%")
+            ->get();
 
-        return view('pegawai.cariPegawai', compact('pegawai', 'keyword'));
+        return view('pegawai.search', compact('pegawai', 'keyword'));
     }
 }

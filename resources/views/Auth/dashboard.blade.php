@@ -38,7 +38,7 @@
             </div>
             {{-- Menu Admin --}}
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <a href="/pegawai/menuPegawai"class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">
+                <a href="/pegawai/menu"class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">
                      <img src="https://img.icons8.com/ios-filled/50/ffffff/staff.png" class="mx-auto mb-3" alt="Kelola Pegawai">
                      Kelola Pegawai
                     </a>
