@@ -5,18 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\PegawaiModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB; // Add DB if needed for complex queries
 
 class PegawaiController extends Controller
 {
-    public function menu()
+    /**
+     * Tampilkan menu utama pegawai.
+     */
+    public function menu() 
     {
-        return view('pegawai.menu');
+        return view('pegawai.menu'); 
     }
 
     public function index()
     {
         $pegawai = PegawaiModel::orderBy('namaPegawai', 'asc')->get();
-        return view('pegawai.manage', compact('pegawai'));
+        // Assuming you meant to use 'pegawai.index' for the list view
+        return view('pegawai.index', compact('pegawai')); 
     }
 
     public function create()
@@ -29,7 +34,7 @@ class PegawaiController extends Controller
         $request->validate([
             'idPegawai'     => 'required|unique:pegawai,idPegawai',
             'namaPegawai'   => 'required|max:255',
-            'jenisKelamin'  => 'required|in:Laki-Laki,Perempuan',
+            'jenisKelamin'  => 'required|in:Laki-laki,Perempuan',
             'umur'          => 'required|integer|min:18',
             'email'         => 'required|email|unique:pegawai,email',
             'password'      => 'required|min:6',
@@ -41,28 +46,44 @@ class PegawaiController extends Controller
             'jenisKelamin'  => $request->jenisKelamin,
             'umur'          => $request->umur,
             'email'         => $request->email,
-            'password'      => Hash::make($request->password), // wajib HASH
+            'password'      => Hash::make($request->password), 
         ]);
 
         return redirect()->route('pegawai.index')
             ->with('success', 'Pegawai berhasil ditambahkan!');
     }
 
-    public function edit(PegawaiModel $pegawai)
+    public function show($id) 
     {
+        // Find the Pegawai using the id from the route segment
+        // NOTE: We use id_pegawai as the primary key in the DB
+        $pegawai = PegawaiModel::where('id_pegawai', $id)->first(); 
+
+        if (!$pegawai) {
+            return redirect()->route('pegawai.index')->with('error', 'Pegawai tidak ditemukan.');
+        }
+        
+        return view('pegawai.show', compact('pegawai'));
+    }
+
+    public function edit($id)
+    {
+        $pegawai = PegawaiModel::where('id_pegawai', $id)->firstOrFail();
         return view('pegawai.edit', compact('pegawai'));
     }
 
-    public function update(Request $request, PegawaiModel $pegawai)
+    public function update(Request $request, $id)
     {
+        $pegawai = PegawaiModel::where('id_pegawai', $id)->firstOrFail();
+        
         $request->validate([
             'namaPegawai'   => 'required|max:255',
-            'jenisKelamin'  => 'required|in:Laki-Laki,Perempuan',
+            'jenisKelamin'  => 'required|in:Laki-laki,Perempuan',
             'umur'          => 'required|integer|min:18',
-            'email'         => 'required|email|unique:pegawai,email,'.$pegawai->idPegawai.',idPegawai',
+            // Unique check ignores the current record's email
+            'email'         => 'required|email|unique:pegawai,email,'.$pegawai->id_pegawai.',id_pegawai', 
         ]);
 
-        // Kalau password kosong, jangan ubah
         $data = [
             'namaPegawai' => $request->namaPegawai,
             'jenisKelamin' => $request->jenisKelamin,
@@ -78,6 +99,15 @@ class PegawaiController extends Controller
 
         return redirect()->route('pegawai.index')
             ->with('success', 'Data pegawai berhasil diperbarui!');
+    }
+    
+    public function destroy($id)
+    {
+        $pegawai = PegawaiModel::where('id_pegawai', $id)->firstOrFail();
+        $pegawai->delete();
+
+        return redirect()->route('pegawai.index')
+            ->with('success', 'Pegawai berhasil dihapus.');
     }
 
     public function search(Request $request)

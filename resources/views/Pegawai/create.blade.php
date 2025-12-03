@@ -1,61 +1,75 @@
 @extends('layouts.app')
+@section('title','Input Pegawai')
 
 @section('content')
-<div class="container">
-    <h2>Input Pegawai Baru</h2>
+<div class="form-page">
+  <div class="form-container">
+    <h2 class="page-title">Input Pegawai Baru</h2>
 
-    {{-- Tampilkan error jika ada --}}
+    {{-- Error --}}
     @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Terjadi kesalahan!</strong><br>
-            @foreach ($errors->all() as $error)
-                - {{ $error }} <br>
-            @endforeach
-        </div>
+      <div class="alert-danger-custom mb-4">
+        <strong>Terjadi kesalahan:</strong>
+        <ul>
+          @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+          @endforeach
+        </ul>
+      </div>
     @endif
 
-    <form method="POST" action="{{ route('pegawai.store') }}">
-        @csrf
+    <form action="{{ route('pegawai.store') }}" method="POST" id="formPegawai">
+      @csrf
 
-        <div class="mb-3">
-            <label>ID Pegawai</label>
-            <input type="text" name="id_pegawai" class="form-control" required value="{{ old('id_pegawai') }}">
-        </div>
+      <div class="form-group">
+        <label for="id_pegawai">ID Pegawai</label>
+        <input type="text" id="idPegawai" name="idPegawai" value="{{ old('idPegawai') }}" required>
+      </div>
 
-        <div class="mb-3">
-            <label>Nama Pegawai</label>
-            <input type="text" name="nama_pegawai" class="form-control" required value="{{ old('nama_pegawai') }}">
-        </div>
+      <div class="form-group">
+        <label for="nama_pegawai">Nama Pegawai</label>
+        <input type="text" id="namaPegawai" name="namaPegawai" value="{{ old('namaPegawai') }}" required>
+      </div>
 
-        <div class="mb-3">
-            <label>Email</label>
-            <input type="email" name="email" class="form-control" required value="{{ old('email') }}">
-        </div>
+      <div class="form-group">
+        <label for="jenis_kelamin">Jenis Kelamin</label>
+        <select id="jenisKelamin" name="jenisKelamin" required>
+          <option value="">-- Pilih --</option>
+          <option value="Laki-laki" {{ old('jenisKelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+          <option value="Perempuan" {{ old('jenisKelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+        </select>
+      </div>
 
-        <div class="mb-3">
-            <label>Password</label>
-            <input type="password" name="password" class="form-control" required>
-        </div>
+      <div class="form-group">
+        <label for="umur">Umur</label>
+        <input type="number" id="umur" name="umur" min="18" value="{{ old('umur') }}" required>
+      </div>
 
-        <div class="mb-3">
-            <label>Jenis Kelamin</label>
-            <select name="jenis_kelamin" class="form-control" required>
-                <option value="">-- Pilih --</option>
-                <option value="Laki-laki" {{ old('jenis_kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                <option value="Perempuan" {{ old('jenis_kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
-            </select>
-        </div>
+      <div class="form-group">
+        <label for="email">Email Pegawai</label>
+        <input type="email" id="email" name="email" value="{{ old('email') }}" required>
+      </div>
 
-        <div class="mb-3">
-            <label>Umur</label>
-            <input type="number" name="umur" class="form-control" min="0" required value="{{ old('umur') }}">
-        </div>
+      <div class="form-group">
+        <label for="password">Password Pegawai</label>
+        <input type="password" id="password" name="password" required>
+      </div>
 
-        <div class="mt-3">
-            <button type="submit" class="btn btn-success">Simpan</button>
-            <a href="{{ route('pegawai.index') }}" class="btn btn-secondary">Kembali</a>
-        </div>
-
+      <div class="form-btn-bottom">
+        <a href="{{ route('pegawai.index') }}" class="btn-cancel">Kembali</a>
+        <button type="submit" class="btn-save">Simpan Pegawai</button>
+      </div>
     </form>
+  </div>
 </div>
+
+{{-- Optional: prevent double submit --}}
+@push('scripts')
+<script>
+  document.getElementById('formPegawai').addEventListener('submit', function(){
+    this.querySelector('button[type="submit"]').disabled = true;
+  });
+</script>
+@endpush
+
 @endsection

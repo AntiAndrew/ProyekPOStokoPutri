@@ -11,7 +11,7 @@ function clean_output($data) {
 $id = isset($_GET['id']) ? $_GET['id'] : exit("ID pegawai tidak ditemukan!");
 
 // Query data pegawai yang dipilih
-$sql = "SELECT idPegawai, namaPegawai, jenisKelamin, umurPegawai FROM pegawai WHERE idPegawai = ?";
+$sql = "SELECT id_pegawai, nama_pegawai, jenis_kelamin, umur FROM pegawai WHERE id_pegawai = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "s", $id);
 mysqli_stmt_execute($stmt);
@@ -26,14 +26,14 @@ $pegawai = mysqli_fetch_assoc($result);
 
 // Proses Update
 if(isset($_POST['update'])) {
-    $nama = clean_output($_POST['namaPegawai']);
-    $jenis = clean_output($_POST['jenisKelamin']);
-    $umur = filter_var($_POST['umurPegawai'], FILTER_VALIDATE_INT);
+    $nama = clean_output($_POST['nama_pegawai']);
+    $jenis = clean_output($_POST['jenis_kelamin']);
+    $umur = filter_var($_POST['umur'], FILTER_VALIDATE_INT);
 
     if(!$umur || $umur < 1){
         $error = "Umur harus angka positif!";
     } else {
-        $update = "UPDATE pegawai SET namaPegawai=?, jenisKelamin=?, umurPegawai=? WHERE idPegawai=?";
+        $update = "UPDATE pegawai SET nama_pegawai=?, jenis_kelamin=?, umur=? WHERE id_pegawai=?";
         $stmt2 = mysqli_prepare($conn, $update);
         mysqli_stmt_bind_param($stmt2, "ssis", $nama, $jenis, $umur, $id);
 
