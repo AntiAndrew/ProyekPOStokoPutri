@@ -12,7 +12,7 @@ class PegawaiModel extends Model
     protected $table = 'pegawai';
 
     // IMPORTANT: Set primary key to match the database column name (id_pegawai)
-    protected $primaryKey = 'id_pegawai'; 
+    protected $primaryKey = 'idPegawai'; 
 
     public $incrementing = false;
     protected $keyType = 'string';

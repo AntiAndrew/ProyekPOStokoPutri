@@ -57,7 +57,7 @@ class PegawaiController extends Controller
     {
         // Find the Pegawai using the id from the route segment
         // NOTE: We use id_pegawai as the primary key in the DB
-        $pegawai = PegawaiModel::where('id_pegawai', $id)->first(); 
+        $pegawai = PegawaiModel::where('idPegawai', $id)->first(); 
 
         if (!$pegawai) {
             return redirect()->route('pegawai.index')->with('error', 'Pegawai tidak ditemukan.');
@@ -68,20 +68,20 @@ class PegawaiController extends Controller
 
     public function edit($id)
     {
-        $pegawai = PegawaiModel::where('id_pegawai', $id)->firstOrFail();
+        $pegawai = PegawaiModel::where('idPegawai', $id)->firstOrFail();
         return view('pegawai.edit', compact('pegawai'));
     }
 
     public function update(Request $request, $id)
     {
-        $pegawai = PegawaiModel::where('id_pegawai', $id)->firstOrFail();
+        $pegawai = PegawaiModel::where('idPegawai', $id)->firstOrFail();
         
         $request->validate([
             'namaPegawai'   => 'required|max:255',
             'jenisKelamin'  => 'required|in:Laki-laki,Perempuan',
             'umur'          => 'required|integer|min:18',
             // Unique check ignores the current record's email
-            'email'         => 'required|email|unique:pegawai,email,'.$pegawai->id_pegawai.',id_pegawai', 
+            'email'         => 'required|email|unique:pegawai,email,'.$pegawai->idPegawai.',idPegawai', 
         ]);
 
         $data = [
@@ -103,7 +103,7 @@ class PegawaiController extends Controller
     
     public function destroy($id)
     {
-        $pegawai = PegawaiModel::where('id_pegawai', $id)->firstOrFail();
+        $pegawai = PegawaiModel::where('idPegawai', $id)->firstOrFail();
         $pegawai->delete();
 
         return redirect()->route('pegawai.index')

@@ -3,6 +3,9 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\BarangController; 
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PegawaiProfilController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth; 
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\TransaksiController;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +55,11 @@ Route::middleware(['auth'])->group(function () {
 
     // Route Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+    
+    // Pastikan ini ada dan namanya 'pegawai.profil'
+    Route::get('/profil', [PegawaiProfilController::class, 'index'])->name('pegawai.profil');
+
     
     /* --- FITUR KELOLA BARANG --- */
     Route::prefix('barang')->name('barang.')->group(function () {
@@ -68,27 +76,10 @@ Route::middleware(['auth'])->group(function () {
     });
 
     /* --- ROUTE UNTUK TRANSAKSI --- */
-    Route::prefix('transaksi')->name('transaksi.')->group(function () {
-        Route::get('/', [TransaksiController::class, 'menu'])->name('menu'); // Menu Transaksi
-        Route::get('/daftar', [TransaksiController::class, 'index'])->name('index');
-        Route::get('/create', [TransaksiController::class, 'create'])->name('create');
-        Route::post('/store', [TransaksiController::class, 'store'])->name('store');
-        Route::get('/manage', [TransaksiController::class, 'manage'])->name('manage');
-        Route::get('/cari', [TransaksiController::class, 'cari'])->name('cari');
-        Route::get('/{id}', [TransaksiController::class, 'show'])->name('show');
-        Route::get('/{id}/edit', [TransaksiController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [TransaksiController::class, 'update'])->name('update');
-        Route::delete('/{id}', [TransaksiController::class, 'destroy'])->name('destroy');
-    });
-
-    /* --- LAPORAN ROUTES (Untuk semua user yang login) --- */
-    Route::prefix('laporan')->name('laporan.')->group(function () {
-        Route::get('/', [LaporanController::class, 'index'])->name('index');
-        Route::get('/penjualan', [LaporanController::class, 'index'])->name('penjualan'); // Alias ke index
-        Route::get('/transaksi', [LaporanController::class, 'transaksi'])->name('transaksi');
-    });
-
     /* ============================
+       PEGAWAI ROUTES (ADMIN ONLY!)
+       ============================ */
+     /* ============================
     PEGAWAI ROUTES (ADMIN ONLY)
     ============================ */
     Route::middleware(['role:admin'])->group(function () {
@@ -107,6 +98,35 @@ Route::middleware(['auth'])->group(function () {
             // Search route must be defined before {id}
             Route::get('/search', [PegawaiController::class, 'search'])->name('search'); 
         });
+});
+// Sudah ada yang lain seperti CRUD, biarkan saja
+
+
+
+    // ROUTE UNTUK TRANSAKSI
+      // 🔹 ROUTE TRANSAKSI PENJUALAN
+Route::middleware(['auth'])->group(function () {
+
+    // 🔹 ROUTE TRANSAKSI PENJUALAN
+    Route::prefix('transaksi')->name('transaksi.')->group(function () {
+        Route::get('/', [TransaksiController::class, 'menu'])->name('menu'); // Menu Transaksi
+        Route::get('/daftar', [TransaksiController::class, 'index'])->name('index');
+        Route::get('/create', [TransaksiController::class, 'create'])->name('create');
+        Route::post('/store', [TransaksiController::class, 'store'])->name('store');
+        Route::get('/manage', [TransaksiController::class, 'manage'])->name('manage');
+        Route::get('/cari', [TransaksiController::class, 'cari'])->name('cari');
+        Route::get('/{id}', [TransaksiController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [TransaksiController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [TransaksiController::class, 'update'])->name('update');
+        Route::delete('/{id}', [TransaksiController::class, 'destroy'])->name('destroy');
     });
 
+    /* --- LAPORAN ROUTES (Untuk semua user yang login) --- */
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/', [LaporanController::class, 'index'])->name('index');
+        Route::get('/penjualan', [LaporanController::class, 'index'])->name('penjualan'); // Alias ke index
+        Route::get('/transaksi', [LaporanController::class, 'transaksi'])->name('transaksi');
 });
+});
+
+
