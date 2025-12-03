@@ -1,234 +1,177 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- PERUBAHAN 1: Judul Halaman Dinamis --}}
-    <title>Kelola Transaksi | Mode {{ $mode == 'edit' ? 'Edit' : 'Hapus' }}</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+@extends('layouts.app')
 
-        /* Tooltip */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 140px;
-            background-color: #ebd9c5ff; /* coklat tua lembut */
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 6px 8px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            margin-left: -70px;
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 12px;
-        }
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
-            opacity: 1;
-        }
+@section('title', $mode == 'edit' ? 'Edit Transaksi' : 'Hapus Transaksi')
 
-        /* Styling Tombol Header Baru (agar mirip gambar) */
-        .header-btn {
-            /* Warna Latar & Teks */
-            background-color: #e4ba6cff; /* accent color (krem sangat muda) */
-            color: #bb924bff; /* cream-dark color (coklat tua) */
-            
-            /* Bentuk & Ukuran */
-            border-radius: 9999px; /* Full rounded */
-            width: 40px;
-            height: 40px;
-            
-            /* Tata Letak */
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.15s;
-        }
-        .header-btn:hover {
-            background-color: #d0b168ff;
-        }
-    </style>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'cream-dark': '#647b69ff', /* coklat tua */
-                        'cream-light': '#c7dec0ff', /* krem lembut */
-                        'accent': '#fdfaebff',      /* krem sangat muda */
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-<body class="bg-accent min-h-screen">
+@section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <header class="bg-white shadow-md">
-        {{-- DITAMBAHKAN CLASS 'relative' DI SINI --}}
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center text-cream-dark relative">
-            <div class="flex items-center space-x-3">
-                
-                {{-- Tombol Kembali --}}
-                <a href="javascript:history.back()" class="header-btn mr-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left">
-                        <path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>
-                    </svg>
-                </a>
-                
-                {{-- Tombol Home --}}
-                <a href="{{ route('transaksi.menu') }}" class="header-btn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home">
-                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
-                    </svg>
-                </a>
-                
-            </div>
-            
-            {{-- PERUBAHAN 2: Judul Header Dinamis yang terpusat --}}
-            {{-- Judul tetap di tengah dengan warna yang sama dengan gambar (hijau gelap/cokelat) --}}
-            <h1 class="text-xl md:text-2xl font-semibold text-[#3d5a41] absolute left-1/2 transform -translate-x-1/2">
-                {{ $mode == 'edit' ? 'Edit Transaksi' : 'Hapus Transaksi' }}
-            </h1>
-            
-            {{-- Tombol User/Profil di Kanan --}}
-            {{-- Sesuaikan warna latar/teks agar menyerupai contoh gambar (hijau muda/cream-light) --}}
-            <div class="header-btn ml-auto w-10 h-10 bg-cream-light text-[#3d5a41] font-bold">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user">
-                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                </svg>
-            </div>
-        </div>
-    </header>
+<style>
+body { background-color:#e6f7ff; font-family: 'Inter', sans-serif; }
+.screen-area { width:100%; max-width:1200px; background-color:#f0fff0; padding:25px 40px; box-shadow:0 4px 20px rgba(0,0,0,0.1); margin:30px auto; border-radius:12px; }
+.header { display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; border-bottom:2px solid #b3e0b3; padding-bottom:15px; }
+.header-title { font-size:28px; font-weight:700; color:#2e8b57; display:flex; align-items:center; }
+.header-title span.emoji { color:#f5deb3; margin-right:8px; font-size:36px; line-height:1; font-weight:bold; text-shadow: 1px 1px 1px #555, -1px -1px 1px #555; display:inline-block; }
+.header-title span.emoji.pencil { transform: rotate(-10deg) scale(1.1); }
+.header-title span.emoji.trash { transform: scale(1.1); }
+.btn { padding:6px 10px; border:none; border-radius:5px; cursor:pointer; font-weight:bold; transition:background-color 0.3s, transform 0.1s; font-size:0.85rem; display: inline-flex; align-items: center; }
+.btn:active { transform:scale(0.98); }
+.btn-edit { background-color:#3b82f6; color:white; }
+.btn-edit:hover { background-color:#2563eb; }
+.btn-delete { background-color:#ef4444; color:white; }
+.btn-delete:hover { background-color:#dc2626; }
+.detail-table { width:100%; border-collapse:collapse; margin-top:20px; box-shadow:0 2px 8px rgba(0,0,0,0.05); }
+.detail-table th, .detail-table td { border:1px solid #e0e0e0; padding:12px 10px; text-align:left; }
+.detail-table th { background-color:#d4edda; color:#155724; font-weight:700; text-transform: uppercase; }
+.detail-table td { background-color:#fff; vertical-align:middle; font-size: 0.9rem; }
+.text-end { text-align:right; }
+.text-center { text-align:center; }
+.action-buttons { display:flex; justify-content:center; gap:5px; }
+.detail-table th:nth-child(1) { width:10%; } 
+.detail-table th:nth-child(2) { width:10%; } 
+.detail-table th:nth-child(3) { width:10%; } 
+.detail-table th:nth-child(4) { width:10%; } 
+.detail-table th:nth-child(5) { width:25%; } 
+.detail-table th:nth-child(6) { width:15%; } 
+.detail-table th:nth-child(7) { width:15%; }
+.tooltip { position: relative; display: inline-block; }
+.tooltip .tooltiptext { visibility: hidden; width: 140px; background-color: #647b69ff; color: #fff; text-align: center; border-radius: 6px; padding: 6px 8px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -70px; opacity: 0; transition: opacity 0.3s; font-size: 12px; }
+.tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+@media (max-width:1024px) { .detail-table th, .detail-table td { padding:8px 5px; font-size:12px; } }
+@media (max-width:600px) { .screen-area { padding:15px; margin:10px; } .header { flex-direction: column; align-items: flex-start; } .header-title { margin-bottom: 10px; } }
+</style>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        @if (session('success'))
-            <div class="bg-yellow-100 border border-yellow-300 text-yellow-800 px-4 py-3 rounded-md mb-6">
-                {{ session('success') }}
-            </div>
-        @endif
-        @if (session('error'))
-            <div class="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded-md mb-6">
-                {{ session('error') }}
-            </div>
-        @endif
+<div class="screen-area">
 
-        <div class="bg-cream-light shadow-xl rounded-xl overflow-hidden p-6 md:p-8">
-            <div class="mb-6 flex justify-end items-center">
-                <div class="tooltip">
-                    {{-- Tombol untuk berganti mode Edit/Hapus --}}
-                    <a href="{{ route('transaksi.manage', ['mode' => $mode == 'edit' ? 'delete' : 'edit']) }}" 
-                       class="inline-flex items-center p-2 border border-cream-dark shadow-sm rounded-lg bg-cream-dark hover:bg-[#8b6b3d] text-white focus:outline-none transition duration-150">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L7.5 21H3v-4.5L16.732 3.732z" />
-                        </svg>
-                    </a>
-                    <span class="tooltiptext">
-                        Ganti ke Mode {{ $mode == 'edit' ? 'Hapus' : 'Edit' }}
-                    </span>
-                </div>
-            </div>
-
-            <div class="overflow-x-auto rounded-lg shadow-inner bg-white/80 backdrop-blur">
-                <table class="min-w-full divide-y divide-[#e5decf]">
-                    <thead class="bg-[#fdf3dc]">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-cream-dark uppercase tracking-wider">No. Ref</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-cream-dark uppercase tracking-wider">Tanggal</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-cream-dark uppercase tracking-wider">Pelanggan</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-cream-dark uppercase tracking-wider">Salesman</th>
-                            <th class="px-6 py-3 text-right text-xs font-semibold text-cream-dark uppercase tracking-wider">Total Bayar</th>
-                            <th class="px-6 py-3 text-center text-xs font-semibold text-cream-dark uppercase tracking-wider">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-[#efe5d1]">
-                        @forelse ($data as $transaksi)
-                            <tr class="{{ $loop->even ? 'bg-[#fffaf0]' : 'bg-white' }} hover:bg-[#f8efdc] transition duration-150">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">{{ $transaksi->no_transaksi }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ Carbon\Carbon::parse($transaksi->tanggal)->format('d M Y') }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ $transaksi->pelanggan ?? 'Umum' }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{{ $transaksi->user->name ?? 'N/A' }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-800 text-right">
-                                    Rp {{ number_format($transaksi->total, 0, ',', '.') }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
-                                    @if ($mode == 'edit')
-                                        {{-- JIKA MODE ADALAH 'EDIT', TAMPILKAN TOMBOL EDIT --}}
-                                        <a href="{{ route('transaksi.edit', $transaksi->id) }}" 
-                                           class="text-[#8b6b3d] hover:text-[#5c4421] font-bold transition duration-150">
-                                            Edit
-                                        </a>
-                                    @else
-                                        {{-- JIKA MODE ADALAH 'DELETE' (MODE SAAT INI), TAMPILKAN TOMBOL HAPUS --}}
-                                        <button onclick="confirmDelete('{{ $transaksi->no_transaksi }}', '{{ route('transaksi.destroy', $transaksi->id) }}')"
-                                                class="text-red-700 hover:text-red-900 font-bold transition duration-150">
-                                            Hapus
-                                        </button>
-                                    @endif
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="px-6 py-4 text-center text-sm text-gray-500">
-                                    Tidak ada data transaksi.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </main>
-
-    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 border border-cream-dark">
-            <h3 class="text-lg font-bold text-[#3d5a41] mb-3">Konfirmasi Hapus</h3>
-            <p class="text-sm text-gray-700 mb-5">
-                Anda yakin ingin menghapus transaksi <strong><span id="transaksiRef" class="font-semibold text-[#3d5a41]"></span></strong>?  
-                Stok barang akan dikembalikan. Tindakan ini tidak dapat dibatalkan.
-            </p>
-            <div class="flex justify-end space-x-3">
-                <button onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');" 
-                        class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">
-                    Batal
-                </button>
-                <form id="deleteForm" method="POST" action="">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" 
-                            class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
-                        Ya, Hapus
-                    </button>
-                </form>
-            </div>
-        </div>
+    {{-- Header tanpa tombol ganti mode --}}
+    <div class="header">
+        <h1 class="header-title">
+            @if($mode == 'edit')
+                <span class="emoji pencil">✏</span>
+            @else
+                <span class="emoji trash">🗑</span>
+            @endif
+            Kelola {{ $mode == 'edit' ? 'Edit Transaksi' : 'Hapus Transaksi' }}
+        </h1>
     </div>
 
-    <script>
-        // FUNGSI JAVASCRIPT UNTUK MODAL HAPUS
-        function confirmDelete(transaksiRef, deleteUrl) { 
-            document.getElementById('transaksiRef').innerText = transaksiRef;
-            const form = document.getElementById('deleteForm');
-            
-            // Menggunakan URL DELETE yang dihasilkan oleh route() helper Laravel
-            form.action = deleteUrl; 
-            
-            document.getElementById('deleteModal').classList.remove('hidden');
-            document.getElementById('deleteModal').classList.add('flex');
-        }
-    </script>
-</body>
-</html>
+    {{-- Flash Message --}}
+    @if (session('success'))
+        <div class="bg-green-100 border border-green-300 text-green-800 px-4 py-3 rounded-md mb-6" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="bg-red-100 border border-red-300 text-red-800 px-4 py-3 rounded-md mb-6" role="alert">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    {{-- Tabel transaksi --}}
+    <div class="table-responsive overflow-x-auto">
+        <table class="detail-table">
+            <thead>
+                <tr>
+                    <th>ID Transaksi</th>
+                    <th>Tanggal</th>
+                    <th>Pegawai</th>
+                    <th>ID Barang</th>
+                    <th>Nama Barang</th>
+                    <th class="text-end">Total Bayar (Rp)</th>
+                    <th class="text-center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($data as $trx)
+                <tr>
+                    <td>{{ $trx->id_transaksi }}</td>
+                    <td>{{ \Carbon\Carbon::parse($trx->tanggal)->format('d/m/Y') }}</td>
+                    <td>{{ $trx->pegawai->name ?? 'N/A' }}</td>
+                    <td>{{ $trx->id_barang }}</td>
+                    <td>{{ $trx->nama_barang }}</td>
+                    <td class="text-end">{{ number_format($trx->total_harga, 0, ',', '.') }}</td>
+                    <td class="text-center">
+                        <div class="action-buttons">
+                            @if ($mode == 'edit')
+                                <a href="{{ route('transaksi.edit', $trx->id_transaksi) }}" class="btn btn-edit" title="Edit Transaksi">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            @else
+                                <button onclick="confirmDelete('{{ $trx->id_transaksi }}', '{{ route('transaksi.destroy', $trx->id_transaksi) }}')"
+                                        class="btn btn-delete" title="Hapus Transaksi">
+                                    <i class="fas fa-trash-alt"></i> Hapus
+                                </button>
+                            @endif
+                        </div>
+                    </td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="7" class="text-center">
+                        Belum ada transaksi. 
+                        @if (Route::has('transaksi.create'))
+                            Silakan <a href="{{ route('transaksi.create') }}" style="color:#2e8b57; font-weight:semibold; text-decoration:underline;">input baru</a>.
+                        @endif
+                    </td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    {{-- Tombol Kembali di bawah tabel sebelah kiri --}}
+    <div class="mt-4 flex justify-start">
+    <a href="{{ route('transaksi.menu') }}" 
+       class="btn" 
+       style="background-color:#2e8b57; color:white; padding:10px 18px; font-weight:bold; border-radius:6px; text-decoration:none; display:inline-flex; align-items:center; gap:5px; transition: background-color 0.2s;">
+        Kembali
+    </a>
+</div>
+
+
+
+
+    {{-- Paginasi --}}
+    @if(method_exists($data, 'links'))
+        <div class="mt-4 flex justify-center">
+            {{ $data->links() }}
+        </div>
+    @endif
+
+</div>
+
+{{-- Modal Hapus --}}
+<div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center p-4" style="z-index: 1000;">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 border border-red-500">
+        <h3 class="text-xl font-bold text-red-600 mb-3"><i class="fas fa-exclamation-triangle mr-2"></i> Konfirmasi Hapus</h3>
+        <p class="text-sm text-gray-700 mb-5">
+            Anda yakin ingin **menghapus permanen** transaksi **ID #<span id="transaksiRef" class="font-bold text-red-600"></span>**? 
+            Stok barang akan dikembalikan. Tindakan ini tidak dapat dibatalkan.
+        </p>
+        <div class="flex justify-end space-x-3">
+            <button onclick="document.getElementById('deleteModal').classList.add('hidden'); document.getElementById('deleteModal').classList.remove('flex');" 
+                    class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300">
+                Batal
+            </button>
+            <form id="deleteForm" method="POST" action="">
+                @csrf
+                @method('DELETE')
+                <button type="submit" 
+                        class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">
+                    Ya, Hapus
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmDelete(transaksiRef, deleteUrl) { 
+        document.getElementById('transaksiRef').innerText = transaksiRef;
+        const form = document.getElementById('deleteForm');
+        form.action = deleteUrl; 
+        document.getElementById('deleteModal').classList.remove('hidden');
+        document.getElementById('deleteModal').classList.add('flex');
+    }
+</script>
+
+@endsection

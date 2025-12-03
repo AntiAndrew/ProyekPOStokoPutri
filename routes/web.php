@@ -142,6 +142,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/transaksi/menu', [TransaksiController::class, 'menu'])->name('transaksi.menu');
         // Di routes/web.php
         Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
+        Route::delete('/transaksi/destroy/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
+
 
 
     });
