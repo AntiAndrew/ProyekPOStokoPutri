@@ -9,21 +9,23 @@ class PegawaiModel extends Model
 {
     use HasFactory;
 
-    // Nama tabel
     protected $table = 'pegawai';
 
-    // Primary key tabel
-    protected $primaryKey = 'idPegawai';
+    // IMPORTANT: Set primary key to match the database column name (id_pegawai)
+    protected $primaryKey = 'idPegawai'; 
 
-    // Primary key berupa string, bukan auto increment
     public $incrementing = false;
     protected $keyType = 'string';
 
-    // Fields yang bisa diisi mass-assignment
+    public $timestamps = false;
+
+    // CRITICAL: Must use the same CamelCase names as validation and requests
     protected $fillable = [
         'idPegawai',
         'namaPegawai',
+        'email',
+        'password',
         'jenisKelamin',
-        'umurPegawai'
+        'umur'
     ];
 }

@@ -34,7 +34,7 @@
             <td>{{ $p->idPegawai }}</td>
             <td>{{ $p->namaPegawai }}</td>
             <td>{{ $p->jenisKelamin }}</td>
-            <td>{{ $p->umurPegawai }}</td>
+            <td>{{ $p->umur }}</td>
             <td>
                 <a href="{{ url('pegawai/'.$p->idPegawai.'/edit') }}">✏️ Edit</a> |
                 

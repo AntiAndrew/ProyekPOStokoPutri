@@ -63,9 +63,6 @@ Route::middleware(['auth'])->group(function () {
     // Gunakan Controller baru untuk menangani logika dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
-    // ROUTE UNTUK HALAMAN PROFIL
-    Route::get('/profil', [PegawaiProfilController::class, 'index'])->name('profil.index');
-
 
     // Route Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -152,12 +149,6 @@ Route::middleware(['auth'])->group(function () {
 
     });
     
-    // Rute resource harus di luar grup prefix 'transaksi' jika Anda ingin URL-nya menjadi /transaksi
-    // Jika Anda ingin menggunakan 'transaksi.' sebagai nama prefix, gunakan:
-    // Route::resource('transaksi', TransaksiController::class)->except(['create', 'index', 'show', ...])
-    
-    // KODE ANDA MEMILIKI BANYAK RUTE DUPLIKAT YANG PERLU DIBERSIHKAN:
-    // Contoh: 'transaksi.index' dan 'index' memiliki fungsi yang sama
     
 });
 
