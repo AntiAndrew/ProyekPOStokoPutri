@@ -2,6 +2,7 @@
 
 // ... Import Controllers ... (use App\Http\Controllers\Auth\AuthController; dll)
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangController; 
 use App\Http\Controllers\PegawaiController;
 use Illuminate\Support\Facades\Route;
@@ -57,10 +58,8 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 // Semua route di dalam group ini WAJIB login dulu
 Route::middleware(['auth'])->group(function () {
     
-    // Route Dashboard Utama 
-    Route::get('/dashboard', function () {
-        return view('auth.dashboard'); 
-    })->name('dashboard.index');
+    // Gunakan Controller baru untuk menangani logika dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 
     // Route Logout

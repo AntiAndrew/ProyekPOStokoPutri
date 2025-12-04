@@ -30,8 +30,19 @@
                 {{-- Tambahkan semua link utama Anda di sini --}}
                 <a href="/barang" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-150">
                     <img src="https://img.icons8.com/ios-filled/20/ffffff/box.png" alt="Barang">
-                    <span>Kelola Barang</span>
+                    <span>Barang</span>
                 </a>
+                <a href="/transaksi" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-150">
+        <img src="https://img.icons8.com/ios-filled/20/ffffff/cash-in-hand.png" alt="Transaksi">
+        <span>Transaksi</span>
+    </a>
+                <nav class="space-y-2">
+    <a href="/laporan" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-150">
+        <img src="https://img.icons8.com/ios-filled/20/ffffff/clipboard.png" alt="Laporan">
+        <span>Laporan</span>
+    </a>
+    
+    </nav>
                 {{-- ... menu lainnya ... --}}
                 <a href="/profil" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-150">
                     <img src="https://img.icons8.com/ios-filled/20/ffffff/user.png" alt="Profil">
