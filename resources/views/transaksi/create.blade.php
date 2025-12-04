@@ -3,88 +3,113 @@
 
 @section('content')
 <div class="form-page">
-  <div class="form-container">
-    <h2 class="page-title">Input Transaksi</h2>
+    <div class="form-container">
+       
 
-    <form action="{{ route('transaksi.store') }}" method="POST" id="formTransaksi">
-      @csrf
-      <div class="form-group">
-        <label for="no_transaksi">No Transaksi</label>
-        <input type="text" id="no_transaksi" name="no_transaksi" value="{{ $no }}" readonly>
-      </div>
-      <div class="form-group">
-        <label for="tanggal">Tanggal</label>
-        <input type="date" id="tanggal" name="tanggal" value="{{ date('Y-m-d') }}" required>
-      </div>
-      <div class="form-group">
-        <label for="pelanggan">Pelanggan</label>
-        <input type="text" id="pelanggan" name="pelanggan" value="">
-      </div>
+        {{-- Menampilkan error validasi --}}
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-      <hr class="my-4">
+        <form action="{{ route('transaksi.store') }}" method="POST" id="formTransaksi">
+            @csrf
+            
+            {{-- ID Transaksi --}}
+            <div class="form-group">
+                <label for="id_transaksi">ID Transaksi</label>
+                <input type="text" id="id_transaksi" name="id_transaksi" 
+                       value="{{ $id_transaksi_baru ?? old('id_transaksi') }}" readonly>
+            </div>
+            
+            {{-- Tanggal --}}
+            <div class="form-group">
+                <label for="tanggal">Tanggal</label>
+                <input type="date" id="tanggal" name="tanggal" 
+                       value="{{ old('tanggal', date('Y-m-d')) }}" required>
+            </div>
+            
+            {{-- Pegawai otomatis sesuai login --}}
+            <div class="form-group">
+                <label>Pegawai </label>
+                <input type="text" value="{{ auth()->user()->name ?? 'Nama Pegawai Tidak Ditemukan' }}" readonly>
+                <input type="hidden" name="id_pegawai" value="{{ auth()->id() }}">
+            </div>
 
-      {{-- Area item dinamis --}}
-      <div id="itemsArea">
-        <div class="item-row grid grid-cols-12 gap-2 items-center mb-2">
-          <div class="col-span-4">
-            <input type="text" name="items[0][id_barang]" placeholder="Kode Barang (A.01)" class="w-full" required>
-          </div>
-          <div class="col-span-4">
-            <input type="text" name="items[0][nama_barang]" placeholder="Nama Barang" class="w-full" required>
-          </div>
-          <div class="col-span-2">
-            <input type="number" name="items[0][jumlah]" placeholder="Jumlah" min="1" value="1" required>
-          </div>
-          <div class="col-span-2">
-            <input type="number" name="items[0][harga_satuan]" placeholder="Harga" min="0" step="0.01" value="0" required>
-          </div>
-        </div>
-      </div>
+            <hr class="my-4">
+            
 
-      <div class="flex gap-2 mb-4">
-        <button type="button" id="btnAddItem" class="btn-cancel">Tambah Item</button>
-        <button type="button" id="btnRemoveItem" class="btn-reset">Hapus Item</button>
-      </div>
+            {{-- Input manual id_barang & nama_barang --}}
+            <div class="form-group">
+                <label for="id_barang">ID Barang</label>
+                <input type="text" id="id_barang" name="id_barang" value="{{ old('id_barang') }}" required>
+            </div>
 
-      <div class="form-group">
-        <label for="diskon">Diskon (Rp)</label>
-        <input type="number" id="diskon" name="diskon" value="0" min="0" step="0.01">
-      </div>
+            <div class="form-group">
+                <label for="nama_barang">Nama Barang</label>
+                <input type="text" id="nama_barang" name="nama_barang" value="{{ old('nama_barang') }}" required>
+            </div>
 
-      <div class="form-btn-bottom">
-        <a href="{{ route('transaksi.menu') }}" class="btn-cancel">Kembali</a>
-        <button type="submit" class="btn-save">Simpan Transaksi</button>
-      </div>
-    </form>
-  </div>
+            {{-- Harga & Jumlah --}}
+            <div class="grid grid-cols-3 gap-4">
+                <div class="form-group">
+                    <label for="harga_barang">Harga Satuan (Rp)</label>
+                    <input type="number" id="harga_barang" name="harga_barang" 
+                           value="{{ old('harga_barang',0) }}" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="jumlah_barang">Jumlah Barang</label>
+                    <input type="number" id="jumlah_barang" name="jumlah_barang" 
+                           value="{{ old('jumlah_barang',1) }}" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="total_harga_display">Total Harga</label>
+                    <input type="text" id="total_harga_display" value="Rp 0" readonly>
+                    <input type="hidden" name="total_harga" id="input_total_harga" value="0">
+                </div>
+            </div>
+
+            {{-- Tombol Simpan --}}
+            <div class="form-btn-bottom">
+                <a href="{{ route('transaksi.menu') }}" class="btn-cancel">Kembali</a>
+                <button type="submit" class="btn-save">Simpan Transaksi</button>
+            </div>
+        </form>
+    </div>
 </div>
 
 @push('scripts')
 <script>
-  let idx = 1;
-  document.getElementById('btnAddItem').addEventListener('click', () => {
-    const container = document.getElementById('itemsArea');
-    const row = document.createElement('div');
-    row.className = 'item-row grid grid-cols-12 gap-2 items-center mb-2';
-    row.innerHTML = `
-      <div class="col-span-4"><input type="text" name="items[${idx}][id_barang]" placeholder="Kode Barang" class="w-full" required></div>
-      <div class="col-span-4"><input type="text" name="items[${idx}][nama_barang]" placeholder="Nama Barang" class="w-full" required></div>
-      <div class="col-span-2"><input type="number" name="items[${idx}][jumlah]" placeholder="Jumlah" min="1" value="1" required></div>
-      <div class="col-span-2"><input type="number" name="items[${idx}][harga_satuan]" placeholder="Harga" min="0" step="0.01" value="0" required></div>
-    `;
-    container.appendChild(row);
-    idx++;
-  });
+    const inputHarga = document.getElementById('harga_barang');
+    const inputJumlah = document.getElementById('jumlah_barang');
+    const displayTotal = document.getElementById('total_harga_display');
+    const inputTotal = document.getElementById('input_total_harga');
 
-  document.getElementById('btnRemoveItem').addEventListener('click', () => {
-    const container = document.getElementById('itemsArea');
-    if (container.children.length > 1) container.removeChild(container.lastElementChild);
-  });
+    function calculateTotal() {
+        const harga = parseFloat(inputHarga.value) || 0;
+        const jumlah = parseInt(inputJumlah.value) || 0;
+        const total = harga * jumlah;
+        displayTotal.value = 'Rp ' + total.toLocaleString('id-ID');
+        inputTotal.value = total;
+    }
 
-  // optional: prevent double submit
-  document.getElementById('formTransaksi').addEventListener('submit', function(e){
-    this.querySelector('button[type="submit"]').disabled = true;
-  });
+    inputHarga.addEventListener('input', calculateTotal);
+    inputJumlah.addEventListener('input', calculateTotal);
+
+    // Hitung saat pertama kali halaman dimuat
+    calculateTotal();
+
+    // Cegah double submit
+    document.getElementById('formTransaksi').addEventListener('submit', function(e){
+        this.querySelector('button[type="submit"]').disabled = true;
+    });
 </script>
 @endpush
 @endsection

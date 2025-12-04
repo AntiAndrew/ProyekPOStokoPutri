@@ -10,44 +10,46 @@ class Transaksi extends Model
     use HasFactory;
 
     protected $table = 'transaksi';
-    protected $primaryKey = 'id';
-    public $timestamps = true;
+    
+    // Menggunakan 'id_transaksi' sebagai Primary Key
+    protected $primaryKey = 'id_transaksi'; 
+    public $incrementing = false; // ID transaksi biasanya string, bukan auto-increment
+    protected $keyType = 'string'; // Tipe PK string
+
+    public $timestamps = false; // Tidak ada created_at/updated_at
 
     protected $fillable = [
-        'no_transaksi',
+        'id_transaksi',
         'tanggal',
-        'pelanggan',     // Nama pelanggan (string)
-        'user_id',       // ID kasir / pengguna
-        'subtotal',
-        'diskon',
-        'total',
-        'status',
+        'id_barang',
+        'nama_barang',
+        'harga_barang',
+        'jumlah_barang',
+        'total_harga',
+        'id_pegawai',
     ];
 
     /**
-     * Relasi ke detail barang (TransaksiItem)
-     * Setiap transaksi memiliki banyak item.
+     * Relasi ke pengguna (pegawai yang input transaksi)
      */
-    public function items()
+    public function pegawai()
     {
-        return $this->hasMany(TransaksiItem::class, 'transaksi_id', 'id');
+        return $this->belongsTo(User::class, 'id_pegawai', 'id');
     }
 
     /**
-     * Relasi ke pengguna (User)
-     * Setiap transaksi dilakukan oleh satu user (kasir/admin).
+     * Scope untuk mencari transaksi berdasarkan ID
      */
-    public function user()
+    public function scopeById($query, $id)
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $query->where('id_transaksi', $id);
     }
 
     /**
-     * Relasi opsional ke pelanggan (jika nanti dibuat model Pelanggan)
-     * Jika belum ada tabel pelanggan, relasi ini bisa diabaikan.
+     * Method helper untuk menghitung total_harga
      */
-    // public function pelanggan()
-    // {
-    //     return $this->belongsTo(Pelanggan::class, 'pelanggan_id', 'id');
-    // }
+    public function hitungTotal()
+    {
+        return $this->harga_barang * $this->jumlah_barang;
+    }
 }
