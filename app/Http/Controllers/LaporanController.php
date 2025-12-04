@@ -15,14 +15,6 @@ class LaporanController extends Controller
         $filter = $request->get('rentang', null);
         $data = LaporanPenjualan::getLaporanDetail($filter);
 
-        // Jika tidak ada data dari model, gunakan data statis sebagai fallback
-        if ($data->isEmpty()) {
-            $data = collect([
-                ["BRG001", "Shampoo Lavender", "Cash", 3, "Botol", 35000, 105000, 70000, 35000],
-                ["BRG002", "Hair Dryer Mini", "Transfer", 1, "Unit", 150000, 150000, 120000, 30000],
-            ]);
-        }
-
         return view('laporan.penjualan', compact('data', 'filter'));
     }
 

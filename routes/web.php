@@ -46,10 +46,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Auth'], function () {
 
 Route::middleware(['auth'])->group(function () {
     
-    // Route Dashboard Utama 
-    Route::get('/dashboard', function () {
-        return view('auth.dashboard'); 
-    })->name('dashboard.index');
+    // Route Dashboard Utama
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
 
     // Route Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
