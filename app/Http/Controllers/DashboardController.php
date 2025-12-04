@@ -15,8 +15,7 @@ class DashboardController extends Controller
         $user = Auth::user();
         
         // --- PENGAMBILAN DATA BARANG ---
-        // PENTING: Jika kolom stok di database Anda bernama 'Jumlah Stok' (dengan spasi), 
-        // Anda harus menggunakan tanda kutip ganda/apostrof: ->where('Jumlah Stok', '<', 10)
+        
         $stokKritisCount = Barang::where('jumlah_barang', '<', 10)->count(); 
         
         $data = [
@@ -36,8 +35,8 @@ class DashboardController extends Controller
         } elseif ($user->role === 'pegawai') {
             
             // Asumsi: TransaksiModel sudah ada dan memiliki field 'user_id'
-            $data['transaksiSayaHariIni'] = Transaksi::where('user_id', $user->id)
-                                                          ->whereDate('created_at', today())
+            $data['transaksiSayaHariIni'] = Transaksi::where('id_transaksi', $user->id)
+                                                          ->whereDate('tanggal', today())
                                                           ->count();
         }
 

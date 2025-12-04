@@ -19,16 +19,16 @@
                     <p class="text-sm font-medium opacity-80">PENJUALAN HARI INI</p>
                     <p class="text-3xl font-bold mt-1">Rp 1.500.000</p> {{-- TODO: Ganti dengan nilai dinamis --}}
                 </div>
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/coin-wallet.png" alt="Penjualan">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/coin-wallets.png" alt="Penjualan">
             </div>
 
             {{-- 2. STOK KRITIS --}}
             <div class="card bg-red-600 text-white p-5 rounded-lg shadow-xl flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium opacity-80">BARANG STOK KRITIS</p>
-                    <p class="text-3xl font-bold mt-1">8 Item</p> {{-- TODO: Ganti dengan nilai dinamis --}}
+                    <p class="text-3xl font-bold mt-1">{{ $stokKritisCount }}</p> 
                 </div>
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/alert.png" alt="Stok Kritis">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/stocks.png" alt="Stok Kritis">
             </div>
             
             {{-- 3. TOTAL BARANG --}}
@@ -56,26 +56,6 @@
             <p class="text-gray-500">TODO: Tempatkan grafik Top 5 produk di sini.</p>
         </div>
         
-        {{-- Menu Administrasi --}}
-        <h3 class="text-xl font-bold mb-4 text-gray-700">Akses Cepat Admin</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            {{-- Tombol Kelola Pegawai --}}
-            <a href="/pegawai/menuPegawai" class="card bg-gray-50 text-indigo-700 p-6 rounded-lg text-center shadow-md hover:bg-gray-100">
-                 Kelola Pegawai
-            </a>
-            
-            {{-- Tombol Laporan Lengkap --}}
-            <a href="/laporan" class="card bg-gray-50 text-indigo-700 p-6 rounded-lg text-center shadow-md hover:bg-gray-100">
-                 Lihat Semua Laporan
-            </a>
-            
-            {{-- Tombol Transaksi --}}
-            <a href="/transaksi" class="card bg-gray-50 text-indigo-700 p-6 rounded-lg text-center shadow-md hover:bg-gray-100">
-                 Input Transaksi Baru
-            </a>
-            
-        </div>
         
         
     @elseif (Auth::user()->role === 'pegawai')
@@ -95,9 +75,9 @@
             <div class="card bg-red-600 text-white p-5 rounded-lg shadow-xl flex items-center justify-between">
                 <div>
                     <p class="text-sm font-medium opacity-80">STOK HAMPIR HABIS</p>
-                    <p class="text-3xl font-bold mt-1">8 Item</p> {{-- TODO: Ganti dengan nilai dinamis --}}
+                    <p class="text-3xl font-bold mt-1">{{ $stokKritisCount  }}</p> {{-- TODO: Ganti dengan nilai dinamis --}}
                 </div>
-                <img src="https://img.icons8.com/ios-filled/50/ffffff/alert.png" alt="Stok Kritis">
+                <img src="https://img.icons8.com/ios-filled/50/ffffff/stocks.png" alt="Stok Kritis">
             </div>
             
             {{-- 3. TRANSAKSI SAYA HARI INI --}}
@@ -110,13 +90,7 @@
             </div>
         </div>
         
-        {{-- Menu Akses Tambahan --}}
-        <h3 class="text-xl font-bold mb-4 text-gray-700">Akses Cepat</h3>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <a href="/barang" class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">Kelola Barang</a>
-            <a href="/laporan" class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">Laporan Shift Saya</a>
-            <a href="/profil" class="card bg-yellow-500 text-white p-6 rounded-lg text-center shadow-lg">Profil Saya</a>
-        </div>
+        
         
     @else
         <div class="bg-red-100 p-4 rounded-lg">Role pengguna tidak terdeteksi.</div>

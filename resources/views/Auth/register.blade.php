@@ -12,7 +12,7 @@
         /* Konfigurasi untuk warna background dan font */
         .custom-bg {
             /* Warna light yellowish-green (krem muda) */
-            background-color: #f0f5e5; 
+            background-color: #d7d7dfff; 
         }
         .header-font {
             font-family: 'Playfair Display', Georgia, serif;
@@ -102,7 +102,7 @@
             
             {{-- TOMBOL SUBMIT --}}
             <div class="pt-6">
-                 <button type="submit" class="submit-button py-3 px-8 border border-transparent rounded-lg text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 w-auto mx-auto block">
+                 <button type="submit" class="submit-button py-3 px-8 border border-transparent rounded-lg text-lg font-medium text-white bg-blue-600 hover:bg-blue-600 w-auto mx-auto block">
                     SUBMIT
                 </button>
             </div>
