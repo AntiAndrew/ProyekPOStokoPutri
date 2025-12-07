@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 {{-- ASUMSI: Hanya data $user yang tersedia dari PegawaiProfilController --}}
 
 @section('content')

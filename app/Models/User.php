@@ -24,6 +24,10 @@ class User extends Authenticatable
         'noTelepon', 
         'role',      
     ];
+    
+    // PERBAIKAN: Ganti 'id' dengan 'user_id'
+    protected $primaryKey = 'id'; 
+    
 
     /**
      * The attributes that should be hidden for serialization.

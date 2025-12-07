@@ -1,12 +1,14 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User; // Pastikan Anda memiliki Model User
-use App\Models\Barang; // Ganti dengan nama Model Barang Anda
-use App\Models\Transaksi; // Ganti dengan nama Model Transaksi Anda (Asumsi)
+use App\Models\User; 
+use App\Models\Barang;  
+use App\Models\Transaksi; 
 
 class DashboardController extends Controller
 {
@@ -21,7 +23,11 @@ class DashboardController extends Controller
         $data = [
             'stokKritisCount' => $stokKritisCount,
         ];
-        
+        $penjualanHariIni = Transaksi::whereDate('tanggal', today()) // <-- Filter hanya untuk hari ini
+                                   ->sum('total_harga');            // <-- Jumlahkan kolom total_harga
+        $totalPegawai = User::where('role', 'pegawai')->count();
+
+
         // --- LOGIKA ROLE ADMIN ---
         if ($user->role === 'admin') {
             
