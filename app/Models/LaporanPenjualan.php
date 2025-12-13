@@ -12,26 +12,19 @@ class LaporanPenjualan extends Model
     protected $table = 'laporan_penjualan';
 
     protected $fillable = [
-        'id_barang',
-        'nama_barang',
-        'metode_pembayaran',
-        'jumlah',
-        'satuan',
-        'harga_barang',
-        'total_pembayaran',
-        'hpp',
-        'keuntungan',
+        'id_laporan',
         'tanggal_transaksi',
-        'id_transaksi'
+        'rentang_waktu',
+        'total_penjualan',
+        'kerugian',
+        'keuntungan'
     ];
 
     protected $casts = [
         'tanggal_transaksi' => 'datetime',
-        'harga_barang' => 'decimal:2',
-        'total_pembayaran' => 'decimal:2',
-        'hpp' => 'decimal:2',
-        'keuntungan' => 'decimal:2',
-        'jumlah' => 'integer'
+        'total_penjualan' => 'decimal:2',
+        'kerugian' => 'decimal:2',
+        'keuntungan' => 'decimal:2'
     ];
 
     // Relasi dengan model Barang
@@ -55,8 +48,12 @@ class LaporanPenjualan extends Model
             case '7_hari':
                 return $query->where('tanggal_transaksi', '>=', now()->subDays(7));
             case 'bulan':
-                return $query->whereMonth('tanggal_transaksi', request('bulan'))
-                           ->whereYear('tanggal_transaksi', request('tahun'));
+                if (request('bulan_tahun')) {
+                    $date = \Carbon\Carbon::createFromFormat('Y-m', request('bulan_tahun'));
+                    return $query->whereMonth('tanggal_transaksi', $date->month)
+                               ->whereYear('tanggal_transaksi', $date->year);
+                }
+                return $query;
             case 'tanggal':
                 return $query->whereDate('tanggal_transaksi', request('tanggal'));
             default:

@@ -39,9 +39,9 @@ class DashboardController extends Controller
 
         // --- LOGIKA ROLE PEGAWAI ---
         } elseif ($user->role === 'pegawai') {
-            
-            // Asumsi: TransaksiModel sudah ada dan memiliki field 'user_id'
-            $data['transaksiSayaHariIni'] = Transaksi::where('id_transaksi', $user->id)
+
+            // Hitung transaksi yang dilakukan oleh pegawai hari ini
+            $data['transaksiSayaHariIni'] = Transaksi::where('id_pegawai', $user->id)
                                                           ->whereDate('tanggal', today())
                                                           ->count();
         }

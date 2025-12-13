@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
 use App\Models\Barang;
+use App\Models\LaporanPenjualan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -84,6 +85,16 @@ class TransaksiController extends Controller
                 'jumlah_barang' => $jumlah_barang,
                 'total_harga' => $total_harga,
                 'id_pegawai' => $request->id_pegawai,
+            ]);
+
+            // Buat entry di LaporanPenjualan
+            LaporanPenjualan::create([
+                'id_laporan' => 'LP-' . $request->id_transaksi,
+                'tanggal_transaksi' => $request->tanggal,
+                'rentang_waktu' => 'Transaksi',
+                'total_penjualan' => $total_harga,
+                'kerugian' => 0, // Asumsi tidak ada kerugian
+                'keuntungan' => $total_harga, // Keuntungan = total penjualan (asumsi)
             ]);
 
             $barang = Barang::where('id_barang', $request->id_barang)->first();
@@ -169,6 +180,16 @@ class TransaksiController extends Controller
                 'total_harga' => $total_harga_baru,
                 'id_pegawai' => $request->id_pegawai,
             ]);
+
+            // Update LaporanPenjualan
+            $laporan = LaporanPenjualan::where('id_laporan', 'LP-' . $id_transaksi)->first();
+            if ($laporan) {
+                $laporan->update([
+                    'tanggal_transaksi' => $request->tanggal,
+                    'total_penjualan' => $total_harga_baru,
+                    'keuntungan' => $total_harga_baru, // Update keuntungan juga
+                ]);
+            }
 
             // Kurangi stok baru
             $barang_baru = Barang::where('id_barang', $request->id_barang)->first();
