@@ -63,6 +63,8 @@ Route::middleware(['auth'])->group(function () {
     // Gunakan Controller baru untuk menangani logika dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
+    Route::get('/profil', [PegawaiProfilController::class, 'index'])->name('profil.index');
+
 
     // Route Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
