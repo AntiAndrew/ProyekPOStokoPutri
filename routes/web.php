@@ -105,8 +105,8 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-    // Resource pegawai (kecuali show)
-    Route::resource('pegawai', PegawaiController::class)->except(['show']);
+    // Resource pegawai
+    Route::resource('pegawai', PegawaiController::class);
 
     // ROUTE UNTUK LAPORAN TRANSAKSI (ADMIN ONLY)
     Route::prefix('laporan')->name('laporan.')->group(function () {
