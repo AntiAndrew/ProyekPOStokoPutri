@@ -54,11 +54,6 @@
         <h3 class="text-xl font-bold mb-4 text-gray-700">Akses Cepat Admin</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             
-            {{-- Tombol Kelola Pegawai --}}
-            <a href="/pegawai/menuPegawai" class="card bg-gray-50 text-indigo-700 p-6 rounded-lg text-center shadow-md hover:bg-gray-100">
-                 Kelola Pegawai
-            </a>
-            
             {{-- Tambahkan tombol akses cepat Admin lainnya (opsional) --}}
             <a href="/laporan" class="card bg-gray-50 text-indigo-700 p-6 rounded-lg text-center shadow-md hover:bg-gray-100">
                  Lihat Semua Laporan
