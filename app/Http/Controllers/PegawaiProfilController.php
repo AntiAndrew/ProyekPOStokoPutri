@@ -11,17 +11,13 @@ use Illuminate\Support\Facades\Auth;
 
 class PegawaiProfilController extends Controller
 {
+   
     public function index()
     {
-        // 1. Ambil data user yang sedang login (semua data dari tabel 'users')
+        // 1. Ambil data user yang sedang login
         $user = Auth::user(); 
         
-        // 2. Kita tidak perlu mencari data detail pegawai lagi.
-        // Cukup kirim $user saja ke view.
-        // Catatan: Jika Anda tetap ingin mengirimkan variabel $pegawai (agar tidak merusak view), 
-        // Anda bisa membuat variabel $pegawai sama dengan $user, TAPI ini tidak disarankan.
-        
-        // Untuk saat ini, kita akan mengirim $user ke view
-        return view('pegawai.profil', compact('user'));
+        // 2. Ganti nama view agar sesuai dengan file: profil_saya.blade.php
+        return view('Pegawai.profil', compact('user')); // <-- Perbaikan di sini!
     }
 }

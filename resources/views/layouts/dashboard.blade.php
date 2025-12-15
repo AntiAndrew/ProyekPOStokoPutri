@@ -41,7 +41,15 @@
         <img src="https://img.icons8.com/ios-filled/20/ffffff/clipboard.png" alt="Laporan">
         <span>Laporan</span>
     </a>
-    
+     {{-- MENU KHUSUS ADMIN --}}
+@if(Auth::user()->role === 'admin')
+    <a href="{{ route('pegawai.index') }}"
+       class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-150
+       {{ Request::is('pegawai*') ? 'bg-gray-700' : '' }}">
+        <img src="https://img.icons8.com/ios-filled/20/ffffff/conference.png" alt="Pegawai">
+        <span>Kelola Pegawai</span>
+    </a>
+@endif
     </nav>
                 {{-- ... menu lainnya ... --}}
                 <a href="/profil" class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-150">
@@ -78,7 +86,7 @@
         <main class="p-8">
             @yield('content')
         </main>
-        
+
     </div>
 </body>
 </html>

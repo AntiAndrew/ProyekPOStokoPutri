@@ -2,6 +2,7 @@
 
 // ... Import Controllers ... (use App\Http\Controllers\Auth\AuthController; dll)
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\PegawaiProfilController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BarangController; 
 use App\Http\Controllers\PegawaiController;
@@ -58,8 +59,11 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.po
 // Semua route di dalam group ini WAJIB login dulu
 Route::middleware(['auth'])->group(function () {
     
+    
     // Gunakan Controller baru untuk menangani logika dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    Route::get('/profil', [PegawaiProfilController::class, 'index'])->name('profil.index');
 
 
     // Route Logout
@@ -95,15 +99,14 @@ Route::middleware(['auth'])->group(function () {
        ============================ */
     Route::middleware(['role:admin'])->group(function () {
 
-    // Menu pegawai
+    // Menu pegawai (resource provides `pegawai.index` at GET /pegawai)
     Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.menu');
-    Route::get('/pegawai/menuPegawai', [PegawaiController::class, 'menu'])->name('pegawai.index');
 
+    // Pegawai Search (mirip barang.cari) - register BEFORE resource so it's not captured by show/{id}
+    Route::get('/pegawai/cari', [PegawaiController::class, 'search'])->name('pegawai.cari');
 
-
-    // Resource pegawai (kecuali show)
-    Route::resource('pegawai', PegawaiController::class)->except(['show']);
-
+    // Resource pegawai (CRUD)
+    Route::resource('pegawai', PegawaiController::class);
     // ROUTE UNTUK LAPORAN TRANSAKSI (ADMIN ONLY)
     Route::prefix('laporan')->name('laporan.')->group(function () {
         Route::get('/', [LaporanController::class, 'index'])->name('index');
@@ -120,7 +123,8 @@ Route::middleware(['auth'])->group(function () {
 
     // DEFINISI RUTE HOME (dipindahkan ke sini)
     // Nama rute ini akan murni 'home', URL-nya /home
-    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    // Use DashboardController here to avoid missing HomeController
+    Route::get('/home', [DashboardController::class, 'index'])->name('home');
 
     // 🔹 ROUTE TRANSAKSI PENJUALAN
     Route::prefix('transaksi')->name('transaksi.')->group(function () {
@@ -147,12 +151,6 @@ Route::middleware(['auth'])->group(function () {
 
     });
     
-    // Rute resource harus di luar grup prefix 'transaksi' jika Anda ingin URL-nya menjadi /transaksi
-    // Jika Anda ingin menggunakan 'transaksi.' sebagai nama prefix, gunakan:
-    // Route::resource('transaksi', TransaksiController::class)->except(['create', 'index', 'show', ...])
-    
-    // KODE ANDA MEMILIKI BANYAK RUTE DUPLIKAT YANG PERLU DIBERSIHKAN:
-    // Contoh: 'transaksi.index' dan 'index' memiliki fungsi yang sama
     
 });
 

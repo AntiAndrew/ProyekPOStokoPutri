@@ -1,0 +1,142 @@
+*   [33mc38a0ef[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mAlbert[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Fix merge branch main
+[31m|[m[32m\[m  
+[31m|[m *   [33m0c04022[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[31m|[m [33m|[m[34m\[m  
+[31m|[m [33m|[m * [33mc08f9fc[m Update Laporan Penjualan
+[31m|[m * [34m|[m [33m6a1f8c3[m dashboard.blade
+[31m|[m [34m|[m[34m/[m  
+[31m|[m * [33mf9f5906[m Update Dashboard
+[31m|[m * [33m6f4c901[m Update fitur-fitur menu kelola barang
+* [34m|[m [33mb6b9232[m Update menu transaksi
+* [34m|[m [33m1b02f6e[m fix conflict web.php
+* [34m|[m   [33mbe90fa4[m save progress
+[35m|[m[36m\[m [34m\[m  
+* [36m|[m [34m|[m [33m9fdf94a[m save progress
+* [36m|[m [34m|[m   [33me6a0db3[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[1;31m|[m[1;32m\[m [36m\[m [34m\[m  
+* [1;32m|[m [36m|[m [34m|[m [33mafba5db[m update transaksi
+[1;32m|[m [1;32m|[m [36m|[m [34m|[m *   [33m854c0be[m[33m ([m[1;31morigin/Albert[m[33m)[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri into Albert
+[1;32m|[m [1;32m|[m [36m|[m [34m|[m [1;33m|[m[34m\[m  
+[1;32m|[m [1;32m|[m [36m|[m [34m|[m [1;33m|[m[34m/[m  
+[1;32m|[m [1;32m|[m [36m|[m [34m|[m[34m/[m[1;33m|[m   
+[1;32m|[m [1;32m|[m [36m|[m * [1;33m|[m [33m4946590[m Update semua fitur-fitur menu kelola barang
+[1;32m|[m [1;32m|[m [36m|[m[36m/[m [1;33m/[m  
+[1;32m|[m [1;32m|[m [36m|[m * [33m0023a5b[m Create pegawai
+[1;32m|[m [1;32m|[m [36m|[m * [33m42e9633[m Menambahkan fungsi untuk menambahkan pegawai
+[1;32m|[m [1;32m|[m [36m|[m * [33mf521b72[m Perubahan nama Menu pegawai
+[1;32m|[m [1;32m|[m [36m|[m * [33m9b52519[m Penamaan baru sesuai template blade
+[1;32m|[m [1;32m|[m [36m|[m *   [33mb28f3f0[m Fix merge conflict web.php
+[1;32m|[m [1;32m|[m [36m|[m [1;35m|[m[36m\[m  
+[1;32m|[m [1;32m|[m [36m|[m [1;35m|[m[36m/[m  
+[1;32m|[m [1;32m|[m [36m|[m[36m/[m[1;35m|[m   
+[1;32m|[m [1;32m|[m * [1;35m|[m   [33m5bb9e5a[m Fix merge conflict
+[1;32m|[m [1;32m|[m [31m|[m[32m\[m [1;35m\[m  
+[1;32m|[m [1;32m|[m [31m|[m * [1;35m|[m [33m31eba86[m Fix: Perbaikan konflik dan error routing di web.php
+[1;32m|[m [1;32m|[m [31m|[m[1;32m/[m [1;35m/[m  
+[1;32m|[m [1;32m|[m[1;32m/[m[31m|[m [1;35m|[m   
+[1;32m|[m [1;32m|[m * [1;35m|[m [33mb342b4f[m Update fitur-fitur kelola barang
+[1;32m|[m [1;32m|[m [32m|[m * [33m2ffa65a[m Perbaikan dari branch albert ke main
+[1;32m|[m [1;32m|[m [32m|[m[1;32m/[m  
+[1;32m|[m [1;32m|[m[1;32m/[m[32m|[m   
+[1;32m|[m * [32m|[m   [33m56a38e1[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[1;32m|[m [33m|[m[34m\[m [32m\[m  
+[1;32m|[m [33m|[m * [32m\[m   [33m8f17110[m Merge pull request #3 from AntiAndrew/Albert
+[1;32m|[m [33m|[m [32m|[m[36m\[m [32m\[m  
+[1;32m|[m [33m|[m [32m|[m [36m|[m[32m/[m  
+[1;32m|[m [33m|[m [32m|[m[32m/[m[36m|[m   
+[1;32m|[m [33m|[m [32m|[m * [33m54d5b1a[m Fix merge conflict in LaporanPenjualan
+[1;32m|[m [33m|[m [32m|[m *   [33m598a4c4[m Fix merge conflicts
+[1;32m|[m [33m|[m [32m|[m [1;31m|[m[32m\[m  
+[1;32m|[m [33m|[m [32m|[m [1;31m|[m[32m/[m  
+[1;32m|[m [33m|[m [32m|[m[32m/[m[1;31m|[m   
+[1;32m|[m [33m|[m [32m|[m * [33mc2cc0ed[m Tampilan Pegawai(belum ada fitur)
+[1;32m|[m [33m|[m [32m|[m * [33m2eba984[m Menambahkan Page Menu pegawai
+[1;32m|[m [33m|[m [32m|[m * [33m9f54e03[m Bagian Pegawai Selesai, tinggal testing
+[1;32m|[m [33m|[m [32m|[m * [33mb384d80[m Merubah template jadi blade
+[1;32m|[m [33m|[m [32m|[m * [33mbb8f28b[m Perbaikan Laporan Penjualan Fanie
+[1;32m|[m * [32m|[m [1;32m|[m [33m3a0e12f[m update dashbor
+[1;32m|[m * [32m|[m [1;32m|[m [33mf5e2a43[m update dashbor
+[1;32m|[m [32m|[m[32m/[m [1;32m/[m  
+[1;32m|[m * [1;32m|[m [33mce39ef7[m update
+[1;32m|[m * [1;32m|[m   [33m4d69cd0[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[1;32m|[m [1;33m|[m[1;32m\[m [1;32m\[m  
+[1;32m|[m [1;33m|[m[1;32m/[m [1;32m/[m  
+[1;32m|[m[1;32m/[m[1;33m|[m [1;32m|[m   
+* [1;33m|[m [1;32m|[m   [33mf4f59a2[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[1;35m|[m[1;36m\[m [1;33m\[m [1;32m\[m  
+[1;35m|[m * [1;33m|[m [1;32m|[m [33m7743604[m update menu kelola barang,images
+[1;35m|[m * [1;33m|[m [1;32m|[m [33m2e2693c[m menambahkan laporan transaksi dan penjualan
+* [1;36m|[m [1;33m|[m [1;32m|[m [33m1406f8e[m update menu laporan transaksi penjualan
+[1;36m|[m[1;36m/[m [1;33m/[m [1;32m/[m  
+* [1;33m|[m [1;32m|[m [33m6f4d11f[m Update menu transaksi penjualan
+[1;36m|[m * [1;32m|[m   [33mcb2d1d2[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[1;36m|[m [31m|[m[1;36m\[m [1;32m\[m  
+[1;36m|[m [31m|[m[1;36m/[m [1;32m/[m  
+[1;36m|[m[1;36m/[m[31m|[m [1;32m|[m   
+* [31m|[m [1;32m|[m [33mfb7b07a[m update bagian menu kelola barang
+[1;32m|[m [31m|[m[1;32m/[m  
+[1;32m|[m[1;32m/[m[31m|[m   
+[1;32m|[m * [33m72230c4[m Auth update
+[1;32m|[m[1;32m/[m  
+*   [33m4bad5de[m Merge pull request #1 from AntiAndrew/Laporan-Transaksi
+[33m|[m[34m\[m  
+[33m|[m * [33me764e91[m[33m ([m[1;31morigin/Laporan-Transaksi[m[33m)[m Penambahan Laporan Penjualan Demo
+* [34m|[m [33m2aaf20a[m Update semua file terbaru
+* [34m|[m [33m46061b4[m Tambah fitur transaksi dan route transaksi
+[34m|[m[34m/[m  
+*   [33m70f89d9[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[35m|[m[36m\[m  
+[35m|[m * [33m383b9b6[m barang update
+[35m|[m * [33m4faca8e[m Validasi email yang benar
+[35m|[m * [33me2fb214[m Simpan perubahan sebelum pull
+[35m|[m * [33m06148cb[m[33m ([m[1;32mmain[m[33m)[m Perbaikan Controller
+[35m|[m * [33m1b5874c[m Perbaikan Controller Pegawai
+[35m|[m *   [33m9e76a91[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[35m|[m [1;31m|[m[1;32m\[m  
+[35m|[m [1;31m|[m * [33m38198e9[m Perbaikan middleware role dan update tampilan dashboard + welcome
+[35m|[m * [1;32m|[m [33ma694f1a[m Perbaikan Git Merge
+[35m|[m * [1;32m|[m [33m0f8c245[m update transaksi controller, model, dan database
+[35m|[m * [1;32m|[m [33m9b9f01d[m[33m ([m[1;31morigin/COMMIT_EDITMSG[m[33m)[m  update barang dan buat tampilan style.css
+[35m|[m * [1;32m|[m [33m5141fd6[m commit awal project toko putri
+* [1;32m|[m [1;32m|[m [33m99ae5fb[m 
+[1;32m|[m [1;32m|[m [1;32m|[m * [33m36f297c[m[33m ([m[1;31morigin/transaksi[m[33m)[m Tambah fitur transaksi
+[1;32m|[m [1;32m|[m [1;32m|[m * [33m04e210e[m fix: ubah ProyekPOStokoPutri jadi folder biasa
+[1;32m|[m [1;32m|[m [1;32m|[m * [33m07f3838[m fix: ubah ProyekPOStokoPutri jadi folder biasa
+[1;32m|[m [1;32m|[m [1;32m|[m[1;32m/[m  
+[1;32m|[m [1;32m|[m[1;32m/[m[1;32m|[m   
+[1;32m|[m * [1;32m|[m [33m40b11f2[m Upload project transaksi penjualan
+[1;32m|[m * [1;32m|[m   [33m7fb9eda[m Selesaikan merge dengan GitHub
+[1;32m|[m [1;34m|[m[1;35m\[m [1;32m\[m  
+[1;32m|[m [1;34m|[m * [1;32m|[m [33m943d237[m Perbaikan Controller
+[1;32m|[m [1;34m|[m * [1;32m|[m [33m0102ed6[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[1;32m|[m [1;34m|[m [1;36m|[m[1;32m\[m[1;32m|[m 
+[1;32m|[m [1;34m|[m [1;36m|[m * [33ma93cf22[m Menambahkan fitur reset password dan memperbaiki konfigurasi database
+[1;32m|[m [1;34m|[m * [31m|[m [33m4394e29[m route pegawai
+[1;32m|[m [1;34m|[m [31m|[m[31m/[m  
+[1;32m|[m * [31m|[m [33m22a7841[m Update submodule pointer
+[1;32m|[m * [31m|[m [33m4c47175[m Update submodule ProyekPOStokoPutri
+[1;32m|[m [31m|[m[31m/[m  
+[1;32m|[m * [33ma0f13a4[m Program Transaksi Penjualan - Murni Gulo
+[1;32m|[m * [33mfc6a1fc[m Add Pegawai controller and model, update view, remove old UserPos
+[1;32m|[m *   [33m272ee56[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[1;32m|[m [32m|[m[1;32m\[m  
+[1;32m|[m [32m|[m[1;32m/[m  
+[1;32m|[m[1;32m/[m[32m|[m   
+* [32m|[m   [33mc3126e3[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[34m|[m[35m\[m [32m\[m  
+* [35m|[m [32m|[m [33m6781916[m Tambah Laporan Transaksi
+[35m|[m [35m|[m * [33m274f4c9[m add editPegawai, lihatPegawai, and update inputPegawai view
+[35m|[m [35m|[m[35m/[m  
+[35m|[m *   [33m10047aa[m Merge branch 'main' of https://github.com/AntiAndrew/ProyekPOStokoPutri
+[35m|[m [36m|[m[35m\[m  
+[35m|[m [36m|[m[35m/[m  
+[35m|[m[35m/[m[36m|[m   
+* [36m|[m [33m9790220[m test
+[1;31m|[m * [33m9b12e28[m add daftarPegawai
+[1;31m|[m[1;31m/[m  
+* [33mb42f84a[m add inputPegawai view
+* [33mbf17341[m update terbaru
+* [33m140609f[m Initial commit - fitur Kelola Barang
+* [33m371801e[m menyimpan perubahan lokal sebelum pull
+* [33m61fa8b3[m Menambahkan AuthController, RoleMiddleware, UserPoS model, halaman login & register, serta update routes
+* [33mae973ec[m commit awal
