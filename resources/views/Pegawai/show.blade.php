@@ -29,30 +29,53 @@
     </thead>
 
     <tbody>
-    @forelse ($pegawai as $p)
-        <tr>
-            <td>{{ $p->idPegawai }}</td>
-            <td>{{ $p->namaPegawai }}</td>
-            <td>{{ $p->jenisKelamin }}</td>
-            <td>{{ $p->umur }}</td>
-            <td>
-                <a href="{{ url('pegawai/'.$p->idPegawai.'/edit') }}">✏️ Edit</a> |
-                
-                {{-- Hapus dengan form supaya sesuai method DELETE Laravel --}}
-                <form action="{{ url('pegawai/'.$p->idPegawai) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button onclick="return confirm('Yakin hapus pegawai ini?')" style="cursor:pointer;">
-                        🗑️ Hapus
-                    </button>
-                </form>
-            </td>
-        </tr>
-    @empty
-        <tr>
-            <td colspan="5">Belum ada data pegawai yang terdaftar.</td>
-        </tr>
-    @endforelse
+    @php
+        $isCollection = (is_object($pegawai) && method_exists($pegawai, 'count')) || (is_array($pegawai));
+    @endphp
+
+    @if($isCollection)
+        @forelse ($pegawai as $p)
+            <tr>
+                <td>{{ $p->idPegawai }}</td>
+                <td>{{ $p->namaPegawai }}</td>
+                <td>{{ $p->jenisKelamin }}</td>
+                <td>{{ $p->umur }}</td>
+                <td>
+                    <a href="{{ url('pegawai/'.$p->idPegawai.'/edit') }}">✏️ Edit</a> |
+                    <form action="{{ url('pegawai/'.$p->idPegawai) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button onclick="return confirm('Yakin hapus pegawai ini?')" style="cursor:pointer;">🗑️ Hapus</button>
+                    </form>
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="5">Belum ada data pegawai yang terdaftar.</td>
+            </tr>
+        @endforelse
+    @else
+        @if($pegawai)
+            <tr>
+                <td>{{ $pegawai->idPegawai }}</td>
+                <td>{{ $pegawai->namaPegawai }}</td>
+                <td>{{ $pegawai->jenisKelamin }}</td>
+                <td>{{ $pegawai->umur }}</td>
+                <td>
+                    <a href="{{ url('pegawai/'.$pegawai->idPegawai.'/edit') }}">✏️ Edit</a> |
+                    <form action="{{ url('pegawai/'.$pegawai->idPegawai) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button onclick="return confirm('Yakin hapus pegawai ini?')" style="cursor:pointer;">🗑️ Hapus</button>
+                    </form>
+                </td>
+            </tr>
+        @else
+            <tr>
+                <td colspan="5">Belum ada data pegawai yang terdaftar.</td>
+            </tr>
+        @endif
+    @endif
     </tbody>
 </table>
 

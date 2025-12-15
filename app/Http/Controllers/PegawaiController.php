@@ -111,14 +111,37 @@ class PegawaiController extends Controller
     }
 
     public function search(Request $request)
-    {
-        $keyword = $request->keyword;
+{
+    $keyword = $request->keyword;       // keyword: id/nama/email
+    $jenisKelamin = $request->jenis_kelamin; // optional filter: gender
 
-        $pegawai = PegawaiModel::where('namaPegawai', 'like', "%{$keyword}%")
-            ->orWhere('idPegawai', 'like', "%{$keyword}%")
-            ->orWhere('email', 'like', "%{$keyword}%")
-            ->get();
+    $query = PegawaiModel::query();
 
-        return view('pegawai.search', compact('pegawai', 'keyword'));
+    // Jika ada keyword
+    if ($keyword) {
+        $query->where(function($q) use ($keyword) {
+            $q->where('idPegawai', 'LIKE', "%{$keyword}%")
+              ->orWhere('namaPegawai', 'LIKE', "%{$keyword}%")
+              ->orWhere('email', 'LIKE', "%{$keyword}%");
+        });
     }
+
+    // Jika filter jenis kelamin dipilih
+    if ($jenisKelamin) {
+        $query->where('jenisKelamin', $jenisKelamin);
+    }
+
+    // Ambil hasil pencarian dengan pagination
+    $hasil_pencarian = $query->paginate(15)->appends($request->except('page'));
+
+    // Ambil list jenis kelamin unik untuk dropdown
+    $jenis_kelamin_list = PegawaiModel::select('jenisKelamin')->distinct()->pluck('jenisKelamin');
+
+    return view('pegawai.search', [
+        'hasil_pencarian'  => $hasil_pencarian,
+        'keyword'          => $keyword,
+        'jenis_kelamin'    => $jenis_kelamin_list
+    ]);
+}
+
 }
