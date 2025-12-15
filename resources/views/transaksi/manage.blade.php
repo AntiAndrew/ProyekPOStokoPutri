@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.app')
 
 @section('title', $mode == 'edit' ? 'Edit Transaksi' : 'Hapus Transaksi')
 

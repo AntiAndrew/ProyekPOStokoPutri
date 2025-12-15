@@ -43,7 +43,7 @@
     </a>
      {{-- MENU KHUSUS ADMIN --}}
 @if(Auth::user()->role === 'admin')
-    <a href="{{ route('pegawai.index') }}"
+    <a href="{{ route('pegawai.menu') }}"
        class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-700 transition duration-150
        {{ Request::is('pegawai*') ? 'bg-gray-700' : '' }}">
         <img src="https://img.icons8.com/ios-filled/20/ffffff/conference.png" alt="Pegawai">

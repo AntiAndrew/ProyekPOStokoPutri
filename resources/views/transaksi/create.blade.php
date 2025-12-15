@@ -1,4 +1,4 @@
-@extends('layouts.dhashboard')
+@extends('layouts.app')
 @section('title','Input Transaksi')
 
 @section('content')
