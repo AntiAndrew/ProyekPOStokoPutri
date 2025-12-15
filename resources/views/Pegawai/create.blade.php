@@ -1,5 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.dashboard')
 @section('title','Input Pegawai')
+@section('page-title','Input Pegawai')
 
 @section('content')
 <div class="form-page">

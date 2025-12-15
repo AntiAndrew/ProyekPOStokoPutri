@@ -11,6 +11,68 @@
         /* Tambahan styling untuk layout sidebar */
         .sidebar { width: 16rem; } /* Lebar 256px */
         .content-area { margin-left: 16rem; } /* Harus sama dengan lebar sidebar */
+
+        /* Form and utility styles copied from layouts.app to keep form look consistent */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+        body { font-family: 'Inter', sans-serif; }
+
+        .form-page { padding: 1rem; }
+
+        .form-container {
+            background-color: #ffffff;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .page-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; color: #111827; }
+
+        .alert-danger-custom {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 0.25rem;
+        }
+
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #111827; }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="email"],
+        .form-group input[type="password"],
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 2px solid #D1D5DB;
+            border-radius: 8px;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
+            transition: border-color 0.2s, background-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group select:focus { border-color: #A6D1E6; outline: none; }
+
+        .form-btn-bottom { display: flex; justify-content: space-between; margin-top: 20px; }
+
+        .btn-save, .btn-cancel, .btn-reset {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.2s, transform 0.15s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-save { background-color: #10B981; color: white; border: none; }
+        .btn-cancel { background-color: #edcb77; color: #0d132a; border: none; }
+        .btn-reset { background-color: #EF4444; color: white; border: none; }
+
+        .btn-save:hover, .btn-cancel:hover, .btn-reset:hover { transform: translateY(-2px); }
     </style>
     @stack('styles')
 </head>
