@@ -76,9 +76,6 @@ body { background-color:#f4f4f5; font-family:'Segoe UI', Tahoma, Geneva, Verdana
 
                     <td class="text-center">
                         <div class="action-buttons">
-                            <a href="{{ route('pegawai.show', $pgw->idPegawai) }}" class="btn btn-view">
-                                <i class="fas fa-eye"></i>
-                            </a>
 
                             <a href="{{ route('pegawai.edit', $pgw->idPegawai) }}" class="btn btn-edit">
                                 <i class="fas fa-edit"></i>

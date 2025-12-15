@@ -55,15 +55,8 @@ class PegawaiController extends Controller
 
     public function show($id) 
     {
-        // Find the Pegawai using the id from the route segment
-        // NOTE: We use id_pegawai as the primary key in the DB
-        $pegawai = PegawaiModel::where('idPegawai', $id)->first(); 
-
-        if (!$pegawai) {
-            return redirect()->route('pegawai.index')->with('error', 'Pegawai tidak ditemukan.');
-        }
-        
-        return view('pegawai.show', compact('pegawai'));
+        // Redirect to index — we don't use the show view in current flow
+        return redirect()->route('pegawai.index');
     }
 
     public function edit($id)
