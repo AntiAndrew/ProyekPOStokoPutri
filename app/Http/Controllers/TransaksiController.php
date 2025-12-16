@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaksi;
-use App\Models\Barang;
-use App\Models\LaporanPenjualan;
+use App\Models\Barang; // Dibiarkan jika ingin mengakses data barang
+use App\Models\LaporanPenjualan; // Dihapus dari logika fungsi
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -20,7 +20,7 @@ class TransaksiController extends Controller
         return view('transaksi.menu_kelola_transaksi');
     }
 
-    // Daftar transaksi
+    // Daftar transaksi (Lihat Daftar)
     public function index(Request $request)
     {
         $query = Transaksi::with('pegawai')->orderBy('tanggal','desc');
@@ -53,10 +53,11 @@ class TransaksiController extends Controller
         return view('transaksi.create', compact('barang','id_transaksi_baru', 'pegawai'));
     }
 
-    // Simpan transaksi baru
+    // Simpan transaksi baru (Input)
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        // 1. Validasi Input
+       $validator = Validator::make($request->all(), [
             'id_transaksi' => 'required|string|unique:transaksi,id_transaksi',
             'tanggal' => 'required|date',
             'id_barang' => 'required|string',
@@ -64,19 +65,25 @@ class TransaksiController extends Controller
             'harga_barang' => 'required|numeric|min:0',
             'jumlah_barang' => 'required|integer|min:1',
             'id_pegawai' => 'required|integer|exists:users,id',
+            // Pastikan total_harga ada, meskipun sudah dihitung di frontend
+            'total_harga' => 'required|numeric|min:0', 
         ]);
 
         if ($validator->fails()) {
+            // Jika validasi GAGAL, akan kembali ke halaman input dengan pesan error.
+            // Inilah alasan utama Anda tetap di halaman input.
             return redirect()->back()->withErrors($validator)->withInput();
         }
+        $harga_barang = $request->harga_barang;
+        $jumlah_barang = $request->jumlah_barang;
+        $total_harga = $harga_barang * $jumlah_barang;
+
+        // **CATATAN:** Pengecekan stok dihapus
 
         DB::beginTransaction();
         try {
-            $harga_barang = $request->harga_barang;
-            $jumlah_barang = $request->jumlah_barang;
-            $total_harga = $harga_barang * $jumlah_barang;
-
-            $transaksi = Transaksi::create([
+            // Catat Transaksi
+            Transaksi::create([
                 'id_transaksi' => $request->id_transaksi,
                 'tanggal' => $request->tanggal,
                 'id_barang' => $request->id_barang,
@@ -87,23 +94,11 @@ class TransaksiController extends Controller
                 'id_pegawai' => $request->id_pegawai,
             ]);
 
-            // Buat entry di LaporanPenjualan
-            LaporanPenjualan::create([
-                'id_laporan' => 'LP-' . $request->id_transaksi,
-                'tanggal_transaksi' => $request->tanggal,
-                'rentang_waktu' => 'Transaksi',
-                'total_penjualan' => $total_harga,
-                'kerugian' => 0, // Asumsi tidak ada kerugian
-                'keuntungan' => $total_harga, // Keuntungan = total penjualan (asumsi)
-            ]);
-
-            $barang = Barang::where('id_barang', $request->id_barang)->first();
-            if ($barang && is_numeric($barang->jumlah_barang)) {
-                $barang->jumlah_barang = max(0, $barang->jumlah_barang - $jumlah_barang);
-                $barang->save();
-            }
+            // **CATATAN:** Logika LaporanPenjualan dihapus
+            // **CATATAN:** Logika pengurangan stok dihapus
 
             DB::commit();
+            
             return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil disimpan!');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -111,7 +106,7 @@ class TransaksiController extends Controller
         }
     }
 
-    // Detail transaksi
+    // Detail transaksi (Lihat)
     public function show($id_transaksi)
     {
         $transaksi = Transaksi::with('pegawai')->where('id_transaksi', $id_transaksi)->first(); 
@@ -129,7 +124,7 @@ class TransaksiController extends Controller
         return view('transaksi.manage', compact('data','mode'));
     }
 
-    // Edit transaksi
+    // Edit transaksi (Form)
     public function edit($id_transaksi)
     {
         $transaksi = Transaksi::where('id_transaksi', $id_transaksi)->first();
@@ -139,7 +134,7 @@ class TransaksiController extends Controller
         return view('transaksi.edit', compact('transaksi','barang', 'pegawai'));
     }
 
-    // Update transaksi
+    // Update transaksi (Edit)
     public function update(Request $request, $id_transaksi)
     {
         $transaksi = Transaksi::where('id_transaksi', $id_transaksi)->first();
@@ -157,18 +152,14 @@ class TransaksiController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        $harga_barang_baru = $request->harga_barang;
+        $jumlah_barang_baru = $request->jumlah_barang;
+        $total_harga_baru = $harga_barang_baru * $jumlah_barang_baru;
+        $id_barang_baru = $request->id_barang;
+
         DB::beginTransaction();
         try {
-            $harga_barang_baru = $request->harga_barang;
-            $jumlah_barang_baru = $request->jumlah_barang;
-            $total_harga_baru = $harga_barang_baru * $jumlah_barang_baru;
-
-            // Kembalikan stok lama
-            $barang_lama = Barang::where('id_barang', $transaksi->id_barang)->first();
-            if ($barang_lama && is_numeric($barang_lama->jumlah_barang)) {
-                $barang_lama->jumlah_barang += $transaksi->jumlah_barang;
-                $barang_lama->save();
-            }
+            // **CATATAN:** Logika pengembalian/pengurangan stok dihapus
 
             // Update transaksi
             $transaksi->update([
@@ -181,23 +172,8 @@ class TransaksiController extends Controller
                 'id_pegawai' => $request->id_pegawai,
             ]);
 
-            // Update LaporanPenjualan
-            $laporan = LaporanPenjualan::where('id_laporan', 'LP-' . $id_transaksi)->first();
-            if ($laporan) {
-                $laporan->update([
-                    'tanggal_transaksi' => $request->tanggal,
-                    'total_penjualan' => $total_harga_baru,
-                    'keuntungan' => $total_harga_baru, // Update keuntungan juga
-                ]);
-            }
-
-            // Kurangi stok baru
-            $barang_baru = Barang::where('id_barang', $request->id_barang)->first();
-            if ($barang_baru && is_numeric($barang_baru->jumlah_barang)) {
-                $barang_baru->jumlah_barang = max(0, $barang_baru->jumlah_barang - $jumlah_barang_baru);
-                $barang_baru->save();
-            }
-
+            // **CATATAN:** Logika pembaruan laporan penjualan dihapus
+            
             DB::commit();
             return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil diperbarui.');
         } catch (\Exception $e) {
@@ -206,7 +182,7 @@ class TransaksiController extends Controller
         }
     }
 
-    // **Hapus transaksi**
+    // Hapus transaksi (Hapus)
     public function destroy($id_transaksi)
     {
         $transaksi = Transaksi::where('id_transaksi', $id_transaksi)->first();
@@ -216,12 +192,8 @@ class TransaksiController extends Controller
 
         DB::beginTransaction();
         try {
-            // Kembalikan stok barang
-            $barang = Barang::where('id_barang', $transaksi->id_barang)->first();
-            if ($barang && is_numeric($barang->jumlah_barang)) {
-                $barang->jumlah_barang += $transaksi->jumlah_barang;
-                $barang->save();
-            }
+            // **CATATAN:** Logika pengembalian stok dihapus
+            // **CATATAN:** Logika penghapusan laporan penjualan dihapus
 
             $transaksi->delete();
 

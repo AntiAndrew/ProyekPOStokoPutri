@@ -186,12 +186,12 @@
 
 
 
-            <div class="form-btn-bottom">
+   <div class="form-btn-bottom">
     <a href="{{ route('transaksi.menu') }}"
-       class="btn-cancel px-6 py-2 rounded text-center">
+       class="btn-save px-6 py-2 rounded" text-center"
+       style="margin-right:auto;">
         Kembali
     </a>
-
     <button type="submit"
             class="btn-save px-6 py-2 rounded">
         Simpan Transaksi
