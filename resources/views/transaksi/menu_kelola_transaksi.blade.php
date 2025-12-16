@@ -45,7 +45,7 @@
 
         {{-- TITLE --}}
         <h2 class="text-center text-3xl font-extrabold text-[var(--pastel-dark)] tracking-wide mb-10">
-            Menu Kelola Transaksi
+           Kelola Transaksi
         </h2>
 
         {{-- GRID MENU --}}
