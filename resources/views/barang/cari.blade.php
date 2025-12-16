@@ -3,88 +3,123 @@
 @section('title', 'Cari Barang')
 
 @section('content')
-<div class="container mx-auto py-8">
 
-    {{-- CARD FORM --}}
-    <div class="bg-blue-50 rounded-2xl p-6 shadow-md border border-blue-100 mb-8">
+<div class="bg-white rounded-2xl shadow-xl p-8">
 
-        <form action="{{ route('barang.cari') }}" method="GET"
-            class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {{-- JUDUL --}}
+    <div class="flex items-center gap-3 mb-6">
+        <span class="text-3xl">🔍</span>
+        <h2 class="text-2xl font-bold text-slate-800">
+            Cari Barang
+        </h2>
+    </div>
 
-            {{-- INPUT KEYWORD --}}
+    <hr class="mb-6 border-slate-300">
+
+    {{-- FORM CARI --}}
+    <form action="{{ route('barang.cari') }}" method="GET"
+          class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+        {{-- KODE / NAMA --}}
+        <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1">
+                Kode / Nama Barang
+            </label>
+            <input type="text"
+                   name="q"
+                   value="{{ request('q') }}"
+                   placeholder="Contoh: A01 / Mie"
+                   class="w-full px-4 py-2.5 border rounded-lg
+                          focus:ring-2 focus:ring-slate-400">
+        </div>
+
+        {{-- KATEGORI --}}
             <div>
-                <label class="text-sm font-medium text-gray-700">Kode / Nama Barang</label>
-                <input type="text"
-                       name="q"
-                       value="{{ request('q') }}"
-                       placeholder="Input ID Atau Nama Barang"
-                       class="mt-1 w-full px-4 py-2.5 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-300">
-            </div>
-
-            {{-- FILTER KATEGORI --}}
-            <div>
-                <label class="text-sm font-medium text-gray-700">Kategori</label>
-                <select name="Kategori"
-                        class="mt-1 w-full px-4 py-2.5 border rounded-xl shadow-sm focus:ring-2 focus:ring-blue-300">
+                <label class="block text-sm font-semibold text-slate-700 mb-1">
+                    Kategori
+                </label>
+                <select name="kategori"
+                    class="w-full px-4 py-2.5 border rounded-lg
+                        focus:ring-2 focus:ring-slate-400">
                     <option value="">Semua Kategori</option>
-                    @foreach ($kategori as $kat)
-                        <option value="{{ $kat }}" {{ request('kategori') == $kat ? 'selected' : '' }}>
-                            {{ ucfirst($kat) }}
+
+                    @foreach ($kategori_list as $kat)
+                        <option value="{{ $kat }}"
+                            {{ request('kategori') === $kat ? 'selected' : '' }}>
+                            {{ $kat }}
                         </option>
                     @endforeach
                 </select>
             </div>
 
-            {{-- BUTTON --}}
-            <div class="flex gap-3 items-end">
-                <button type="submit"
-                        class="bg-blue-400 hover:bg-blue-300 text-white w-full px-6 py-2.5 rounded-xl shadow">
-                    Cari
-                </button>
+        {{-- BUTTON --}}
+        <div class="flex items-end gap-3">
+            <button type="submit"
+                class="bg-slate-700 hover:bg-slate-800
+                       text-white w-full px-6 py-2.5 rounded-lg shadow">
+                Cari
+            </button>
 
-                <div class="form-btn-bottom mt-10">
-                    <a href="{{ route('barang.menu') }}" class="btn-cancel">Kembali</a>
-                </div>
-        </form>
+            <a href="{{ route('barang.menu') }}"
+                class="bg-slate-400 hover:bg-slate-500
+                      text-white px-6 py-2.5 rounded-lg shadow">
+                Kembali
+            </a>
+        </div>
+    </form>
+
+    {{-- HASIL --}}
+    @if(request('q') || request('kategori'))
+    <div class="flex justify-center">
+        <div class="w-full max-w-5xl overflow-x-auto">
+
+            <table class="w-full border-collapse rounded-xl overflow-hidden shadow">
+
+                <thead class="bg-slate-200 text-slate-800 text-sm">
+                    <tr>
+                        <th class="px-4 py-3 text-left">Kode / ID</th>
+                        <th class="px-4 py-3 text-left">Nama Barang</th>
+                        <th class="px-4 py-3 text-left">Kategori</th>
+                        <th class="px-4 py-3 text-center">Jumlah</th>
+                        <th class="px-4 py-3 text-right">Harga</th>
+                    </tr>
+                </thead>
+
+                <tbody class="bg-white text-sm">
+                    @forelse ($hasil_pencarian as $item)
+                    <tr class="border-t hover:bg-slate-100 transition">
+                        <td class="px-4 py-3 font-medium">
+                            {{ $item->id_barang }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ $item->nama_barang }}
+                        </td>
+                        <td class="px-4 py-3">
+                            {{ ucfirst($item->kategori) }}
+                        </td>
+                        <td class="px-4 py-3 text-center">
+                            {{ $item->jumlah_barang }}
+                        </td>
+                        <td class="px-4 py-3 text-right">
+                            Rp {{ number_format($item->harga_barang, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5"
+                            class="py-8 text-center text-slate-500 italic">
+                            Barang tidak ditemukan.
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+
+            </table>
+
+        </div>
     </div>
-
-           {{-- Tampilkan tabel hanya jika ada input pencarian --}}
-           @if(request('q') || request('kategori'))
-           <div class="bg-white shadow-xl rounded-2xl overflow-hidden border border-gray-100 mt-6">
-            
-           <table class="w-full text-sm border-collapse">
-            <thead class="bg-blue-400 text-white text-center">
-            <tr>
-                <th class="px-4 py-3">Kode / ID</th>
-                <th class="px-4 py-3">Nama Barang</th>
-                <th class="px-4 py-3">Kategori</th>
-                <th class="px-4 py-3">Jumlah</th>
-                <th class="px-4 py-3">Harga</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @forelse ($hasil_pencarian as $item)
-            <tr class="text-center border-t hover:bg-blue-50 transition">
-                <td class="px-4 py-3">{{ $item->id_barang }}</td>
-                <td class="px-4 py-3 font-semibold">{{ $item->nama_barang }}</td>
-                <td class="px-4 py-3">{{ ucfirst($item->kategori) }}</td>
-                <td class="px-4 py-3">{{ $item->jumlah_barang }}</td>
-                <td class="px-4 py-3">
-                    Rp {{ number_format($item->harga_barang, 0, ',', '.') }}
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="5" class="py-8 text-gray-500 text-center italic">
-                    Barang tidak ditemukan.
-                </td>
-            </tr>
-            @endforelse
-        </tbody>
-
-    </table>
+    @endif
 
 </div>
-@endif
+
 @endsection

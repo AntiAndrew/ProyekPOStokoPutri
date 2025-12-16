@@ -134,9 +134,9 @@ class BarangController extends Controller
     }
 
     // =====================
-    // SEARCH
+    // Cari
     // =====================
-    public function cari(Request $request)
+   public function cari(Request $request)
     {
         $q = $request->q;
         $kategori = $request->kategori;
@@ -146,7 +146,7 @@ class BarangController extends Controller
         if ($q) {
             $query->where(function ($x) use ($q) {
                 $x->where('id_barang', 'like', "%$q%")
-                  ->orWhere('nama_barang', 'like', "%$q%");
+                ->orWhere('nama_barang', 'like', "%$q%");
             });
         }
 
@@ -155,12 +155,22 @@ class BarangController extends Controller
         }
 
         $hasil_pencarian = $query->get();
-        $kategori_list = Barang::select('kategori')->distinct()->pluck('kategori');
 
-        return view('barang.cari', [
-            'hasil_pencarian' => $hasil_pencarian,
-            'kategori'        => $kategori_list
-        ]);
+        // 🔥 KATEGORI FIX (SAMA DENGAN INPUT BARANG)
+        $kategori_list = [
+            'Makanan',
+            'Minuman',
+            'ATK',
+            'Elektronik',
+            'Sembako',
+            'Kebutuhan Rumah',
+            'Kosmetik',
+        ];
+
+        return view('barang.cari', compact(
+            'hasil_pencarian',
+            'kategori_list'
+        ));
     }
 
     public function manage()
