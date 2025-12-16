@@ -43,19 +43,18 @@
         @csrf
         @method('PUT')
 
-        {{-- KODE BARANG --}}
+        {{-- ID BARANG --}}
         <div>
             <label class="block text-sm font-semibold text-slate-700 mb-1">
-                Kode Barang
+                ID Barang
             </label>
             <input type="text"
-                   name="id_barang"
-                   value="{{ $barang->id_barang }}"
-                   class="w-full px-4 py-2 rounded-lg border
-                          focus:ring-2 focus:ring-slate-500 focus:outline-none">
-                @error('id_barang')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
+                name="id_barang"
+                value="{{ $barang->id_barang }}"
+                readonly
+                class="w-full px-4 py-2 rounded-lg border
+                        bg-gray-100 cursor-not-allowed
+                        focus:ring-2 focus:ring-slate-500 focus:outline-none">
         </div>
 
         {{-- NAMA BARANG --}}
@@ -75,11 +74,19 @@
             <label class="block text-sm font-semibold text-slate-700 mb-1">
                 Kategori
             </label>
-            <input type="text"
-                   name="kategori"
-                   value="{{ $barang->kategori }}"
-                   class="w-full px-4 py-2 rounded-lg border
-                          focus:ring-2 focus:ring-slate-500 focus:outline-none">
+            <select name="kategori"
+                    required
+                    class="w-full px-4 py-2.5 border rounded-lg
+                           focus:ring-2 focus:ring-slate-400">
+                   <option value="" disabled {{ old('kategori') ? '' : 'selected' }}>
+                    Pilih Kategori
+                </option>
+                @foreach (['Makanan','Minuman','ATK','Elektronik','Sembako','Kebutuhan Rumah','Kosmetik'] as $kat)
+                    <option value="{{ $kat }}" {{ old('kategori') == $kat ? 'selected' : '' }}>
+                        {{ $kat }}
+                    </option>
+                @endforeach
+            </select>
         </div>
 
         {{-- HARGA --}}
@@ -97,7 +104,7 @@
         {{-- JUMLAH --}}
         <div>
             <label class="block text-sm font-semibold text-slate-700 mb-1">
-                Jumlah Stok
+                Jumlah Barang
             </label>
             <input type="number"
                    name="jumlah_barang"
@@ -109,8 +116,8 @@
         {{-- BUTTON --}}
         <div class="flex justify-between pt-6">
             <a href="{{ route('barang.manage') }}"
-               class="px-6 py-2 bg-slate-600 hover:bg-slate-700
-                      text-white rounded-lg shadow">
+               class="px-6 py-2 bg-slate-800 hover:bg-slate-900
+                           text-white rounded-lg shadow">
                 Kembali
             </a>
 

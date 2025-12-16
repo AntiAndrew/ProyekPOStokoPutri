@@ -26,10 +26,10 @@
                 {{-- HEADER --}}
                 <thead class="bg-slate-200 text-slate-800 text-sm">
                     <tr>
-                        <th class="px-4 py-3 text-left">Kode / ID</th>
+                        <th class="px-4 py-3 text-left">ID Barang</th>
                         <th class="px-4 py-3 text-left">Nama Barang</th>
                         <th class="px-4 py-3 text-left">Kategori</th>
-                        <th class="px-4 py-3 text-center">Jumlah Stok</th>
+                        <th class="px-4 py-3 text-center">Jumlah Barang</th>
                         <th class="px-4 py-3 text-right">Harga Barang (Rp)</th>
                     </tr>
                 </thead>

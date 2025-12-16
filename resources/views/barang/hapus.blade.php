@@ -41,11 +41,11 @@
                 {{-- HEADER --}}
                 <thead class="bg-slate-200 text-slate-800 text-sm">
                     <tr>
-                        <th class="px-4 py-3 text-left">ID</th>
-                        <th class="px-4 py-3 text-left">Nama</th>
+                        <th class="px-4 py-3 text-left">ID Barang</th>
+                        <th class="px-4 py-3 text-left">Nama Barang</th>
                         <th class="px-4 py-3 text-left">Kategori</th>
                         <th class="px-4 py-3 text-right">Harga</th>
-                        <th class="px-4 py-3 text-center">Jumlah</th>
+                        <th class="px-4 py-3 text-center">Jumlah Barang</th>
                         <th class="px-4 py-3 text-center">Aksi</th>
                     </tr>
                 </thead>

@@ -11,10 +11,10 @@
     {{-- Header Menu Samping (Kelola Barang) dan Search Bar --}}
     <div class="flex items-start mb-10">
 
-        {{-- Menu Title Box --}}
-        <div class="bg-pastel-accent/70 text-pastel-dark font-bold text-xl py-3 px-6 rounded-l-xl shadow-md border-l-4 border-pastel-dark/30">
+        {{-- TITLE --}}
+        <h2 class="text-center text-3xl font-extrabold text-[var(--pastel-dark)] tracking-wide mb-10 mx-auto text-center w-fit">
             Kelola Barang
-        </div>
+        </h2>
 
         {{-- Hapus icon My Account --}}
         {{-- <a href="#" class="ml-4 bg-blue-700 text-white font-bold p-3 rounded-full shadow-lg transition duration-150 flex items-center justify-center">
