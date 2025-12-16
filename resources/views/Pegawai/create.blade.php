@@ -3,9 +3,10 @@
 @section('page-title','Input Pegawai')
 
 @section('content')
+@include('Pegawai.header')
 <div class="form-page">
   <div class="form-container">
-    <h2 class="page-title">Input Pegawai Baru</h2>
+    <h2 class="page-title">@yield('page-title', 'Input Pegawai')</h2>
 
     {{-- Error --}}
     @if ($errors->any())

@@ -2,7 +2,10 @@
 
 @section('title', 'Input Barang')
 
+@section('page-title', 'Input Barang')
+
 @section('content')
+@include('Pegawai.header')
 <div class="min-h-screen flex justify-center items-start pt-16">
     <div class="w-full max-w-2xl bg-white/90 backdrop-blur-md p-10 rounded-2xl shadow-xl border border-white/30">
         
