@@ -99,7 +99,8 @@
             {{-- Footer --}}
             <div class="flex justify-center space-x-4 mt-4">
                 <a href="{{ route('transaksi.index') }}"
-                   class="bg-gray-200 text-gray-800 font-semibold px-6 py-2 rounded-lg shadow hover:bg-gray-300 transition">
+                    class="bg-primary text-white font-semibold px-6 py-2 rounded-lg shadow hover:bg-primaryDark transition">
+                   
                     Kembali
                 </a>
                 <button type="submit"

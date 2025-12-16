@@ -49,7 +49,7 @@
         </h2>
 
         {{-- GRID MENU --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-7">
 
            {{-- INPUT --}}
         <a href="{{ route('transaksi.create') }}"
